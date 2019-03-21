@@ -1,0 +1,15 @@
+﻿{
+  "AppSettings": {
+    "SiteTitle": "Modernization Unicorn Store",
+    "CacheDbResults": true
+  },
+  "DefaultAdminUsername": "Administrator@test.com",
+  "DefaultAdminPassword": "YouShouldChangeThisPassword1!",
+  "Data": {
+    "DefaultConnection": {
+      // Use a shared (and running) LocalDB database when executing in IIS e.g.
+      // "Server=(localdb)\\.\\IIS_DB;Database=UnicornStore;Trusted_Connection=False;MultipleActiveResultSets=true;User ID=iis_login;Password=********"
+     // "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=UnicornStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
+    }
+  }
+}

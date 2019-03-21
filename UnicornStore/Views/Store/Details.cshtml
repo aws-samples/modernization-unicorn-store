@@ -1,0 +1,29 @@
+﻿@model Blessing
+
+@{
+    ViewBag.Title = "Blessing - " + Model.Title;
+}
+
+<h2>@Model.Title</h2>
+
+<p>
+    <img alt="@Model.Title" src="@Url.Content(@Model.BlessingArtUrl)" />
+</p>
+
+<div id="blessing-details">
+    <p>
+        <em>Genre:</em>
+        @Model.Genre.Name
+    </p>
+    <p>
+        <em>Unicorn:</em>
+        @Model.Unicorn.Name
+    </p>
+    <p>
+        <em>Price:</em>
+        <label>@Model.Price</label>
+    </p>
+    <p class="button">
+        <a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@Model.BlessingId">Add to cart</a>
+    </p>
+</div>

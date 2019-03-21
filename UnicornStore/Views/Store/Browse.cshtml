@@ -1,0 +1,24 @@
+﻿@model Genre
+@{
+    ViewBag.Title = "Unicorns";
+}
+<div class="genre">
+    <h3>
+        <em>@Model.Name</em> Unicorns
+    </h3>
+
+    <ul id="blessing-list" class="list-unstyled">
+        @foreach (var blessing in Model.Blessings)
+        {
+            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-4 container">
+                <a asp-controller="Store" asp-action="Details" asp-route-id="@blessing.BlessingId">
+                    @if (!string.IsNullOrEmpty(blessing.BlessingArtUrl))
+                    {
+                        <img alt="@blessing.Title" src="@Url.Content(@blessing.BlessingArtUrl)" />
+                    }
+                    <h5 class="control-label">@blessing.Title</h5>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
