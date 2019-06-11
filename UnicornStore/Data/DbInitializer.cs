@@ -1,36 +1,32 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using UnicornStore.Models;
 
-namespace UnicornStore.Models
+namespace UnicornStore.Data
 {
-    public static class SampleData
+    public static class DbInitializer
     {
         const string imgUrl = "~/Images/placeholder.png";
-        const string defaultAdminUserName = "DefaultAdminUserName";
-        const string defaultAdminPassword = "DefaultAdminPassword";
 
-        public static async Task InitializeUnicornStoreDatabaseAsync(IServiceProvider serviceProvider, bool createUsers = true)
+        public static async Task Initialize(
+            UnicornStoreContext context,
+            IServiceProvider serviceProvider,
+            IConfiguration configuration,
+            bool createUsers = true)
         {
-            using (var serviceScope = serviceProvider.CreateScope())
+            if (await context.Database.EnsureCreatedAsync())
             {
-                var scopeServiceProvider = serviceScope.ServiceProvider;
-                var db = scopeServiceProvider.GetService<UnicornStoreContext>();
-
-                if (await db.Database.EnsureCreatedAsync())
+                await InsertTestData(serviceProvider);
+                if (createUsers)
                 {
-                    await InsertTestData(scopeServiceProvider);
-                    if (createUsers)
-                    {
-                        await CreateAdminUser(scopeServiceProvider);
-                    }
+                    await CreateAdminUser(serviceProvider, configuration);
                 }
             }
         }
@@ -52,15 +48,17 @@ namespace UnicornStore.Models
         {
             // Query in a separate context so that we can attach existing entities as modified
             List<TEntity> existingData;
-            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+
+            using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using (var db = scope.ServiceProvider.GetService<UnicornStoreContext>())
             {
-                var db = serviceScope.ServiceProvider.GetService<UnicornStoreContext>();
                 existingData = db.Set<TEntity>().ToList();
             }
 
-            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using (var db = scope.ServiceProvider.GetService<UnicornStoreContext>())
+
             {
-                var db = serviceScope.ServiceProvider.GetService<UnicornStoreContext>();
                 foreach (var item in entities)
                 {
                     db.Entry(item).State = existingData.Any(g => propertyToMatch(g).Equals(propertyToMatch(item)))
@@ -77,18 +75,11 @@ namespace UnicornStore.Models
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        private static async Task CreateAdminUser(IServiceProvider serviceProvider)
+        private static async Task CreateAdminUser(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            var env = serviceProvider.GetService<IHostingEnvironment>();
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                //.AddJsonFile("config.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-            var configuration = builder.Build();
-
-            //const string adminRole = "Administrator";
+            var defaultAdminPassword = configuration["DefaultAdminPassword"];
+            var defaultAdminUserName = configuration["DefaultAdminUserName"];
 
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             // TODO: Identity SQL does not support roles yet
@@ -98,16 +89,16 @@ namespace UnicornStore.Models
             //    await roleManager.CreateAsync(new IdentityRole(adminRole));
             //}
 
-            var user = await userManager.FindByNameAsync(configuration[defaultAdminUserName]);
+            var user = await userManager.FindByNameAsync(defaultAdminUserName);
             if (user == null)
             {
-                user = new ApplicationUser { UserName = configuration[defaultAdminUserName] };
-                await userManager.CreateAsync(user, configuration[defaultAdminPassword]);
+                user = new ApplicationUser { UserName = defaultAdminUserName };
+                await userManager.CreateAsync(user, defaultAdminPassword);
                 //await userManager.AddToRoleAsync(user, adminRole);
                 await userManager.AddClaimAsync(user, new Claim("ManageStore", "Allowed"));
             }
 
-            // NOTE: For end to end testing only
+            //NOTE: For end to end testing only
             var envPerfLab = configuration["PERF_LAB"];
             if (envPerfLab == "true")
             {
@@ -261,6 +252,7 @@ namespace UnicornStore.Models
                 return unicorns;
             }
         }
+
 
         private static Dictionary<string, Genre> genres;
         public static Dictionary<string, Genre> Genres
