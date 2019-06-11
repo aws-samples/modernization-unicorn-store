@@ -1,6 +1,10 @@
 = modernization-unicorn-store
 
+:imagesdir: images
+
 AWS Sample Application for containerizing a .NET application
+
+image::unicornstore.png[Unicorn Store]
 
 == License
 
@@ -15,42 +19,15 @@ To get started you will need:
 - https://dotnet.microsoft.com/download[.NET Core 2.2]
 - An IDE for building .NET Core applications such as https://visualstudio.microsoft.com/[Visual Studio]
 
-== Getting Started
-
 Once you have the prerequisites installed on your local development machine you should be able to run the Unicorn Store locally either in your IDE or in a local container. Take the time to read https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.2[mutiple environments in ASP.NET Core] and https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=macos[safe storage of app secrets in development in ASP.NET Core] before starting so you understand the various different configuration options.
 
-The Unicorn Store is meant to run in a Docker container and demonstrates how you can run the UnicornDB in https://aws.amazon.com/rds/[Amazon RDS] while storing the RDS credentials to the database in https://aws.amazon.com/secrets-manager/[AWS Secrets Manager]. This allows the Unicorn Store application to safely connect to the database from the container without storing the secrets in a file on the container.
+== Introduction
 
-=== Testing locally with your IDE
+The Unicorn Store demonstrates how to run a .NET Core application in a Docker container while connecting to a SQL backend (Database=UnicornStore) in https://aws.amazon.com/rds/[Amazon RDS]. The RDS credentials to the database in are stored in https://aws.amazon.com/secrets-manager/[AWS Secrets Manager] along with other sensitive information needed for the application to run. This allows the Unicorn Store application to safely connect to the database from the container without storing the secrets in a file on the container or in source control.
 
-If you want to test locally you have the option to set a couple of flags in the various different appsettings files such as: `appsettings.Development.json`
+== Architecture overview
 
-- `CacheDbResults` - https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-2.2[Cache in-memory in ASP.NET Core]
-- `UseInMemoryStore` - Set to `true` to use the in-memory database on Mac and Linux systems.
-- `UseLocalDB` - Set to `true` to use LocalDB on Windows systems.
-- `UseLocalSecrets` - Use the https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=macos[Secret Manager tool] in local development to set the secret to connect to your UnicornDB database. Ensure that the local secret you create for the connection to the UnicornDB mirrors the secret value format when you retrieve an RDS secret from Secrets Manager. The structure should follow the below example:
+image::architecture.png[Unicorn Store Architecture]
 
-    {
-    "unicornstore-secret": {
-        "username": "unicorndbuser",
-        "password": "unicrondbpassword",
-        "engine": "sqlserver",
-        "host": "unicorn-db-us-west-2.rds.amazonaws.com",
-        "port": 1433,
-        "dbInstanceIdentifier": "unicorn-store-test"
-    }
-    }
 
-- `RunInFargate` - Set to `true` when running the container in AWS Fargate.
 
-.1. Build the container using Docker Compose
-[source,shell]
-docker-compose build
-
-.2. Bring the container online on your local machine.
-[soucre,shell]
-docker-compose -f docker-compose.yml -f docker-compose.development.yml up
-
-.3. Test that the container is up and running.
-
-http://localhost

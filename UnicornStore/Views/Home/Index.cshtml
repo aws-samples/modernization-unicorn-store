@@ -1,21 +1,22 @@
-﻿@inject IOptions<AppSettings> AppSettings
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>@AppSettings.Value.SiteTitle</h1>
+    <h1>@Configuration["AppSettings:SiteTitle"]</h1>
     <img src="~/Images/main-unicorn.png" />
 </div>
 
 <ul class="row list-unstyled" id="blessing-list">
     @foreach (var blessing in Model)
     {
-    <li class="col-lg-2 col-md-2 col-sm-2 col-xs-4 container">
-        <a asp-controller="Store" asp-action="Details" asp-route-id="@blessing.BlessingId">
-            <img alt="@blessing.Title" src="@Url.Content(@blessing.BlessingArtUrl)" />
-            <h4>@blessing.Title</h4>
-        </a>
-    </li>
+        <li class="col-lg-2 col-md-2 col-sm-2 col-xs-4 container">
+            <a asp-controller="Store" asp-action="Details" asp-route-id="@blessing.BlessingId">
+                <img alt="@blessing.Title" src="@Url.Content(@blessing.BlessingArtUrl)" />
+                <h4>@blessing.Title</h4>
+            </a>
+        </li>
     }
 </ul>
