@@ -1,132 +1,62 @@
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using UnicornStore.Components;
-using UnicornStore.Models;
-using UnicornStore.HealthChecks;
 using System.Data.SqlClient;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mime;
 using System.Runtime.InteropServices;
-
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UnicornStore.Components;
+using UnicornStore.Models;
+using UnicornStore.HealthChecks;
 
 namespace UnicornStore
 {
     public class Startup
     {
-        private readonly Platform _platform;
         private string _connection = null;
 
-        public Startup(IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration)
         {
-            // Below code demonstrates usage of multiple configuration sources. For instance a setting say 'setting1'
-            // is found in both the registered sources, then the later source will win. By this way a Local config
-            // can be overridden by a different setting while deployed remotely.
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(hostingEnvironment.ContentRootPath)
-                //.AddJsonFile("config.json")
-                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true)
-                //All environment variables in the process's context flow in as configuration values.
-                .AddEnvironmentVariables();
-
-            if (hostingEnvironment.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            Configuration = builder.Build();
-            _platform = new Platform();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; private set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-            // Control whether InMemoryStore is used on Mac or for local development with AppSettings
-            if (_platform.UseInMemoryStore)
+            // The UNICORNSTORE_DBSECRET is stored in AWS Secrets Manager
+            // The value is loaded as an Environment Variable in a JSON string
+            // The key/value pairs are mapped to the Configuration
+            if (Configuration["UNICORNSTORE_DBSECRET"] != null)
             {
-                // For local testing on Mac with User Secrets
-                // Read about secrets here: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.2
-                if (Configuration.GetSection("AppSettings")["UseLocalSecrets"] == "True")
-                {
-                    var sqlconnectionbuilder = new SqlConnectionStringBuilder();
-                    sqlconnectionbuilder.ConnectionString = "Database=UnicornStore;Trusted_Connection=False;MultipleActiveResultSets=true;Connect Timeout=30;";
-                    sqlconnectionbuilder.Password = Configuration["unicornstore-secret:password"];
-                    sqlconnectionbuilder.UserID = Configuration["unicornstore-secret:username"];
-                    sqlconnectionbuilder.DataSource = Configuration["unicornstore-secret:host"];
-                    _connection = sqlconnectionbuilder.ConnectionString;
-
-                    services.AddDbContext<UnicornStoreContext>(options =>
-                        options.UseSqlServer(_connection));
-                }
-
-                // Fallback to use InMemoryStore
-                else if (Configuration.GetSection("AppSettings")["UseInMemoryStore"] == "True")
-                {
-                    services.AddDbContext<UnicornStoreContext>(options =>
-                    options.UseInMemoryDatabase("Scratch"));
-                }
-
-            }
-            // Control whether to LocalDB is used on Windows boxes for local devleopment with AppSettings
-            else if (_platform.IsRunningOnWindows)
-            {
-                // For local testing on Windows with User Secrets
-                // Read about secrets here: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.2
-                if (Configuration.GetSection("AppSettings")["UseLocalSecrets"] == "True")
-                {
-                    var sqlconnectionbuilder = new SqlConnectionStringBuilder();
-                    sqlconnectionbuilder.ConnectionString = "Database=UnicornStore;Trusted_Connection=False;MultipleActiveResultSets=true;Connect Timeout=30;";
-                    sqlconnectionbuilder.Password = Configuration["unicornstore-secret:password"];
-                    sqlconnectionbuilder.UserID = Configuration["unicornstore-secret:username"];
-                    sqlconnectionbuilder.DataSource = Configuration["unicornstore-secret:host"];
-                    _connection = sqlconnectionbuilder.ConnectionString;
-
-                    services.AddDbContext<UnicornStoreContext>(options =>
-                        options.UseSqlServer(_connection));
-                }
-
-                // Fallback to use LocalDB. Connection string must be set in the appsettings.
-                else if (Configuration.GetSection("AppSettings")["UseLocalDB"] == "True")
-                {
-                    services.AddDbContext<UnicornStoreContext>(options =>
-                    options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
-                }
-            }
-
-            // Control whether to run the container in Fargate. 
-            // Relies on RDS Secrets from AWS Secrets Manager to be passed as Environment Variables to the container
-            if (Configuration.GetSection("AppSettings")["RunInFargate"] == "True")
-            {
-                var unicorn_envvariables = Configuration["unicornstore-secret"];
+                var unicorn_envvariables = Configuration["UNICORNSTORE_DBSECRET"];
                 JObject parsed_json = JObject.Parse(unicorn_envvariables);
-
-                var sqlconnectionbuilder = new SqlConnectionStringBuilder();
-                sqlconnectionbuilder.ConnectionString = "Database=UnicornStore;Trusted_Connection=False;MultipleActiveResultSets=true;Connect Timeout=30;";
-                sqlconnectionbuilder.Password = (string)parsed_json["password"];
-                sqlconnectionbuilder.UserID = (string)parsed_json["username"];
-                sqlconnectionbuilder.DataSource = (string)parsed_json["host"];
-                _connection = sqlconnectionbuilder.ConnectionString;
-
-                services.AddDbContext<UnicornStoreContext>(options =>
-                    options.UseSqlServer(_connection));
+                Configuration["UNICORNSTORE_DBSECRET:username"] = (string)parsed_json["username"];
+                Configuration["UNICORNSTORE_DBSECRET:password"] = (string)parsed_json["password"];
+                Configuration["UNICORNSTORE_DBSECRET:host"] = (string)parsed_json["host"];
             }
+
+            var sqlconnectionbuilder = new SqlConnectionStringBuilder(
+                Configuration.GetConnectionString("UnicornStore"));
+            sqlconnectionbuilder.Password = Configuration["UNICORNSTORE_DBSECRET:password"];
+            sqlconnectionbuilder.UserID = Configuration["UNICORNSTORE_DBSECRET:username"];
+            sqlconnectionbuilder.DataSource = Configuration["UNICORNSTORE_DBSECRET:host"];
+            _connection = sqlconnectionbuilder.ConnectionString;
+
+            services.AddDbContext<UnicornStoreContext>(options =>
+                options.UseSqlServer(_connection));
+
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -147,6 +77,8 @@ namespace UnicornStore
 
             // Add MVC services to the services container
             services.AddMvc();
+
+            services.AddOptions();
 
             // Add the Healthchecks
             services.AddHealthChecks()
@@ -172,88 +104,34 @@ namespace UnicornStore
                         authBuilder.RequireClaim("ManageStore", "Allowed");
                     });
             });
-
-
-            services.AddAuthentication()
-                .AddFacebook(options =>
-                {
-                    options.AppId = "550624398330273";
-                    options.AppSecret = "10e56a291d6b618da61b1e0dae3a8954";
-                })
-                .AddGoogle(options =>
-                {
-                    options.ClientId = "995291875932-0rt7417v5baevqrno24kv332b7d6d30a.apps.googleusercontent.com";
-                    options.ClientSecret = "J_AT57H5KH_ItmMdu0r6PfXm";
-                })
-                .AddTwitter(options =>
-                {
-                    options.ConsumerKey = "lDSPIu480ocnXYZ9DumGCDw37";
-                    options.ConsumerSecret = "fpo0oWRNc3vsZKlZSq1PyOSoeXlJd7NnG4Rfc94xbFXsdcc3nH";
-                })
-            // The MicrosoftAccount service has restrictions that prevent the use of
-            // http://localhost:5001/ for test applications.
-            // As such, here is how to change this sample to uses http://ktesting.com:5001/ instead.
-
-            // From an admin command console first enter:
-            // notepad C:\Windows\System32\drivers\etc\hosts
-            // and add this to the file, save, and exit (and reboot?):
-            // 127.0.0.1 ktesting.com
-
-            // Then you can choose to run the app as admin (see below) or add the following ACL as admin:
-            // netsh http add urlacl url=http://ktesting:5001/ user=[domain\user]
-
-            // The sample app can then be run via:
-            // dnx . web
-                .AddMicrosoftAccount(options =>
-                {
-                    // MicrosoftAccount requires project changes
-                    options.ClientId = "000000004012C08A";
-                    options.ClientSecret = "GaMQ2hCnqAC6EcDLnXsAeBVIJOLmeutL";
-                });
         }
 
-        //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Development' or is not defined
-        //The allowed values are Development,Staging and Production
-        public void ConfigureDevelopment(IApplicationBuilder app)
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // StatusCode pages to gracefully handle status codes 400-599.
-            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+            //This is invoked when ASPNETCORE_ENVIRONMENT is 'Development' or is not defined
+            //The allowed values are Development,Staging and Production
+            if (env.IsDevelopment())
+            {
+                // StatusCode pages to gracefully handle status codes 400-599.
+                app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
 
-            // Display custom error page in production when error occurs
-            // During development use the ErrorPage middleware to display error information in the browser
-            app.UseDeveloperExceptionPage();
+                // Display custom error page in production when error occurs
+                // During development use the ErrorPage middleware to display error information in the browser
+                app.UseDeveloperExceptionPage();
 
-            app.UseDatabaseErrorPage();
+                app.UseDatabaseErrorPage();
+            }
 
-            Configure(app);
-        }
+            //This is invoked when ASPNETCORE_ENVIRONMENT is 'Production' or 'Staging'
+            if (env.IsProduction() || env.IsStaging() )
+            {
+                // StatusCode pages to gracefully handle status codes 400-599.
+                app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
 
-        //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Staging'
-        //The allowed values are Development,Staging and Production
-        public void ConfigureStaging(IApplicationBuilder app)
-        {
-            // StatusCode pages to gracefully handle status codes 400-599.
-            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-            app.UseExceptionHandler("/Home/Error");
-
-            Configure(app);
-        }
-
-        //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Production'
-        //The allowed values are Development,Staging and Production
-        public void ConfigureProduction(IApplicationBuilder app)
-        {
-            // StatusCode pages to gracefully handle status codes 400-599.
-            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
-
-            app.UseExceptionHandler("/Home/Error");
-
-            Configure(app);
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
             app.UseHealthChecks("/health",
                 new HealthCheckOptions
                 {
@@ -318,9 +196,6 @@ namespace UnicornStore
                     name: "api",
                     template: "{controller}/{id?}");
             });
-
-            //Populates the UnicornStore sample data
-            SampleData.InitializeUnicornStoreDatabaseAsync(app.ApplicationServices).Wait();
         }
     }
 }
