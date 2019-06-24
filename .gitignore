@@ -27,3 +27,4 @@ msbuild.wrn
 
 # Visual Studio
 .vs/
+.vscode/
