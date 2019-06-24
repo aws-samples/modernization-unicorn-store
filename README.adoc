@@ -1,10 +1,10 @@
 = modernization-unicorn-store
 
-:imagesdir: images
+:imagesdir: static
 
 AWS Sample Application for containerizing a .NET application
 
-image::unicornstore.png[Unicorn Store]
+image::images/unicornstore.png[Unicorn Store]
 
 == License
 
@@ -27,7 +27,13 @@ The Unicorn Store demonstrates how to run a .NET Core application in a Docker co
 
 == Architecture overview
 
-image::architecture.png[Unicorn Store Architecture]
+image::images/architecture.png[Unicorn Store Architecture]
+
+== Workshop
+
+Click link:content/prerequisites/_index.md[here] to start the workshop.
+
+
 
 
 
