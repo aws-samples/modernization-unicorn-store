@@ -43,6 +43,7 @@ The file should look like the below once edited and saved with your values.
 Now run the following command:
 
 ```
+cd ~/environment/modernization-unicorn-store
 docker-compose -f docker-compose.yml -f docker-compose.development.yml up
 ```
 
