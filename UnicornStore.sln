@@ -1,32 +1,81 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicornStore", "UnicornStore/UnicornStore.csproj", "{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicornStore", "UnicornStore\UnicornStore.csproj", "{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A0775F2-D08E-418F-9509-919C8894C518}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.development.yml = docker-compose.development.yml
+		docker-compose.production.yml = docker-compose.production.yml
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+		content\secrets\taskdefinitions.files\modernization-unicorn-store-task-definition-mysql.json = content\secrets\taskdefinitions.files\modernization-unicorn-store-task-definition-mysql.json
+		content\secrets\taskdefinitions.files\modernization-unicorn-store-task-definition-sqlserver.json = content\secrets\taskdefinitions.files\modernization-unicorn-store-task-definition-sqlserver.json
+		content\secrets\taskdefinitions.files\modernization-unicorn-store-task-definition.json = content\secrets\taskdefinitions.files\modernization-unicorn-store-task-definition.json
+		cfn\player-template.yaml = cfn\player-template.yaml
+		cfn\player-vpc-template.yaml = cfn\player-vpc-template.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+		DebugMySQL|Any CPU = DebugMySQL|Any CPU
+		DebugMySQL|x64 = DebugMySQL|x64
+		DebugMySQL|x86 = DebugMySQL|x86
+		DebugPostgres|Any CPU = DebugPostgres|Any CPU
+		DebugPostgres|x64 = DebugPostgres|x64
+		DebugPostgres|x86 = DebugPostgres|x86
+		DebugSQL|Any CPU = DebugSQL|Any CPU
+		DebugSQL|x64 = DebugSQL|x64
+		DebugSQL|x86 = DebugSQL|x86
+		ReleaseMySQL|Any CPU = ReleaseMySQL|Any CPU
+		ReleaseMySQL|x64 = ReleaseMySQL|x64
+		ReleaseMySQL|x86 = ReleaseMySQL|x86
+		ReleasePostgres|Any CPU = ReleasePostgres|Any CPU
+		ReleasePostgres|x64 = ReleasePostgres|x64
+		ReleasePostgres|x86 = ReleasePostgres|x86
+		ReleaseSQL|Any CPU = ReleaseSQL|Any CPU
+		ReleaseSQL|x64 = ReleaseSQL|x64
+		ReleaseSQL|x86 = ReleaseSQL|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Debug|x64.Build.0 = Debug|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Debug|x86.Build.0 = Debug|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Release|x64.ActiveCfg = Release|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Release|x64.Build.0 = Release|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Release|x86.ActiveCfg = Release|Any CPU
-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.Release|x86.Build.0 = Release|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|Any CPU.ActiveCfg = DebugMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|Any CPU.Build.0 = DebugMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|x64.ActiveCfg = DebugMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|x64.Build.0 = DebugMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|x86.ActiveCfg = DebugMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|x86.Build.0 = DebugMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|Any CPU.Build.0 = DebugPostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|x64.ActiveCfg = DebugPostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|x64.Build.0 = DebugPostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|x86.ActiveCfg = DebugPostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|x86.Build.0 = DebugPostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSQL|Any CPU.ActiveCfg = DebugSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSQL|Any CPU.Build.0 = DebugSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSQL|x64.ActiveCfg = DebugSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSQL|x64.Build.0 = DebugSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSQL|x86.ActiveCfg = DebugSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSQL|x86.Build.0 = DebugSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|Any CPU.ActiveCfg = ReleaseMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|Any CPU.Build.0 = ReleaseMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|x64.ActiveCfg = ReleaseMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|x64.Build.0 = ReleaseMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|x86.ActiveCfg = ReleaseMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|x86.Build.0 = ReleaseMySQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|Any CPU.Build.0 = ReleasePostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|x64.ActiveCfg = ReleasePostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|x64.Build.0 = ReleasePostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|x86.ActiveCfg = ReleasePostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|x86.Build.0 = ReleasePostgres|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSQL|Any CPU.ActiveCfg = ReleaseSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSQL|Any CPU.Build.0 = ReleaseSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSQL|x64.ActiveCfg = ReleaseSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSQL|x64.Build.0 = ReleaseSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSQL|x86.ActiveCfg = ReleaseSQL|Any CPU
+		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSQL|x86.Build.0 = ReleaseSQL|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,4 +84,3 @@ Global
 		SolutionGuid = {C9A7C5A2-5C90-4AD9-ABB8-6F2D2364D5AF}
 	EndGlobalSection
 EndGlobal
-

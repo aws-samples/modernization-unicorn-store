@@ -1,4 +1,3 @@
-using System.Data.SqlClient;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -10,22 +9,24 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnicornStore.Components;
 using UnicornStore.Models;
 using UnicornStore.HealthChecks;
+using System.Data.Common;
+using Microsoft.Extensions.Options;
+using Npgsql;
+using System.Data.SqlClient;
+using UnicornStore.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace UnicornStore
 {
-    public class Startup
+    public partial class Startup
     {
-        private string _connection = null;
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,30 +34,14 @@ namespace UnicornStore
 
         public IConfiguration Configuration { get; private set; }
 
+        internal IConfigurationSection ConnectionStringOverrideConfigSection => this.Configuration.GetSection("UnicornDbConnectionStringBuilder");
+
         public void ConfigureServices(IServiceCollection services)
         {
-            // The UNICORNSTORE_DBSECRET is stored in AWS Secrets Manager
-            // The value is loaded as an Environment Variable in a JSON string
-            // The key/value pairs are mapped to the Configuration
-            if (Configuration["UNICORNSTORE_DBSECRET"] != null)
-            {
-                var unicorn_envvariables = Configuration["UNICORNSTORE_DBSECRET"];
-                JObject parsed_json = JObject.Parse(unicorn_envvariables);
-                Configuration["UNICORNSTORE_DBSECRET:username"] = (string)parsed_json["username"];
-                Configuration["UNICORNSTORE_DBSECRET:password"] = (string)parsed_json["password"];
-                Configuration["UNICORNSTORE_DBSECRET:host"] = (string)parsed_json["host"];
-            }
+            this.ConfigureDatabaseEngine(services);
+            services.AddDbContext<UnicornStoreContext>();
 
-            var sqlconnectionbuilder = new SqlConnectionStringBuilder(
-                Configuration.GetConnectionString("UnicornStore"));
-            sqlconnectionbuilder.Password = Configuration["UNICORNSTORE_DBSECRET:password"];
-            sqlconnectionbuilder.UserID = Configuration["UNICORNSTORE_DBSECRET:username"];
-            sqlconnectionbuilder.DataSource = Configuration["UNICORNSTORE_DBSECRET:host"];
-            _connection = sqlconnectionbuilder.ConnectionString;
-
-            services.AddDbContext<UnicornStoreContext>(options =>
-                options.UseSqlServer(_connection));
-
+            services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -81,7 +66,8 @@ namespace UnicornStore
             services.AddOptions();
 
             // Add the Healthchecks
-            services.AddHealthChecks()
+            services
+                .AddHealthChecks()
                 .AddCheck<UnicornHomePageHealthCheck>("UnicornStore_HealthCheck");
 
             // Add memory cache services
@@ -106,53 +92,108 @@ namespace UnicornStore
             });
         }
 
+        private void ConfigureDatabaseEngine(IServiceCollection services)
+        {
+#if MYSQL
+            this.HookupMySQL(services);
+#elif POSTGRES
+            this.HookupPostgres(services);
+#else
+            this.HookupSqlServer(services);
+#endif
+        }
+
+        private void HookupSqlServer(IServiceCollection services)
+        {
+#if Debug || DEBUG
+            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
+#warning Using MS SQL Server for a database
+#endif
+            this.HookupDatabase<SqlConnectionStringBuilder, SqlDbContextOptionsConfigurator>(services, "SqlServer");
+        }
+
+#if MYSQL
+        private void HookupMySQL(IServiceCollection services)
+        {
+#if Debug || DEBUG
+            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
+#warning Using MySQL for a database
+#endif
+            this.HookupDatabase<MySqlConnectionStringBuilder, MySqlDbContextOptionsConfigurator>(services, "MySQL");
+        }
+#endif
+
+#if POSTGRES
+        private void HookupPostgres(IServiceCollection services)
+        {
+#if Debug || DEBUG
+            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
+#warning Using PostgreSQL for a database
+#endif
+            this.HookupDatabase<NpgsqlConnectionStringBuilder, NpgsqlDbContextOptionsConfigurator>(services, "Postgres");
+        }
+#endif
+
+        /// <summary>
+        /// Integrates connection string data from config settings file "ConnectionStrings" section, 
+        /// with override settings from the "UnicornDbConnectionStringBuilder" section of the config
+        /// </summary>
+        /// <remarks>
+        /// This function ensures that connection string and connection string builder configuration
+        /// is not cached as a singleton throughout the lifetime of the app, 
+        /// but rather reloaded at run time whenever settings change.
+        /// </remarks>
+        /// <typeparam name="Tsb">A database engine specific DbConnectionStringBuilder subclass</typeparam>
+        /// <typeparam name="Topt">A database engine specific DbContextOptionsConfigurator subclass</typeparam>
+        /// <param name="services">DI container</param>
+        /// <param name="databaseEngine">A suffix used for making a connection string name by appending it to the "UnicornStore" string</param>
+        private void HookupDatabase<Tsb, Topt>(IServiceCollection services, string databaseEngine)
+            where Tsb : DbConnectionStringBuilder, new()
+            where Topt : DbContextOptionsConfigurator
+        {
+            Console.WriteLine($"Using {databaseEngine} for a database");
+            string dbConnectionStringSettingName = $"UnicornStore{databaseEngine}";
+            services.Configure<Tsb>(this.ConnectionStringOverrideConfigSection);
+            services.AddScoped(di => DbConnectionStringBuilderFactory<Tsb>(di, dbConnectionStringSettingName));
+            services.AddTransient<DbContextOptionsConfigurator, Topt>();
+        }
+
+        /// <summary>
+        /// Combines default/common connection information supplied in the "ConnectionStrings.UnicornStore" configuration,
+        /// with override values supplied by the "UnicornDbConnectionStringBuilder" configuration settings section.
+        /// </summary>
+        /// <param name="di">DI container</param>
+        /// <returns></returns>
+        internal DbConnectionStringBuilder DbConnectionStringBuilderFactory<T>(IServiceProvider di, string defaultConnectionStringName) 
+            where T : DbConnectionStringBuilder, new()
+        {
+            DbConnectionStringBuilder overrideConnectionInfo = di.GetRequiredService<IOptionsSnapshot<T>>().Value;
+            string defaultConnectionString = this.Configuration.GetConnectionString(defaultConnectionStringName);
+            return overrideConnectionInfo.MergeDbConnectionStringBuilders(defaultConnectionString);
+        }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // StatusCode pages to gracefully handle status codes 400-599.
+            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+
             //This is invoked when ASPNETCORE_ENVIRONMENT is 'Development' or is not defined
             //The allowed values are Development,Staging and Production
             if (env.IsDevelopment())
             {
-                // StatusCode pages to gracefully handle status codes 400-599.
-                app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
-
                 // Display custom error page in production when error occurs
                 // During development use the ErrorPage middleware to display error information in the browser
                 app.UseDeveloperExceptionPage();
-
                 app.UseDatabaseErrorPage();
             }
 
             //This is invoked when ASPNETCORE_ENVIRONMENT is 'Production' or 'Staging'
-            if (env.IsProduction() || env.IsStaging() )
+            if (env.IsProduction() || env.IsStaging())
             {
-                // StatusCode pages to gracefully handle status codes 400-599.
-                app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
-
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseHealthChecks("/health",
-                new HealthCheckOptions
-                {
-                    ResponseWriter = async (context, report) =>
-                    {
-                        var result = JsonConvert.SerializeObject(
-                            new
-                            {
-                                OverallStatus = report.Status.ToString(),
-                                HealthChecks = report.Entries.Select(e => new
-                                {
-                                    name = e.Key,
-                                    value = Enum.GetName(typeof(HealthStatus), e.Value.Status),
-                                    status = e.Value.Description,
-                                    duration = e.Value.Duration
-                                })
-                            });
-                        context.Response.ContentType = MediaTypeNames.Application.Json;
-                        await context.Response.WriteAsync(result);
-                    }
-                });
+            app.UseHealthChecks("/health", ConfigureHealthCheckResponse());
 
             // force the en-US culture, so that the app behaves the same even on machines with different default culture
             var supportedCultures = new[] { new CultureInfo("en-US") };
@@ -196,6 +237,30 @@ namespace UnicornStore
                     name: "api",
                     template: "{controller}/{id?}");
             });
+        }
+
+        private static HealthCheckOptions ConfigureHealthCheckResponse()
+        {
+            return new HealthCheckOptions
+            {
+                ResponseWriter = async (context, report) =>
+                {
+                    var result = JsonConvert.SerializeObject(
+                        new
+                        {
+                            OverallStatus = report.Status.ToString(),
+                            HealthChecks = report.Entries.Select(e => new
+                            {
+                                name = e.Key,
+                                value = Enum.GetName(typeof(HealthStatus), e.Value.Status),
+                                status = e.Value.Description,
+                                duration = e.Value.Duration
+                            })
+                        });
+                    context.Response.ContentType = MediaTypeNames.Application.Json;
+                    await context.Response.WriteAsync(result);
+                }
+            };
         }
     }
 }

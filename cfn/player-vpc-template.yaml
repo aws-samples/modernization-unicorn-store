@@ -1,7 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'This template will launch the Player Account VPC Environment for .Net Modernization Workshop. 
-  You will be billed for the AWS resources used if you create a stack from this template.'
+Description: 'This template will launch the Player Account VPC Environment for .Net Modernization Workshop. You will be billed for the AWS resources used if you create a stack from this template.'
 Mappings:
   SubnetConfig:
     VPC:

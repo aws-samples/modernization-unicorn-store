@@ -1,18 +1,37 @@
+using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UnicornStore.Configuration;
 
 namespace UnicornStore.Models
 {
-    public class ApplicationUser : IdentityUser { }
+    public class ApplicationUser : IdentityUser
+    {
+        public ApplicationUser()
+        {
+            this.SecurityStamp = Guid.NewGuid().ToString("D"); // Fixes an exception thrown when database is seeded.
+        }
+    }
 
     public class UnicornStoreContext : IdentityDbContext<ApplicationUser>
     {
-        public UnicornStoreContext(DbContextOptions<UnicornStoreContext> options)
+        private readonly DbContextOptionsConfigurator dbContextOptionsConfigurator;
+
+        public UnicornStoreContext(DbContextOptions<UnicornStoreContext> options, DbContextOptionsConfigurator dbContextOptionsConfigurator)
             : base(options)
         {
+            this.dbContextOptionsConfigurator = dbContextOptionsConfigurator;
+
             // TODO: #639
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            this.dbContextOptionsConfigurator.Configure(optionsBuilder);
+
+            base.OnConfiguring(optionsBuilder);
         }
 
         public DbSet<Blessing> Blessings { get; set; }

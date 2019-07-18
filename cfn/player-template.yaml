@@ -42,6 +42,14 @@ Resources:
         FromPort: 1433
         ToPort: 1433
         CidrIp: !GetAtt BasicVPC.Outputs.VPCCIDR
+      - IpProtocol: tcp
+        FromPort: 5432
+        ToPort: 5432
+        CidrIp: !GetAtt BasicVPC.Outputs.VPCCIDR
+      - IpProtocol: tcp
+        FromPort: 3306
+        ToPort: 3306
+        CidrIp: !GetAtt BasicVPC.Outputs.VPCCIDR
       VpcId: !GetAtt BasicVPC.Outputs.VPCId
   UnicornStoreRDS:
     Type: "AWS::RDS::DBInstance"

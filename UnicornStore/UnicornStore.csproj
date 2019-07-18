@@ -4,6 +4,30 @@
     <Description>Unicorn store application on ASP.NET Core</Description>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>45b651b1-da6a-44fb-af93-525b292efddb</UserSecretsId>
+    <Configurations>DebugSQL;ReleaseSQL;DebugPostgres;ReleasePostgres;DebugMySQL;ReleaseMySQL</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSQL|AnyCPU'">
+	<DefineConstants>DEBUG;TRACE</DefineConstants>
+	<Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE;POSTGRES</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMySQL|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;MYSQL</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleasePostgres|AnyCPU'">
+    <DefineConstants>TRACE;POSTGRES</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMySQL|AnyCPU'">
+    <DefineConstants>TRACE;MYSQL</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +35,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" /> 
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" /> 
   </ItemGroup>
 
   <ItemGroup>

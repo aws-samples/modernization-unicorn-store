@@ -17,19 +17,15 @@ namespace UnicornStore.HealthChecks
 
         public async Task<HealthCheckResult> CheckHealthAsync(
             HealthCheckContext context,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var request = _httpContextAccessor.HttpContext.Request;
-            string myUrl = request.Scheme + "://" + request.Host.ToString();
+            string myUrl = $"{request.Scheme}://{request.Host}";
 
-            var client = new HttpClient();
-            var response = await client.GetAsync(myUrl);
-            if (response.IsSuccessStatusCode.Equals(true))
-            {
-                return HealthCheckResult.Healthy(response.StatusCode.ToString());
-            }
+            HttpResponseMessage response = await new HttpClient().GetAsync(myUrl);
+            string status = response.StatusCode.ToString();
 
-            return HealthCheckResult.Unhealthy(response.StatusCode.ToString());
+            return response.IsSuccessStatusCode ? HealthCheckResult.Healthy(status) : HealthCheckResult.Unhealthy(status);
         }
     }
 }

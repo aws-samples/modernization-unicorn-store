@@ -1,11 +1,11 @@
 ﻿@using Microsoft.Extensions.Configuration
-@inject IConfiguration Configuration
+@inject IOptionsSnapshot<AppSettings> appSettings
 @{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>@Configuration["AppSettings:SiteTitle"]</h1>
+    <h1>@appSettings.Value.SiteTitle</h1>
     <img src="~/Images/main-unicorn.png" />
 </div>
 
