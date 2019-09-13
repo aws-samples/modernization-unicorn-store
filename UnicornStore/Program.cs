@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,16 +7,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using UnicornStore.Data;
 using UnicornStore.Models;
+using System.Threading.Tasks;
 
 namespace UnicornStore
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            IWebHost host = CreateWebHostBuilder(args).Build();
 
-            using (var scope = host.Services.CreateScope())
+            using (IServiceScope scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
@@ -26,7 +25,7 @@ namespace UnicornStore
                     var context = services.GetRequiredService<UnicornStoreContext>();
                     var env = services.GetRequiredService<IConfiguration>();
                     //Populates the UnicornStore sample data and creates the DB if it doesn't exist.
-                    DbInitializer.Initialize(context, services, env).Wait();
+                    await DbInitializer.Initialize(context, services, env);
                 }
                 catch (Exception ex)
                 {
@@ -34,16 +33,16 @@ namespace UnicornStore
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
             }
-            host.Run();
+            await host.RunAsync();
         }
 
        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                config.SetBasePath(Directory.GetCurrentDirectory());
-                config.AddCommandLine(args);
-            })
+                {
+                    config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.AddCommandLine(args);
+                })
                 .UseStartup<Startup>();
     }
 
