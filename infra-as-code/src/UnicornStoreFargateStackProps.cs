@@ -1,4 +1,5 @@
 ﻿using Amazon.CDK;
+using Amazon.CDK.AWS.EC2;
 using System.Collections.Generic;
 
 namespace InfraAsCode
@@ -61,6 +62,10 @@ namespace InfraAsCode
         public string DbUsername { get; set; } = "admin";
 
         public string DefaultSiteAdminUsername { get; set; }
+
+        public InstanceClass DatabaseInstanceClass { get; set; } = InstanceClass.BURSTABLE2;
+
+        public InstanceSize DatabaseInstanceSize { get; set; } = InstanceSize.XLARGE;
 
         public UnicornStoreFargateStackProps()
         {
