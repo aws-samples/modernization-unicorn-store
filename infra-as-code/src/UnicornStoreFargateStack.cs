@@ -13,7 +13,8 @@ namespace InfraAsCode
     {
         public UnicornStoreFargateStack(Construct parent, string id, UnicornStoreFargateStackProps stackProps) : base(parent, id, stackProps)
         {
-            var siteAdminPasswordSecret = this.AutoGenPasswordSecret($"{stackProps.ScopeName}DefaultSiteAdminPassword");
+            Secret siteAdminPasswordSecret = this.AutoGenPasswordSecret($"{stackProps.ScopeName}DefaultSiteAdminPassword");
+            SecMan.Secret databaseMasterPasswordSecret = this.GeneratePasswordSecret($"{stackProps.ScopeName}DatabasePassword");
 
             var vpc = new Vpc(this, $"{stackProps.ScopeName}VPC", new VpcProps { MaxAzs = stackProps.MaxAzs });
 
@@ -27,6 +28,7 @@ namespace InfraAsCode
                     InstanceIdentifier = $"{stackProps.ScopeName}Database",
                     DeletionProtection = stackProps.DotNetEnvironment != "Development",
                     //DatabaseName = $"{stackProps.ScopeName}", // Can't be specified, at least not for SQL Server
+                    MasterUserPassword = databaseMasterPasswordSecret.SecretValue
                 }
             );
 
@@ -55,12 +57,12 @@ namespace InfraAsCode
                         { "DefaultAdminUsername", stackProps.DefaultSiteAdminUsername },
                         { "UnicornDbConnectionStringBuilder__DataSource", database.DbInstanceEndpointAddress }, // <- TODO: SQL Server specific, needs to be made parameter-driven
                         { "UnicornDbConnectionStringBuilder__UserId", stackProps.DbUsername }, // <- TODO: SQL Server specific, needs to be made parameter-driven
-                        { "DefaultAdminPassword", "bad-idea!" } // <- TODO: Remove this temporary solution after the "Parameter Mismatch" issue is resolved for auto-generated password secret
+                        //{ "DefaultAdminPassword", "bad-idea!" } // <- TODO: Remove this temporary solution after the "Parameter Mismatch" issue is resolved for auto-generated password secret
                     },
                     Secrets = new Dictionary<string, Secret>()
                     {
-                        //{ "DefaultAdminPassword", siteAdminPasswordSecret }, // TODO: Figure out why this produces "Parameter Mismatch" error
-                        { "UnicornDbConnectionStringBuilder__Password", Secret.FromSecretsManager(database.Secret) } // <- TODO: SQL Server specific, needs to be made parameter-driven
+                        { "DefaultAdminPassword", this.WrapSecretBug(siteAdminPasswordSecret, "SiteAdminPassword") }, // TODO: Figure out why this produces "Parameter Mismatch" error
+                        { "UnicornDbConnectionStringBuilder__Password", this.WrapSecretBug(Secret.FromSecretsManager(databaseMasterPasswordSecret), "DbPassword") } // <- TODO: SQL Server specific, needs to be made parameter-driven
                     }
                 }
             );
@@ -69,7 +71,20 @@ namespace InfraAsCode
             database.Connections.AllowDefaultPortFrom(secService.Service.Connections.SecurityGroups[0]);
         }
 
-        private Secret AutoGenPasswordSecret(string secretName)
+        /// <summary>
+        /// The work-around for the "Resolution error: System.Reflection.TargetParameterCountException: Parameter count mismatch"
+        /// bug when using Secrets as is
+        /// </summary>
+        /// <param name="secret"></param>
+        /// <param name="secretName"></param>
+        /// <returns></returns>
+        private Secret WrapSecretBug(Secret secret, string secretName)
+        {
+            var smSecret = SecMan.Secret.FromSecretArn(this, $"{secretName}BugWorkaround", secret.Arn);
+            return Secret.FromSecretsManager(smSecret);
+        }
+        
+        private SecMan.Secret GeneratePasswordSecret(string secretName)
         {
             var smSecret = new SecMan.Secret(this, secretName,
                 new SecMan.SecretProps
@@ -81,6 +96,12 @@ namespace InfraAsCode
                     }
                 }
             );
+            return smSecret;
+        }
+
+        private Secret AutoGenPasswordSecret(string secretName)
+        {
+            var smSecret = this.GeneratePasswordSecret(secretName);
             var secret = Secret.FromSecretsManager(smSecret);
             return secret;
         }
