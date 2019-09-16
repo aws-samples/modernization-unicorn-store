@@ -21,11 +21,12 @@ namespace InfraAsCode
         /// Loads configuration settings using standard .NET Core avenues:
         /// appsettings.json, command-line arguments and environment variables.
         /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private static UnicornStoreFargateStackProps LoadConfiguration(string[] args)
+        /// <param name="cmdLineArgs"></param>
+        /// <returns><see cref="IConfiguration"/> deserialized into <see cref="UnicornStoreFargateStackProps"/></returns>
+        private static UnicornStoreFargateStackProps LoadConfiguration(string[] cmdLineArgs)
         {
-            IConfiguration configuration = InitConfiguration(args);
+            IConfiguration configuration = InitConfiguration(cmdLineArgs);
+
             UnicornStoreFargateStackProps settings = new UnicornStoreFargateStackProps();
             configuration.Bind(settings);
 
@@ -46,20 +47,33 @@ namespace InfraAsCode
                 settings.Tags["Scope"] = settings.ScopeName;
         }
 
-        private static IConfiguration InitConfiguration(string[] args)
+        /// <summary>
+        /// Integrates configuration settings from appsettings.json, command line args,
+        /// environment variables, and .NET "secret" manager (in Development mode only).
+        /// </summary>
+        /// <param name="cmdLineArgs"></param>
+        /// <returns></returns>
+        private static IConfiguration InitConfiguration(string[] cmdLineArgs)
         {
-            string envName;
+            bool isDevEnv; 
 #if Debug || DEBUG
-            envName = "Development";
+            isDevEnv = true;
 #else
-            envName = "Production";
+            isDevEnv = false;
 #endif
+            string envName = isDevEnv ? "Development" : "Production";
 
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", optional: true)
                     .AddJsonFile($"appsettings.{envName}.json", optional: true);
-            builder.AddCommandLine(args);
+            builder.AddCommandLine(cmdLineArgs);
             builder.AddEnvironmentVariables();
+            if (isDevEnv)
+            {
+                // To enable "Manage User Secrets" project menu item, add dependency on the 
+                // "Microsoft.Extensions.Configuration.UserSecrets" NuGet package first.
+                builder.AddUserSecrets(typeof(Program).Assembly, optional: true);
+            }
             return builder.Build();
         }
     }

@@ -3,6 +3,7 @@ using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.ECR;
 using Amazon.CDK.AWS.ECS;
 using Amazon.CDK.AWS.ECS.Patterns;
+using Amazon.CDK.AWS.RDS;
 using System.Collections.Generic;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 
@@ -12,9 +13,22 @@ namespace InfraAsCode
     {
         public UnicornStoreFargateStack(Construct parent, string id, UnicornStoreFargateStackProps stackProps) : base(parent, id, stackProps)
         {
-            // TODO: Add database creation
+            var siteAdminPasswordSecret = this.AutoGenPasswordSecret($"{stackProps.ScopeName}DefaultSiteAdminPassword");
 
             var vpc = new Vpc(this, $"{stackProps.ScopeName}VPC", new VpcProps { MaxAzs = stackProps.MaxAzs });
+
+            var database = new DatabaseInstance(this, $"{stackProps.ScopeName}Database",
+                new DatabaseInstanceProps
+                {
+                    Engine = DatabaseInstanceEngine.SQL_SERVER_EX,
+                    InstanceClass = InstanceType.Of(InstanceClass.BURSTABLE2, InstanceSize.SMALL),
+                    MasterUsername = stackProps.DbUsername,
+                    Vpc = vpc,
+                    InstanceIdentifier = $"{stackProps.ScopeName}Database",
+                    DeletionProtection = stackProps.DotNetEnvironment != "Development",
+                    //DatabaseName = $"{stackProps.ScopeName}", // Can't be specified, at least not for SQL Server
+                }
+            );
 
             var cluster = new Cluster(this, $"{stackProps.ScopeName}{stackProps.Infrastructure}Cluster",
                 new ClusterProps {
@@ -26,7 +40,7 @@ namespace InfraAsCode
             // TODO: replace existing ECR with one created by the Stack
             var imageRepository = Repository.FromRepositoryName(this, "ExistingEcrRepository", stackProps.DockerImageRepository);
 
-            new ApplicationLoadBalancedFargateService(this, $"{stackProps.ScopeName}FargateService",
+            var secService = new ApplicationLoadBalancedFargateService(this, $"{stackProps.ScopeName}FargateService",
                 new ApplicationLoadBalancedFargateServiceProps
                 {
                     Cluster = cluster,
@@ -37,33 +51,36 @@ namespace InfraAsCode
                     PublicLoadBalancer = stackProps.PublicLoadBalancer,
                     Environment = new Dictionary<string, string>()
                     {
-                        { "ASPNETCORE_ENVIRONMENT", stackProps.DotNetEnvironment ?? "Production" }
+                        { "ASPNETCORE_ENVIRONMENT", stackProps.DotNetEnvironment ?? "Production" },
+                        { "DefaultAdminUsername", stackProps.DefaultSiteAdminUsername },
+                        { "UnicornDbConnectionStringBuilder__DataSource", database.DbInstanceEndpointAddress }, // <- TODO: SQL Server specific, needs to be made parameter-driven
+                        { "UnicornDbConnectionStringBuilder__UserId", stackProps.DbUsername }, // <- TODO: SQL Server specific, needs to be made parameter-driven
+                        { "DefaultAdminPassword", "bad-idea!" } // <- TODO: Remove this temporary solution after the "Parameter Mismatch" issue is resolved for auto-generated password secret
                     },
                     Secrets = new Dictionary<string, Secret>()
                     {
-                        // TODO: replace references to these pre-existing secrets with secrets created by the Stack.
-                        { "DefaultAdminUsername", this.SecretFromName("UnicornAppDefaultAdminUsername", "YUbKXL") },
-                        { "DefaultAdminPassword", this.SecretFromName("UnicornAppDefaultAdminPassword", "eo2RzV") },
-                        { "UnicornDbConnectionStringBuilder__DataSource", this.SecretFromName("UnicornAppSqlDbServer", "WWUrRw") },
-                        { "UnicornDbConnectionStringBuilder__UserId", this.SecretFromName("UnicornAppSqlDbUsername", "6fAdXo") },
-                        { "UnicornDbConnectionStringBuilder__Password", this.SecretFromName("UnicornAppSqlDbPassword", "Gw8ND5") }
+                        //{ "DefaultAdminPassword", siteAdminPasswordSecret }, // TODO: Figure out why this produces "Parameter Mismatch" error
+                        { "UnicornDbConnectionStringBuilder__Password", Secret.FromSecretsManager(database.Secret) } // <- TODO: SQL Server specific, needs to be made parameter-driven
                     }
                 }
             );
+            
+
+            database.Connections.AllowDefaultPortFrom(secService.Service.Connections.SecurityGroups[0]);
         }
 
-        private Secret SecretFromName(string secretName, string existingSecretRandom6)
+        private Secret AutoGenPasswordSecret(string secretName)
         {
-            var arnComponents = new ArnComponents
-            {
-                Service = "secretsmanager",
-                Resource = "secret",
-                ResourceName = $"{secretName}-{existingSecretRandom6}",
-                Sep = ":"
-            };
-            string secretArn = Arn.Format(arnComponents, this);
-
-            var smSecret = SecMan.Secret.FromSecretArn(this, secretName, secretArn);
+            var smSecret = new SecMan.Secret(this, secretName,
+                new SecMan.SecretProps
+                {
+                    SecretName = secretName,
+                    GenerateSecretString = new SecMan.SecretStringGenerator
+                    {
+                        PasswordLength = 8,
+                    }
+                }
+            );
             var secret = Secret.FromSecretsManager(smSecret);
             return secret;
         }

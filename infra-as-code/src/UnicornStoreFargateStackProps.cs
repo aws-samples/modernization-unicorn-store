@@ -54,9 +54,13 @@ namespace InfraAsCode
         /// </summary>
         public int MemoryMiB { get; set; } = 512;
 
-        public bool PublicLoadBalancer { get; internal set; } = false;
+        public bool PublicLoadBalancer { get; set; } = false;
 
         public string DotNetEnvironment { get; set; } = "Production";
+
+        public string DbUsername { get; set; } = "admin";
+
+        public string DefaultSiteAdminUsername { get; set; }
 
         public UnicornStoreFargateStackProps()
         {
