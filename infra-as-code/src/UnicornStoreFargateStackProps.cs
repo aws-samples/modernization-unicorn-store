@@ -71,7 +71,7 @@ namespace InfraAsCode
         /// </summary>
         public int CpuMillicores { get; set; } = 256;
 
-        public int DesiredReplicaCount { get; set; } = 1;
+        public int DesiredComputeReplicaCount { get; set; } = 1;
 
         /// <summary>
         /// Please note that CPU and Memory values are interdependent and not arbitrary.
@@ -89,7 +89,7 @@ namespace InfraAsCode
 
         public InstanceClass DatabaseInstanceClass { get; set; } = InstanceClass.BURSTABLE2;
 
-        public InstanceSize DatabaseInstanceSize { get; set; } = InstanceSize.XLARGE;
+        public InstanceSize DatabaseInstanceSize { get; set; } = InstanceSize.LARGE;
 
         public DbEngineType DbEngine { get; set; } = DbEngineType.SQLSERVER;
 
@@ -98,6 +98,10 @@ namespace InfraAsCode
         public RdsType RdsKind { get; set; } = RdsType.AuroraServerless;
 
         public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
+
+        public string AuroraPostgresParamGroupName { get; set; } = "default.aurora-postgresql10";
+
+        public string AuroraMySqlParamGroupName { get; set; } = "default.aurora-mysql5.7";
 
         internal DatabaseClusterEngine DbClusterEgnine
         {
@@ -166,6 +170,21 @@ namespace InfraAsCode
         }
 
         internal string DBConnStrBuilderPasswordPropName => "Password";
+
+        internal string ExistingAuroraDbParameterGroupName
+        {
+            get
+            {
+                switch(this.DbEngine)
+                {
+                    case DbEngineType.MYSQL:
+                        return this.AuroraMySqlParamGroupName;
+                    case DbEngineType.POSTGRES:
+                        return this.AuroraPostgresParamGroupName;
+                }
+                throw new NotImplementedException($"No known Aurora Parameter Group Name for \"{this.DbEngine}\"");
+            }
+        }
 
         public UnicornStoreFargateStackProps()
         {

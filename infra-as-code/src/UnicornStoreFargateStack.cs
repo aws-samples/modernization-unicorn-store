@@ -36,7 +36,7 @@ namespace InfraAsCode
                 new ApplicationLoadBalancedFargateServiceProps
                 {
                     Cluster = ecsCluster,
-                    DesiredCount = settings.DesiredReplicaCount,
+                    DesiredCount = settings.DesiredComputeReplicaCount,
                     Cpu = settings.CpuMillicores,
                     MemoryLimitMiB = settings.MemoryMiB,
                     Image = ContainerImage.FromEcrRepository(imageRepository, settings.ImageTag),
@@ -47,6 +47,7 @@ namespace InfraAsCode
                         { "DefaultAdminUsername", settings.DefaultSiteAdminUsername },
                         { $"UnicornDbConnectionStringBuilder__{settings.DbConnStrBuilderServerPropName}",
                             database.EndpointAddress },
+                        { $"UnicornDbConnectionStringBuilder__Port", database.Port },
                         { $"UnicornDbConnectionStringBuilder__{settings.DBConnStrBuilderUserPropName}",
                             settings.DbUsername }, 
                     },
@@ -81,12 +82,9 @@ namespace InfraAsCode
                 {
                     Engine = settings.DbClusterEgnine,
                     ClusterIdentifier = $"{settings.ScopeName}-Database-{settings.DbEngine}",
-                    
-                    //ParameterGroup = new ParameterGroup(this, $"{settings.ScopeName}ParamGroup",
-                    //    new ParameterGroupProps
-                    //    {
-                    //        Family = "aurora-mysql5.7"
-                    //    }),
+                    ParameterGroup = ClusterParameterGroup.FromParameterGroupName(
+                        this, $"{settings.ScopeName}DbParamGroup", settings.ExistingAuroraDbParameterGroupName
+                    ),
                     MasterUser = new Login
                     {
                         Username = settings.DbUsername,
@@ -105,10 +103,13 @@ namespace InfraAsCode
                 }
             );
 
+            string clusterPort = database.ClusterEndpoint.SocketAddress.Split(':')[1]; // Bad - port placeholder is not available otherwise
+
             return new DatabaseConstructInfo
             {
                 Connections = database.Connections,
-                EndpointAddress = database.ClusterEndpoint.Hostname
+                EndpointAddress = database.ClusterEndpoint.Hostname,
+                Port = clusterPort
             };
         }
 
@@ -119,15 +120,14 @@ namespace InfraAsCode
                 {
                     InstanceClass = InstanceType.Of(settings.DatabaseInstanceClass, settings.DatabaseInstanceSize),
                     Vpc = vpc,
-                    DeletionProtection = settings.DotNetEnvironment != "Development",
                     VpcPlacement = new SubnetSelection
                     {
                         SubnetType = settings.DbSubnetType
                     },
 
+                    DeletionProtection = settings.DotNetEnvironment != "Development",
                     InstanceIdentifier = $"{settings.ScopeName}-Database-{settings.DbEngine}",
                     Engine = settings.DbInstanceEgnine,
-                    //DatabaseName = $"{stackProps.ScopeName}", // Can't be specified, at least not for SQL Server
                     MasterUsername = settings.DbUsername,
                     MasterUserPassword = databasePasswordSecret.SecretValue,
                 }
@@ -135,8 +135,9 @@ namespace InfraAsCode
 
             return new DatabaseConstructInfo
             {
-                EndpointAddress = database.DbInstanceEndpointAddress,
-                Connections = database.Connections
+                EndpointAddress = database.InstanceEndpoint.Hostname,
+                Connections = database.Connections,
+                Port = database.DbInstanceEndpointPort
             };
         }
     }
