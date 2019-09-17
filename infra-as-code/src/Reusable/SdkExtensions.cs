@@ -24,6 +24,7 @@ namespace InfraAsCode.Reusable
                 SecretName = secretName,
                 GenerateSecretString = new SecMan.SecretStringGenerator
                 {
+                    ExcludeCharacters = "/@\" ",
                     PasswordLength = passwordLength,
                 }
             };

@@ -4,6 +4,47 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
 	  <UserSecretsId>30986389-130c-49cc-bbe4-45cca9dec756</UserSecretsId>
+	  <Configurations>Debug;Release;DebugSQL;DebugMySQL;DebugPostgres;ReleaseMySQL;ReleasePostgres;ReleaseSQL</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMySQL|AnyCPU'">
+    <DefineConstants>TRACE;MYSQL;DEBUG</DefineConstants>
+    <OutputPath>bin/local/Debug</OutputPath>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
+    <DefineConstants>TRACE;POSTGRES;DEBUG</DefineConstants>
+    <OutputPath>bin/local/Debug</OutputPath>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleasePostgres|AnyCPU'">
+    <DefineConstants>TRACE;POSTGRES</DefineConstants>
+    <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMySQL|AnyCPU'">
+    <DefineConstants>TRACE;MYSQL</DefineConstants>
+    <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseSQL|AnyCPU'">
+    <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSQL|AnyCPU'">
+    <OutputPath>bin/local/Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

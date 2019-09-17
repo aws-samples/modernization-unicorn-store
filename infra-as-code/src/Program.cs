@@ -45,6 +45,14 @@ namespace InfraAsCode
 
             if (!settings.Tags.TryGetValue("Scope", out string scope) || string.IsNullOrWhiteSpace(scope))
                 settings.Tags["Scope"] = settings.ScopeName;
+
+#if MYSQL
+            settings.DbEngine = UnicornStoreFargateStackProps.DbEngineType.MYSQL;
+#elif POSTGRES
+            settings.DbEngine = UnicornStoreFargateStackProps.DbEngineType.POSTGRES;
+#else
+            settings.DbEngine = UnicornStoreFargateStackProps.DbEngineType.SQLSERVER;
+#endif
         }
 
         /// <summary>

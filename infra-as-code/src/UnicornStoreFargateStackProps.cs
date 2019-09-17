@@ -1,5 +1,7 @@
 ﻿using Amazon.CDK;
 using Amazon.CDK.AWS.EC2;
+using Amazon.CDK.AWS.RDS;
+using System;
 using System.Collections.Generic;
 
 namespace InfraAsCode
@@ -15,6 +17,28 @@ namespace InfraAsCode
         {
             EscFargate,
             //EKS
+        }
+
+        public enum DbEngineType
+        {
+            MYSQL,
+            POSTGRES,
+            SQLSERVER
+        }
+
+        public enum SqlServerEditionType
+        {
+            Express,
+            Web,
+            Standard,
+            Enterprise
+        }
+
+        public enum RdsType
+        {
+            RegularRds,
+            Aurora,
+            AuroraServerless
         }
 
         public static string DefaultScopeName = "UnicornStore";
@@ -35,7 +59,7 @@ namespace InfraAsCode
         /// <summary>
         /// ECR/Docker image label
         /// </summary>
-        public string ImageTag { get; set; } = "mysql";
+        public string ImageTag => this.DbEngine.ToString().ToLowerInvariant();
 
         public string ImageWithTag => $"{this.DockerImageRepository}:{this.ImageTag}";
 
@@ -59,13 +83,89 @@ namespace InfraAsCode
 
         public string DotNetEnvironment { get; set; } = "Production";
 
-        public string DbUsername { get; set; } = "admin";
+        public string DbUsername { get; set; } = "dbadmin";
 
         public string DefaultSiteAdminUsername { get; set; }
 
         public InstanceClass DatabaseInstanceClass { get; set; } = InstanceClass.BURSTABLE2;
 
         public InstanceSize DatabaseInstanceSize { get; set; } = InstanceSize.XLARGE;
+
+        public DbEngineType DbEngine { get; set; } = DbEngineType.SQLSERVER;
+
+        public SqlServerEditionType SqlServerEdition { get; set; } = SqlServerEditionType.Web;
+
+        public RdsType RdsKind { get; set; } = RdsType.AuroraServerless;
+
+        public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
+
+        internal DatabaseClusterEngine DbClusterEgnine
+        {
+            get
+            {
+                switch (this.DbEngine)
+                {
+                    case DbEngineType.POSTGRES:
+                        return this.RdsKind == RdsType.RegularRds ? this.DbInstanceEgnine : DatabaseClusterEngine.AURORA_POSTGRESQL;
+                    case DbEngineType.MYSQL:
+                        return this.RdsKind == RdsType.RegularRds ? this.DbInstanceEgnine : DatabaseClusterEngine.AURORA_MYSQL;
+                    default:
+                        return this.DbInstanceEgnine;
+                }
+            }
+        }
+
+        internal DatabaseInstanceEngine DbInstanceEgnine
+        {
+            get
+            {
+                switch (this.DbEngine)
+                {
+                    case DbEngineType.SQLSERVER:
+                        switch (this.SqlServerEdition)
+                        {
+                            case SqlServerEditionType.Enterprise:
+                                return DatabaseInstanceEngine.SQL_SERVER_EE;
+                            case SqlServerEditionType.Express:
+                                return DatabaseInstanceEngine.SQL_SERVER_EX;
+                            case SqlServerEditionType.Standard:
+                                return DatabaseInstanceEngine.SQL_SERVER_SE;
+                            case SqlServerEditionType.Web:
+                                return DatabaseInstanceEngine.SQL_SERVER_WEB;
+                            default:
+                                throw new NotImplementedException($"Unsupported SQL Server edition \"{this.SqlServerEdition}\"");
+                        }
+                    case DbEngineType.POSTGRES:
+                        return DatabaseInstanceEngine.POSTGRES;
+                    case DbEngineType.MYSQL:
+                        return DatabaseInstanceEngine.MYSQL;
+                    default:
+                        throw new NotImplementedException($"Database Engine \"{this.DbEngine}\" is not supported.");
+                }
+            }
+        }
+
+        internal string DbConnStrBuilderServerPropName =>
+            this.DbEngine == DbEngineType.SQLSERVER ? "DataSource" : "Server";
+
+        internal string DBConnStrBuilderUserPropName
+        {
+            get
+            {
+                switch(this.DbEngine)
+                {
+                    case DbEngineType.SQLSERVER:
+                        return "UserId";
+                    case DbEngineType.POSTGRES:
+                        return "Username";
+                    case DbEngineType.MYSQL:
+                        return "UserID";
+                }
+                throw new NotImplementedException($"DbEngine \"{this.DbEngine}\" is not supported.");
+            }
+        }
+
+        internal string DBConnStrBuilderPasswordPropName => "Password";
 
         public UnicornStoreFargateStackProps()
         {
