@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Amazon.CDK.AWS.ECS;
-using System.Collections.Generic;
+﻿using Amazon.CDK.AWS.ECS;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 using Amazon.CDK;
 

@@ -1,6 +1,7 @@
 ﻿using Amazon.CDK;
 using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.RDS;
+using InfraAsCode.Reusable;
 using System;
 using System.Collections.Generic;
 
@@ -87,9 +88,9 @@ namespace InfraAsCode
 
         public string DefaultSiteAdminUsername { get; set; }
 
-        public InstanceClass DatabaseInstanceClass { get; set; } = InstanceClass.BURSTABLE2;
+        public InstanceClass? DatabaseInstanceClass { get; set; }
 
-        public InstanceSize DatabaseInstanceSize { get; set; } = InstanceSize.LARGE;
+        public InstanceSize? DatabaseInstanceSize { get; set; }
 
         public DbEngineType DbEngine { get; set; } = DbEngineType.SQLSERVER;
 
@@ -99,97 +100,25 @@ namespace InfraAsCode
 
         public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
 
-        public string AuroraPostgresParamGroupName { get; set; } = "default.aurora-postgresql10";
-
-        public string AuroraMySqlParamGroupName { get; set; } = "default.aurora-mysql5.7";
-
-        internal DatabaseClusterEngine DbClusterEgnine
-        {
-            get
-            {
-                switch (this.DbEngine)
-                {
-                    case DbEngineType.POSTGRES:
-                        return this.RdsKind == RdsType.RegularRds ? this.DbInstanceEgnine : DatabaseClusterEngine.AURORA_POSTGRESQL;
-                    case DbEngineType.MYSQL:
-                        return this.RdsKind == RdsType.RegularRds ? this.DbInstanceEgnine : DatabaseClusterEngine.AURORA_MYSQL;
-                    default:
-                        return this.DbInstanceEgnine;
-                }
-            }
-        }
-
-        internal DatabaseInstanceEngine DbInstanceEgnine
-        {
-            get
-            {
-                switch (this.DbEngine)
-                {
-                    case DbEngineType.SQLSERVER:
-                        switch (this.SqlServerEdition)
-                        {
-                            case SqlServerEditionType.Enterprise:
-                                return DatabaseInstanceEngine.SQL_SERVER_EE;
-                            case SqlServerEditionType.Express:
-                                return DatabaseInstanceEngine.SQL_SERVER_EX;
-                            case SqlServerEditionType.Standard:
-                                return DatabaseInstanceEngine.SQL_SERVER_SE;
-                            case SqlServerEditionType.Web:
-                                return DatabaseInstanceEngine.SQL_SERVER_WEB;
-                            default:
-                                throw new NotImplementedException($"Unsupported SQL Server edition \"{this.SqlServerEdition}\"");
-                        }
-                    case DbEngineType.POSTGRES:
-                        return DatabaseInstanceEngine.POSTGRES;
-                    case DbEngineType.MYSQL:
-                        return DatabaseInstanceEngine.MYSQL;
-                    default:
-                        throw new NotImplementedException($"Database Engine \"{this.DbEngine}\" is not supported.");
-                }
-            }
-        }
-
-        internal string DbConnStrBuilderServerPropName =>
-            this.DbEngine == DbEngineType.SQLSERVER ? "DataSource" : "Server";
-
-        internal string DBConnStrBuilderUserPropName
-        {
-            get
-            {
-                switch(this.DbEngine)
-                {
-                    case DbEngineType.SQLSERVER:
-                        return "UserId";
-                    case DbEngineType.POSTGRES:
-                        return "Username";
-                    case DbEngineType.MYSQL:
-                        return "UserID";
-                }
-                throw new NotImplementedException($"DbEngine \"{this.DbEngine}\" is not supported.");
-            }
-        }
-
-        internal string DBConnStrBuilderPasswordPropName => "Password";
-
-        internal string ExistingAuroraDbParameterGroupName
-        {
-            get
-            {
-                switch(this.DbEngine)
-                {
-                    case DbEngineType.MYSQL:
-                        return this.AuroraMySqlParamGroupName;
-                    case DbEngineType.POSTGRES:
-                        return this.AuroraPostgresParamGroupName;
-                }
-                throw new NotImplementedException($"No known Aurora Parameter Group Name for \"{this.DbEngine}\"");
-            }
-        }
-
         public UnicornStoreFargateStackProps()
         {
             if (this.Tags == null)
                 this.Tags = new Dictionary<string, string>();
+        }
+
+        internal DatabaseConstructFactory CreateDbConstructFactory()
+        {
+            switch(this.DbEngine)
+            {
+                case DbEngineType.MYSQL:
+                    return new MySqlConstructFactory(this);
+                case DbEngineType.POSTGRES:
+                    return new PostgresConstructFactory(this);
+                case DbEngineType.SQLSERVER:
+                    return new SqlServerConstructFactory(this);
+            }
+
+            throw new NotImplementedException($"Database engine \"{this.DbEngine}\" is not supported");
         }
     }
 }
