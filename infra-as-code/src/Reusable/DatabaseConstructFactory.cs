@@ -59,7 +59,7 @@ namespace InfraAsCode.Reusable
                 new DatabaseClusterProps
                 {
                     Engine = this.DbClusterEgnine,
-                    ClusterIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
+                    ClusterIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}-Cluster",
                     ParameterGroup = ClusterParameterGroup.FromParameterGroupName(
                         parent, $"{this.Settings.ScopeName}DbParamGroup", this.ExistingAuroraDbParameterGroupName
                     ),
