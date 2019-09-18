@@ -63,6 +63,7 @@ namespace InfraAsCode.Reusable
                     ParameterGroup = ClusterParameterGroup.FromParameterGroupName(
                         parent, $"{this.Settings.ScopeName}DbParamGroup", this.ExistingAuroraDbParameterGroupName
                     ),
+                    RemovalPolicy = RemovalPolicy.DESTROY,
                     MasterUser = new Login
                     {
                         Username = this.Settings.DbUsername,
@@ -75,8 +76,7 @@ namespace InfraAsCode.Reusable
                         VpcSubnets = new SubnetSelection
                         {
                             SubnetType = this.Settings.DbSubnetType
-                        },
-
+                        }
                     }
                 }
             );
@@ -108,6 +108,7 @@ namespace InfraAsCode.Reusable
                     Engine = this.DbInstanceEgnine,
                     MasterUsername = this.Settings.DbUsername,
                     MasterUserPassword = databasePasswordSecret.SecretValue,
+                    RemovalPolicy = RemovalPolicy.DESTROY
                 }
             );
 
