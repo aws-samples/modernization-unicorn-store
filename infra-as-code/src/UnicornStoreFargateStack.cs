@@ -35,7 +35,7 @@ namespace InfraAsCode
             // TODO: replace existing ECR with one created by the Stack
             var imageRepository = Repository.FromRepositoryName(this, "ExistingEcrRepository", settings.DockerImageRepository);
 
-            var secService = new ApplicationLoadBalancedFargateService(this, $"{settings.ScopeName}FargateService",
+            var ecsService = new ApplicationLoadBalancedFargateService(this, $"{settings.ScopeName}FargateService",
                 new ApplicationLoadBalancedFargateServiceProps
                 {
                     Cluster = ecsCluster,
@@ -64,7 +64,7 @@ namespace InfraAsCode
             );
 
             // Update RDS Security Group to allow inbound database connections from the Fargate Service Security Group
-            database.Connections.AllowDefaultPortFrom(secService.Service.Connections.SecurityGroups[0]);
+            database.Connections.AllowDefaultPortFrom(ecsService.Service.Connections.SecurityGroups[0]);
         }
     }
 }
