@@ -25,7 +25,7 @@ namespace UnicornStore.Configuration
         {
             get
             {
-                if (!this.dbConnectionStringBuilder.TryGetValue("DataSource", out object server))
+                if (!this.dbConnectionStringBuilder.TryGetValue("Data Source", out object server))
                     server = this.dbConnectionStringBuilder["Server"];
                 return server.ToString();
             }
