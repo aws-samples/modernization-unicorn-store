@@ -61,7 +61,7 @@
             @if (env.IsDevelopment())
             {
                 <br />
-                <small>Database connection: @dbConfigurator.DisplayConnectionString</small>
+                <small>@dbConfigurator.DbEngine database server address: @dbConfigurator.ServerAddress</small>
             }
         </footer>
     </div>

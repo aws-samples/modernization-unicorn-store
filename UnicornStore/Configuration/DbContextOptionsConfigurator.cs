@@ -60,5 +60,10 @@ namespace UnicornStore.Configuration
                 return string.Join(";", pairs);
             }
         }
+
+        public virtual string ServerAddress => 
+            $"{this.dbConnectionStringBuilder["Server"]}:{this.dbConnectionStringBuilder["Port"]}";
+
+        public abstract string DbEngine { get; }
     }
 }

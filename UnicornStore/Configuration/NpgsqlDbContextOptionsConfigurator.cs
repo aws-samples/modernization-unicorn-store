@@ -20,5 +20,10 @@ namespace UnicornStore.Configuration
 
             optionsBuilder.UseNpgsql(this.dbConnectionStringBuilder.ConnectionString);
         }
+
+        public override string ServerAddress =>
+            $"{this.dbConnectionStringBuilder["Host"]}:{this.dbConnectionStringBuilder["Port"]}";
+
+        public override string DbEngine => "PostgreSQL";
     }
 }

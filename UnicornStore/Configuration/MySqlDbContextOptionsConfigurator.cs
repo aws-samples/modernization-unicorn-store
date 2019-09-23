@@ -13,6 +13,7 @@ namespace UnicornStore.Configuration
         {
         }
 
+        public override string DbEngine => "MySQL";
 
         internal override void Configure(DbContextOptionsBuilder optionsBuilder)
         {

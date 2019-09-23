@@ -20,5 +20,17 @@ namespace UnicornStore.Configuration
 
             optionsBuilder.UseSqlServer(this.dbConnectionStringBuilder.ConnectionString);
         }
+
+        public override string ServerAddress
+        {
+            get
+            {
+                if (!this.dbConnectionStringBuilder.TryGetValue("DataSource", out object server))
+                    server = this.dbConnectionStringBuilder["Server"];
+                return server.ToString();
+            }
+        }
+
+        public override string DbEngine => "MS SQL Server";
     }
 }

@@ -103,15 +103,6 @@ namespace UnicornStore
 #endif
         }
 
-        private void HookupSqlServer(IServiceCollection services)
-        {
-#if Debug || DEBUG
-            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
-#warning Using MS SQL Server for a database
-#endif
-            this.HookupDatabase<SqlConnectionStringBuilder, SqlDbContextOptionsConfigurator>(services, "SqlServer");
-        }
-
 #if MYSQL
         private void HookupMySQL(IServiceCollection services)
         {
@@ -121,9 +112,8 @@ namespace UnicornStore
 #endif
             this.HookupDatabase<MySqlConnectionStringBuilder, MySqlDbContextOptionsConfigurator>(services, "MySQL");
         }
-#endif
 
-#if POSTGRES
+#elif POSTGRES
         private void HookupPostgres(IServiceCollection services)
         {
 #if Debug || DEBUG
@@ -131,6 +121,16 @@ namespace UnicornStore
 #warning Using PostgreSQL for a database
 #endif
             this.HookupDatabase<NpgsqlConnectionStringBuilder, NpgsqlDbContextOptionsConfigurator>(services, "Postgres");
+        }
+#else
+
+        private void HookupSqlServer(IServiceCollection services)
+        {
+#if Debug || DEBUG
+            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
+#warning Using MS SQL Server for a database
+#endif
+            this.HookupDatabase<SqlConnectionStringBuilder, SqlDbContextOptionsConfigurator>(services, "SqlServer");
         }
 #endif
 

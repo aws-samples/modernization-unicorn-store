@@ -16,11 +16,11 @@ namespace UnicornStore.Configuration
             return defaultConnectionStringBuilder;
         }
 
-        internal static void MergeDbConnectionStringBuilders(this DbConnectionStringBuilder overrideConnectionInfo, DbConnectionStringBuilder defaultConnectionStringBuilder)
+        internal static void MergeDbConnectionStringBuilders(this DbConnectionStringBuilder sourceConnectionInfo, DbConnectionStringBuilder destinationConnectionStringBuilder)
         {
-            foreach (string csParam in overrideConnectionInfo.Keys)
+            foreach (string csParam in sourceConnectionInfo.Keys)
             {
-                object csPartValue = overrideConnectionInfo[csParam];
+                object csPartValue = sourceConnectionInfo[csParam];
 
                 if (csPartValue == null)
                     continue;
@@ -28,7 +28,7 @@ namespace UnicornStore.Configuration
                 string csPartValueString = csPartValue as string;
 
                 if (csPartValueString == null || csPartValueString != string.Empty)
-                    defaultConnectionStringBuilder[csParam] = csPartValue;
+                    destinationConnectionStringBuilder[csParam] = csPartValue;
             }
         }
     }
