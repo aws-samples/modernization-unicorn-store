@@ -22,6 +22,7 @@ using Npgsql;
 using System.Data.SqlClient;
 using UnicornStore.Configuration;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace UnicornStore
 {
@@ -73,6 +74,9 @@ namespace UnicornStore
             // Add memory cache services
             services.AddMemoryCache();
             services.AddDistributedMemoryCache();
+
+            services.AddDataProtection()
+                .PersistKeysToDbContext<UnicornStoreContext>(); // Not very efficient, consider using Redis for this.
 
             // Add session related services.
             services.AddSession();
