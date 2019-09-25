@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,8 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\lambda\ecs-container-recycle\index.js" />
+    <None Remove="assets\lambda\index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\lambda\ecs-container-recycle\index.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Amazon.CDK" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.9.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.9.0-devpreview" />
