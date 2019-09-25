@@ -1,7 +1,7 @@
 ﻿using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.RDS;
 
-namespace InfraAsCode.Reusable
+namespace ProdEnvInfraAsCode.Reusable
 {
     public class PostgresConstructFactory : DatabaseConstructFactory
     {

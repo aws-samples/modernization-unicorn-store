@@ -1,8 +1,8 @@
 ﻿using Amazon.CDK.AWS.RDS;
 using System;
-using static InfraAsCode.UnicornStoreFargateStackProps;
+using static ProdEnvInfraAsCode.UnicornStoreFargateStackProps;
 
-namespace InfraAsCode.Reusable
+namespace ProdEnvInfraAsCode.Reusable
 {
     public class SqlServerConstructFactory : DatabaseConstructFactory
     {

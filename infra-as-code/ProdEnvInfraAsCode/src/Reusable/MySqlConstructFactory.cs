@@ -1,6 +1,6 @@
 ﻿using Amazon.CDK.AWS.RDS;
 
-namespace InfraAsCode.Reusable
+namespace ProdEnvInfraAsCode.Reusable
 {
     public class MySqlConstructFactory : DatabaseConstructFactory
     {

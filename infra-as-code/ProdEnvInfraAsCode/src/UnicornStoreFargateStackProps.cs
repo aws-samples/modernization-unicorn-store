@@ -1,11 +1,11 @@
 ﻿using Amazon.CDK;
 using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.RDS;
-using InfraAsCode.Reusable;
+using ProdEnvInfraAsCode.Reusable;
 using System;
 using System.Collections.Generic;
 
-namespace InfraAsCode
+namespace ProdEnvInfraAsCode
 {
     /// <summary>
     /// Combines implementation of the IStackProps containing 

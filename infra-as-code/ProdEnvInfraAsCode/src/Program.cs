@@ -3,7 +3,7 @@ using Amazon.CDK;
 using Amazon.CDK.CXAPI;
 using System;
 
-namespace InfraAsCode
+namespace ProdEnvInfraAsCode
 {
     class Program
     {

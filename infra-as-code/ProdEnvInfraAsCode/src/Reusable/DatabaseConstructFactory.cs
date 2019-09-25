@@ -2,11 +2,11 @@
 using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.RDS;
 using System;
-using static InfraAsCode.UnicornStoreFargateStackProps;
+using static ProdEnvInfraAsCode.UnicornStoreFargateStackProps;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 
 
-namespace InfraAsCode.Reusable
+namespace ProdEnvInfraAsCode.Reusable
 {
     public abstract class DatabaseConstructFactory
     {

@@ -1,6 +1,6 @@
 ﻿using Amazon.CDK.AWS.EC2;
 
-namespace InfraAsCode.Reusable
+namespace ProdEnvInfraAsCode.Reusable
 {
     public class DatabaseConstructInfo
     {

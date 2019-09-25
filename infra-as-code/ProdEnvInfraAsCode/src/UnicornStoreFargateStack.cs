@@ -5,9 +5,9 @@ using Amazon.CDK.AWS.ECS;
 using Amazon.CDK.AWS.ECS.Patterns;
 using System.Collections.Generic;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
-using InfraAsCode.Reusable;
+using ProdEnvInfraAsCode.Reusable;
 
-namespace InfraAsCode
+namespace ProdEnvInfraAsCode
 {
     public class UnicornStoreFargateStack : Stack
     {

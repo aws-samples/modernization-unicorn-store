@@ -2,7 +2,7 @@
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 using Amazon.CDK;
 
-namespace InfraAsCode.Reusable
+namespace ProdEnvInfraAsCode.Reusable
 {
     public static class SdkExtensions
     {
