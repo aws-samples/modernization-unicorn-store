@@ -43,17 +43,16 @@ namespace CdkLib
         /// <typeparam name="T">Class defining application settings</typeparam>
         /// <param name="programClassType">Class containing Main() method</param>
         /// <param name="cmdLineArgs">Application command line arguments</param>
-        /// <param name="configInitializer">Optional configuration post-load initializer</param>
         /// <returns></returns>
-        public static T LoadConfiguration<T>(this Type programClassType, string[] cmdLineArgs, Action<T> configInitializer = null)
-            where T : new()
+        public static T LoadConfiguration<T>(this Type programClassType, string[] cmdLineArgs)
+            where T : BetterStackProps, new()
         {
             IConfiguration configuration = programClassType.InitConfiguration(cmdLineArgs);
 
             T settings = new T();
             configuration.Bind(settings);
-
-            configInitializer?.Invoke(settings);
+            settings.PostLoadUpdateInternal();
+            settings.PostLoadUpdate();
 
             return settings;
         }

@@ -1,8 +1,7 @@
-﻿using Amazon.CDK;
-using Amazon.CDK.AWS.EC2;
+﻿using Amazon.CDK.AWS.EC2;
+using CdkLib;
 using ProdEnvInfraAsCode.Reusable;
 using System;
-using System.Collections.Generic;
 
 namespace ProdEnvInfraAsCode
 {
@@ -11,8 +10,13 @@ namespace ProdEnvInfraAsCode
     /// required and optional stack configuration data,
     /// with custom stack configuration settings.
     /// </summary>
-    public class UnicornStoreDeploymentEnvStackProps : StackProps
+    public class UnicornStoreDeploymentEnvStackProps : BetterStackProps
     {
+        public UnicornStoreDeploymentEnvStackProps()
+            : base("UnicornStore")
+        {
+        }
+
         public enum InfrastructureType
         {
             EscFargate,
@@ -45,18 +49,21 @@ namespace ProdEnvInfraAsCode
             AuroraServerless
         }
 
-        public static string DefaultScopeName = "UnicornStore";
+        protected override void PostLoadUpdate()
+        {
+#if MYSQL
+            this.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.MySQL;
+#elif POSTGRES
+            this.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.Postgres;
+#else
+            this.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.SqlServer;
+#endif
+        }
 
         /// <summary>
         /// Target deployment infrastructure type
         /// </summary>
         public InfrastructureType Infrastructure { get; set; } = InfrastructureType.EscFargate;
-
-        /// <summary>
-        /// This is the string containing prefix for many different 
-        /// CDK Construct names/IDs. Default value is "UnicornStore".
-        /// </summary>
-        public string ScopeName { get; set; } = DefaultScopeName;
 
         public string DockerImageRepository { get; set; } = "modernization-unicorn-store";
 
@@ -102,12 +109,6 @@ namespace ProdEnvInfraAsCode
         public RdsType RdsKind { get; set; } = RdsType.AuroraServerless;
 
         public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
-
-        public UnicornStoreDeploymentEnvStackProps()
-        {
-            if (this.Tags == null)
-                this.Tags = new Dictionary<string, string>();
-        }
 
         internal DatabaseConstructFactory CreateDbConstructFactory()
         {

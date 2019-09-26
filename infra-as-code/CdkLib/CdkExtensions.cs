@@ -1,8 +1,10 @@
 ﻿using Amazon.CDK.AWS.ECS;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 using Amazon.CDK;
+using Amazon.CDK.AWS.IAM;
+using System.Linq;
 
-namespace ProdEnvInfraAsCode.Reusable
+namespace CdkLib
 {
     public static class CdkExtensions
     {
@@ -58,5 +60,8 @@ namespace ProdEnvInfraAsCode.Reusable
             // TODO: WrapSecretBug() part should be removed after "Parameter count mismatch" issue is resolved
             return parent.WrapSecretBug(Secret.FromSecretsManager(smSecret), secretName);
         }
+
+        public static PolicyStatement[] FromPolicyProps(params PolicyStatementProps[] propses) =>
+            propses.Where(props => props != null).Select(props => new PolicyStatement(props)).ToArray();
     }
 }

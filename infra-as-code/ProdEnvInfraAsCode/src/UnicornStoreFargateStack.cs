@@ -6,6 +6,7 @@ using Amazon.CDK.AWS.ECS.Patterns;
 using System.Collections.Generic;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 using ProdEnvInfraAsCode.Reusable;
+using CdkLib;
 
 namespace ProdEnvInfraAsCode
 {

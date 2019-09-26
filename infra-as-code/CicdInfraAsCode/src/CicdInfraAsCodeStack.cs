@@ -1,22 +1,34 @@
 using Amazon.CDK;
+using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.Lambda;
+using CdkLib;
 
 namespace CicdInfraAsCode
 {
     public class CicdInfraAsCodeStack : Stack
     {
-        public CicdInfraAsCodeStack(Construct parent, string id, IStackProps props) : base(parent, id, props)
+        public CicdInfraAsCodeStack(Construct parent, string id, IStackProps props) 
+            : base(parent, id, props)
         {
-            const string appRestartLambdaFolder = "assets/lambda/ecs-container-recycle";
-            //Code appRestartLambda = Code.FromAsset(appRestartLambdaFolder); // Use when running from Visual Studio
-            Code appRestartLambda = Code.FromAsset($"src/{appRestartLambdaFolder}"); // Use when running from command line
-
-            new Function(this, "HelloFunc",
+            new Function(this, "EcsAppRestartWithNewImage",
                 new FunctionProps
                 {
                     Runtime = Runtime.NODEJS_8_10,
-                    Code = appRestartLambda,
-                    Handler = "index.handler"
+                    Code = Code.FromAsset("assets/lambda/ecs-container-recycle"),
+                    Handler = "index.handler",
+                    
+                    InitialPolicy = CdkExtensions.FromPolicyProps(
+                        new PolicyStatementProps
+                        {   // Allow talking to CodePipeline
+                            Actions = new [] { "codepipeline:PutJobSuccessResult", "codepipeline:PutJobFailureResult" },
+                            Resources = new [] { "*" }
+                        },
+                        new PolicyStatementProps
+                        {   // Allow stopping ECS Tasks
+                            Actions = new[] { "ecs:ListTasks", "ecs:StopTask", "ecs:DescribeTasks" },
+                            Resources = new[] { "*" }
+                        }
+                    )
                 });
         }
     }

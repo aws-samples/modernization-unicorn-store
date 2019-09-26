@@ -1,4 +1,7 @@
 ﻿using Amazon.CDK;
+using Amazon.CDK.CXAPI;
+using CdkLib;
+using System;
 
 namespace CicdInfraAsCode
 {
@@ -6,9 +9,12 @@ namespace CicdInfraAsCode
     {
         static void Main(string[] args)
         {
+            var settings = typeof(Program).LoadConfiguration<UnicornStoreCiCdStackProps>(args);
+
             var app = new App(null);
-            new CicdInfraAsCodeStack(app, "CicdInfraAsCodeStack", new StackProps());
-            app.Synth();
+            new CicdInfraAsCodeStack(app, "CicdInfraAsCodeStack", settings);
+            CloudAssembly infra = app.Synth();
+            Console.WriteLine($"Synthesized to \"{infra.Directory}\".");
         }
     }
 }
