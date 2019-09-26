@@ -4,10 +4,10 @@
     <Description>Unicorn store application on ASP.NET Core</Description>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>45b651b1-da6a-44fb-af93-525b292efddb</UserSecretsId>
-    <Configurations>DebugSQL;ReleaseSQL;DebugPostgres;ReleasePostgres;DebugMySQL;ReleaseMySQL</Configurations>
+    <Configurations>DebugSqlServer;ReleaseSqlServer;DebugPostgres;ReleasePostgres;DebugMySQL;ReleaseMySQL</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSQL|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSqlServer|AnyCPU'">
 	<DefineConstants>DEBUG;TRACE</DefineConstants>
 	<Optimize>false</Optimize>
   </PropertyGroup>

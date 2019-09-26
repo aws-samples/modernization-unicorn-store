@@ -4,7 +4,7 @@ namespace ProdEnvInfraAsCode.Reusable
 {
     public class MySqlConstructFactory : DatabaseConstructFactory
     {
-        public MySqlConstructFactory(UnicornStoreProdEnvStackProps settings)
+        public MySqlConstructFactory(UnicornStoreDeploymentEnvStackProps settings)
             :base(settings)
         {
         }

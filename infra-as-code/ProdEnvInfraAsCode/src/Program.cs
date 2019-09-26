@@ -9,7 +9,7 @@ namespace ProdEnvInfraAsCode
     {
         static void Main(string[] args)
         {
-            var settings = typeof(Program).LoadConfiguration<UnicornStoreProdEnvStackProps>(args, InitSettingDefaults);
+            var settings = typeof(Program).LoadConfiguration<UnicornStoreDeploymentEnvStackProps>(args, InitSettingDefaults);
 
             var app = new App(null);
             new UnicornStoreFargateStack(app, "InfraAsCodeStack", settings);
@@ -17,10 +17,10 @@ namespace ProdEnvInfraAsCode
             Console.WriteLine($"Synthesized to \"{infra.Directory}\".");
         }
 
-        private static void InitSettingDefaults(UnicornStoreProdEnvStackProps settings)
+        private static void InitSettingDefaults(UnicornStoreDeploymentEnvStackProps settings)
         {
             if (string.IsNullOrWhiteSpace(settings.ScopeName))
-                settings.ScopeName = UnicornStoreProdEnvStackProps.DefaultScopeName;
+                settings.ScopeName = UnicornStoreDeploymentEnvStackProps.DefaultScopeName;
 
             if (string.IsNullOrWhiteSpace(settings.StackName))
                 settings.StackName = $"{settings.ScopeName}Stack";
@@ -29,11 +29,11 @@ namespace ProdEnvInfraAsCode
                 settings.Tags["Scope"] = settings.ScopeName;
 
 #if MYSQL
-            settings.DbEngine = UnicornStoreProdEnvStackProps.DbEngineType.MYSQL;
+            settings.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.MySQL;
 #elif POSTGRES
-            settings.DbEngine = UnicornStoreFargateStackProps.DbEngineType.POSTGRES;
+            settings.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.Postgres;
 #else
-            settings.DbEngine = UnicornStoreFargateStackProps.DbEngineType.SQLSERVER;
+            settings.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.SqlServer;
 #endif
         }
     }

@@ -11,7 +11,7 @@ namespace ProdEnvInfraAsCode
     /// required and optional stack configuration data,
     /// with custom stack configuration settings.
     /// </summary>
-    public class UnicornStoreProdEnvStackProps : StackProps
+    public class UnicornStoreDeploymentEnvStackProps : StackProps
     {
         public enum InfrastructureType
         {
@@ -19,11 +19,15 @@ namespace ProdEnvInfraAsCode
             //EKS
         }
 
+        /// <summary>
+        /// IMPORTANT: these must match Project Configuration names, 
+        /// as they are used for Docker images labels.
+        /// </summary>
         public enum DbEngineType
         {
-            MYSQL,
-            POSTGRES,
-            SQLSERVER
+            MySQL,
+            Postgres,
+            SqlServer
         }
 
         public enum SqlServerEditionType
@@ -91,7 +95,7 @@ namespace ProdEnvInfraAsCode
 
         public InstanceSize? DatabaseInstanceSize { get; set; }
 
-        public DbEngineType DbEngine { get; set; } = DbEngineType.SQLSERVER;
+        public DbEngineType DbEngine { get; set; } = DbEngineType.SqlServer;
 
         public SqlServerEditionType SqlServerEdition { get; set; } = SqlServerEditionType.Web;
 
@@ -99,7 +103,7 @@ namespace ProdEnvInfraAsCode
 
         public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
 
-        public UnicornStoreProdEnvStackProps()
+        public UnicornStoreDeploymentEnvStackProps()
         {
             if (this.Tags == null)
                 this.Tags = new Dictionary<string, string>();
@@ -109,11 +113,11 @@ namespace ProdEnvInfraAsCode
         {
             switch(this.DbEngine)
             {
-                case DbEngineType.MYSQL:
+                case DbEngineType.MySQL:
                     return new MySqlConstructFactory(this);
-                case DbEngineType.POSTGRES:
+                case DbEngineType.Postgres:
                     return new PostgresConstructFactory(this);
-                case DbEngineType.SQLSERVER:
+                case DbEngineType.SqlServer:
                     return new SqlServerConstructFactory(this);
             }
 

@@ -9,12 +9,12 @@ RUN dotnet restore UnicornStore/UnicornStore.csproj
 
 COPY . .
 WORKDIR /src/UnicornStore
-ARG BUILD_CONFIG=ReleaseSQL
+ARG BUILD_CONFIG=ReleaseSqlServer
 #RUN echo Build config for 'docker build': ${BUILD_CONFIG}
 RUN dotnet build UnicornStore.csproj -c ${BUILD_CONFIG} -o /app
 
 FROM build AS publish
-ARG BUILD_CONFIG=ReleaseSQL
+ARG BUILD_CONFIG=ReleaseSqlServer
 #RUN echo Build config for 'docker publish': ${BUILD_CONFIG}
 RUN dotnet publish UnicornStore.csproj -c ${BUILD_CONFIG} -o /app
 

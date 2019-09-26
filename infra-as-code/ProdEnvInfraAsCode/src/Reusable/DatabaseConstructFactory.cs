@@ -2,7 +2,7 @@
 using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.RDS;
 using System;
-using static ProdEnvInfraAsCode.UnicornStoreProdEnvStackProps;
+using static ProdEnvInfraAsCode.UnicornStoreDeploymentEnvStackProps;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 
 
@@ -10,12 +10,12 @@ namespace ProdEnvInfraAsCode.Reusable
 {
     public abstract class DatabaseConstructFactory
     {
-        protected DatabaseConstructFactory(UnicornStoreProdEnvStackProps settings)
+        protected DatabaseConstructFactory(UnicornStoreDeploymentEnvStackProps settings)
         {
             this.Settings = settings;
         }
 
-        protected UnicornStoreProdEnvStackProps Settings { get; private set; }
+        protected UnicornStoreDeploymentEnvStackProps Settings { get; private set; }
 
         protected virtual bool IsClustered => this.Settings.RdsKind != RdsType.RegularRds;
 

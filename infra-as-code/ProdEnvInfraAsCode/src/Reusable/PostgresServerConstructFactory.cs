@@ -5,7 +5,7 @@ namespace ProdEnvInfraAsCode.Reusable
 {
     public class PostgresConstructFactory : DatabaseConstructFactory
     {
-        public PostgresConstructFactory(UnicornStoreProdEnvStackProps settings)
+        public PostgresConstructFactory(UnicornStoreDeploymentEnvStackProps settings)
             :base(settings)
         {
         }

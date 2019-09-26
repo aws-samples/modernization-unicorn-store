@@ -4,7 +4,7 @@ using Amazon.CDK;
 
 namespace ProdEnvInfraAsCode.Reusable
 {
-    public static class SdkExtensions
+    public static class CdkExtensions
     {
         /// <summary>
         /// TODO: Make password more policy more secure.
