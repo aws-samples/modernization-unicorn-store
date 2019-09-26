@@ -25,4 +25,8 @@
     <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.9.0-devpreview" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CdkLib\CdkLib.csproj" />
+  </ItemGroup>
+
 </Project>

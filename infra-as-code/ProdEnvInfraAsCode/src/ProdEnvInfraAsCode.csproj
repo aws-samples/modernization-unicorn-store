@@ -77,4 +77,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CdkLib\CdkLib.csproj" />
+  </ItemGroup>
+
 </Project>

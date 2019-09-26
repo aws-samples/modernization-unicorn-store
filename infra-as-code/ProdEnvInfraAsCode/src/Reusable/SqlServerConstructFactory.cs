@@ -1,12 +1,12 @@
 ﻿using Amazon.CDK.AWS.RDS;
 using System;
-using static ProdEnvInfraAsCode.UnicornStoreFargateStackProps;
+using static ProdEnvInfraAsCode.UnicornStoreProdEnvStackProps;
 
 namespace ProdEnvInfraAsCode.Reusable
 {
     public class SqlServerConstructFactory : DatabaseConstructFactory
     {
-        public SqlServerConstructFactory(UnicornStoreFargateStackProps settings)
+        public SqlServerConstructFactory(UnicornStoreProdEnvStackProps settings)
             :base(settings)
         {
         }

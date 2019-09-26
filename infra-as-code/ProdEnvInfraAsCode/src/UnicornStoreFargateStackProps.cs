@@ -1,6 +1,5 @@
 ﻿using Amazon.CDK;
 using Amazon.CDK.AWS.EC2;
-using Amazon.CDK.AWS.RDS;
 using ProdEnvInfraAsCode.Reusable;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace ProdEnvInfraAsCode
     /// required and optional stack configuration data,
     /// with custom stack configuration settings.
     /// </summary>
-    public class UnicornStoreFargateStackProps : StackProps
+    public class UnicornStoreProdEnvStackProps : StackProps
     {
         public enum InfrastructureType
         {
@@ -100,7 +99,7 @@ namespace ProdEnvInfraAsCode
 
         public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
 
-        public UnicornStoreFargateStackProps()
+        public UnicornStoreProdEnvStackProps()
         {
             if (this.Tags == null)
                 this.Tags = new Dictionary<string, string>();

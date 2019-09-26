@@ -11,7 +11,7 @@ namespace ProdEnvInfraAsCode
 {
     public class UnicornStoreFargateStack : Stack
     {
-        public UnicornStoreFargateStack(Construct parent, string id, UnicornStoreFargateStackProps settings) : base(parent, id, settings)
+        public UnicornStoreFargateStack(Construct parent, string id, UnicornStoreProdEnvStackProps settings) : base(parent, id, settings)
         {
             var vpc = new Vpc(this, $"{settings.ScopeName}VPC", new VpcProps { MaxAzs = settings.MaxAzs });
 
