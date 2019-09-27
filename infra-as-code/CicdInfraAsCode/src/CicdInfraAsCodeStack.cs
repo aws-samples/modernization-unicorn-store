@@ -74,7 +74,7 @@ namespace CicdInfraAsCode
                 Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
                 {
                     ProjectName = "Unicorn-Store-app-Docker-image-build",
-                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/buildpec.yaml"), // <= path relative to the git repo root
+                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/app-docker-image-buildsec.yaml"), // <= path relative to the git repo root
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,

@@ -63,10 +63,6 @@
     <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.9.0-devpreview" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -74,7 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="assets\codebuild\buildpec.yaml">
+    <None Update="assets\codebuild\app-docker-image-buildsec.yaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>

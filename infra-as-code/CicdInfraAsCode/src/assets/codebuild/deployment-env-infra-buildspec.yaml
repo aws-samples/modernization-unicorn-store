@@ -1,0 +1,52 @@
+﻿version: 0.2
+
+#env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+  #git-credential-helper: yes
+
+phases:
+  install:
+    #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
+    #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
+    runtime-versions:
+      nodejs: 8
+      dotnet: 2.2
+      # name: version
+    #commands:
+      # - command
+      # - command
+  pre_build:
+    commands:
+      - aws --version
+      #- $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - pip install --upgrade awscli
+      - aws --version
+      - npm install -g aws-cdk
+      - cdk --version
+  build:
+    commands:
+      - echo Building CDK CI/CD project
+      - cd ./infra-as-code/ProdEnvInfraAsCode
+      - dotnet build ./src/ProdEnvInfraAsCode.csproj -c ${BUILD_CONFIG}
+      - cdk synth
+      - cdk diff
+      - cdk deploy
+      # - command
+  post_build:
+    # commands:
+      # - command
+#artifacts:
+  #files:
+    # - location
+    # - location
+  #name: $(date +%Y-%m-%d)
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths
