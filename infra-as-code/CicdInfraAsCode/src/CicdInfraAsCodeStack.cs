@@ -26,7 +26,7 @@ namespace CicdInfraAsCode
             return new Vcs.Repository(this, "CodeCommitRepo",
                 new Vcs.RepositoryProps
                 {
-                    RepositoryName = $"{settings.ScopeName}GitRepo",
+                    RepositoryName = $"Unicorn-Store-Sample-Git-Repo",
                     Description = $"Version control system for {settings.ScopeName} application"
                 }
             );
@@ -54,11 +54,11 @@ namespace CicdInfraAsCode
                             new CodeBuildAction(new CodeBuildActionProps
                             {
                                 Input = sourceOutput,
-                                ActionName = "Build-Docker-image",
+                                ActionName = "Build-app-Docker-image",
                                 Type = CodeBuildActionType.BUILD,
                                 Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
                                 {
-                                    ProjectName = $"{settings.ScopeName}ApplicationImageBuildProject",
+                                    ProjectName = $"Unicorn-Store-app-Docker-image-build",
                                     BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/buildpec.yaml"), // <= path relative to the git repo root
                                     Environment = new BuildEnvironment{
                                         Privileged = true,
@@ -66,11 +66,10 @@ namespace CicdInfraAsCode
                                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                                         {
                                             {   // Tells the Buildspec where to push images produced during the build
-                                                "REPOSITORY_URI", new BuildEnvironmentVariable 
-                                                { 
-                                                    Value = dockerRepo.RepositoryArn, Type = BuildEnvironmentVariableType.PLAINTEXT 
-                                                } 
-                                            }
+                                                "DockerRepoUri", new BuildEnvironmentVariable { Value = dockerRepo.RepositoryArn }
+                                            },
+                                            { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
+                                            { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } }
                                         },
                                         ComputeType = settings.BuildInstanceSize
                                     }

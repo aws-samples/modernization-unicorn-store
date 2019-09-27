@@ -28,15 +28,11 @@ phases:
   build:
     commands:
       - echo $REPOSITORY_URI
-      - docker build  --build-arg BUILD_CONFIG=DebugMySQL -t ${REPOSITORY_URI}:mysql .
-      - docker build  --build-arg BUILD_CONFIG=DebugPostgres -t ${REPOSITORY_URI}:postgres .
-      - docker build -t ${REPOSITORY_URI}:sqlserver .
+      - docker build --build-arg BUILD_CONFIG=${BuildConfig}${DbEngine} -t ${DockerRepoUri}:${DbEngine} .
       # - command
   post_build:
     commands:
-      - docker push ${REPOSITORY_URI}:postgres
-      - docker push ${REPOSITORY_URI}:mysql
-      - docker push ${REPOSITORY_URI}:sqlserver
+      - docker push ${DockerRepoUri}:${DbEngine}
       # - command
 #artifacts:
   #files:

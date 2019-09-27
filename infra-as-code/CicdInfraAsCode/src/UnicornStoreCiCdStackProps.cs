@@ -5,7 +5,36 @@ namespace CicdInfraAsCode
 {
     public class UnicornStoreCiCdStackProps : BetterStackProps
     {
+        /// <summary>
+        /// IMPORTANT: these must match Project Configuration names, 
+        /// as they are used for Docker images labels.
+        /// </summary>
+        public enum DbEngineType
+        {
+            MySQL,
+            Postgres,
+            SqlServer
+        }
+
         public UnicornStoreCiCdStackProps() : base("UnicornCiCdPipeline") {}
+
+        public DbEngineType DbEngine { get; set; } =
+#if MYSQL
+            DbEngineType.MySQL;
+#elif POSTGRES
+            DbEngineType.Postgres;
+#else
+            DbEngineType.SqlServer;
+#endif
+
+        public bool IsDebugBuild { get; set; } =
+#if Debug || DEBUG
+            true;
+#else
+            false;
+#endif
+
+        public string BuildConfiguration => this.IsDebugBuild ? "Debug" : "Release";
 
         public string DockerImageRepository { get; set; } = "unicorn-store-app";
         

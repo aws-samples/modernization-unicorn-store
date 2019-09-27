@@ -46,19 +46,17 @@ namespace ProdEnvInfraAsCode
         {
             RegularRds,
             Aurora,
-            AuroraServerless
+            AuroraServerless // Not implemented due to the CDK not supporting it (https://github.com/aws/aws-cdk/issues/929)
         }
 
-        protected override void PostLoadUpdate()
-        {
+        public DbEngineType DbEngine { get; set; } =
 #if MYSQL
-            this.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.MySQL;
+            DbEngineType.MySQL;
 #elif POSTGRES
-            this.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.Postgres;
+            DbEngineType.Postgres;
 #else
-            this.DbEngine = UnicornStoreDeploymentEnvStackProps.DbEngineType.SqlServer;
+            DbEngineType.SqlServer;
 #endif
-        }
 
         /// <summary>
         /// Target deployment infrastructure type
@@ -101,8 +99,6 @@ namespace ProdEnvInfraAsCode
         public InstanceClass? DatabaseInstanceClass { get; set; }
 
         public InstanceSize? DatabaseInstanceSize { get; set; }
-
-        public DbEngineType DbEngine { get; set; } = DbEngineType.SqlServer;
 
         public SqlServerEditionType SqlServerEdition { get; set; } = SqlServerEditionType.Web;
 

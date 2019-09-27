@@ -3,14 +3,36 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>DebugSqlServer;DebugMySQL;DebugPostgres;ReleaseMySQL;ReleasePostgres;ReleaseSqlServer</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
     <OutputPath>bin/local/Debug</OutputPath>
+    <DefineConstants>DEBUG;POSTGRES</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMySQL|AnyCPU'">
+    <OutputPath>bin/local/Debug</OutputPath>
+    <DefineConstants>DEBUG;MYSQL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSqlServer|AnyCPU'">
+    <OutputPath>bin/local/Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseSqlServer|AnyCPU'">
     <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleasePostgres|AnyCPU'">
+    <OutputPath>bin/local/Release</OutputPath>
+    <DefineConstants>POSTGRES</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMySQL|AnyCPU'">
+    <OutputPath>bin/local/Release</OutputPath>
+    <DefineConstants>MYSQL</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
