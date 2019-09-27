@@ -34,13 +34,13 @@ namespace ProdEnvInfraAsCode.Reusable
 
         protected virtual InstanceClass DefaultDatabaseInstanceClass => InstanceClass.BURSTABLE2;
 
-        protected virtual InstanceSize MinimuDatabaseInstanceSize => InstanceSize.SMALL;
+        protected virtual InstanceSize MinimumDatabaseInstanceSize => InstanceSize.SMALL;
 
         private InstanceClass DatabaseInstanceClass =>
             this.Settings.DatabaseInstanceClass ?? this.DefaultDatabaseInstanceClass;
 
         private InstanceSize DatabaseInstanceSize =>
-            this.Settings.DatabaseInstanceSize ?? this.MinimuDatabaseInstanceSize;
+            this.Settings.DatabaseInstanceSize ?? this.MinimumDatabaseInstanceSize;
 
         private InstanceType InstanceType =>
             InstanceType.Of(this.DatabaseInstanceClass, this.DatabaseInstanceSize);

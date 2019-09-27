@@ -20,7 +20,7 @@ namespace ProdEnvInfraAsCode.Reusable
         protected override InstanceClass DefaultDatabaseInstanceClass => 
             this.IsClustered ? InstanceClass.MEMORY5 : base.DefaultDatabaseInstanceClass;
 
-        protected override InstanceSize MinimuDatabaseInstanceSize => 
-            this.IsClustered ? InstanceSize.LARGE : base.MinimuDatabaseInstanceSize;
+        protected override InstanceSize MinimumDatabaseInstanceSize => 
+            this.IsClustered ? InstanceSize.LARGE : base.MinimumDatabaseInstanceSize;
     }
 }

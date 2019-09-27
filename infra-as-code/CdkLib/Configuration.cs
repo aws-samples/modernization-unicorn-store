@@ -14,20 +14,20 @@ namespace CdkLib
         /// <returns></returns>
         public static IConfiguration InitConfiguration(this Type programClassType, string[] cmdLineArgs)
         {
-            bool isDevEnv;
+            bool isDebug;
 #if Debug || DEBUG
-            isDevEnv = true;
+            isDebug = true;
 #else
-            isDevEnv = false;
+            isDebug = false;
 #endif
-            string envName = isDevEnv ? "Development" : "Production";
+            string envName = isDebug ? "Development" : "Production";
 
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", optional: true)
                     .AddJsonFile($"appsettings.{envName}.json", optional: true);
             builder.AddCommandLine(cmdLineArgs);
             builder.AddEnvironmentVariables();
-            if (isDevEnv)
+            if (isDebug)
             {
                 // To enable "Manage User Secrets" project menu item, add dependency on the 
                 // "Microsoft.Extensions.Configuration.UserSecrets" NuGet package first.
@@ -51,7 +51,6 @@ namespace CdkLib
 
             T settings = new T();
             configuration.Bind(settings);
-            settings.PostLoadUpdateInternal();
             settings.PostLoadUpdate();
 
             return settings;
