@@ -90,7 +90,7 @@ namespace ProdEnvInfraAsCode
 
         public bool PublicLoadBalancer { get; set; } = false;
 
-        public string DotNetEnvironment { get; set; } = "Production";
+        public string DotNetEnvironment { get; set; }
 
         public string DbUsername { get; set; } = "dbadmin";
 
@@ -132,6 +132,12 @@ namespace ProdEnvInfraAsCode
             }
 
             throw new NotImplementedException($"Database engine \"{this.DbEngine}\" is not supported");
+        }
+
+        protected override void PostLoadUpdate()
+        {
+            if (string.IsNullOrWhiteSpace(this.DotNetEnvironment))
+                this.DotNetEnvironment = this.IsDebug ? "Development" : "Production";
         }
     }
 }

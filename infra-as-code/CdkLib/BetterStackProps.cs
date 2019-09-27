@@ -20,7 +20,14 @@ namespace CdkLib
         /// </summary>
         public string ScopeName { get; set; }
 
-        internal void PostLoadUpdate()
+        public bool IsDebug { get; set; } =
+#if Debug || DEBUG
+            true;
+#else
+            false;
+#endif
+
+        internal void PostLoadUpdateInternal()
         {
             if (string.IsNullOrWhiteSpace(this.ScopeName))
                 throw new ArgumentException($"Scope name cannot be blank");
@@ -30,6 +37,12 @@ namespace CdkLib
 
             if (!this.Tags.TryGetValue("Scope", out string scope) || string.IsNullOrWhiteSpace(scope))
                 this.Tags["Scope"] = this.ScopeName;
+
+            this.PostLoadUpdate();
+        }
+
+        protected virtual void PostLoadUpdate()
+        {
         }
     }
 }

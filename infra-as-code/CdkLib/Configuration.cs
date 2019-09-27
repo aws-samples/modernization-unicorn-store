@@ -5,6 +5,12 @@ namespace CdkLib
 {
     public static class Configuration
     {
+        public const bool isDebug =
+#if Debug || DEBUG
+        true;
+#else
+        false;
+#endif
 
         /// <summary>
         /// Integrates configuration settings from appsettings.json, command line args,
@@ -14,12 +20,6 @@ namespace CdkLib
         /// <returns></returns>
         public static IConfiguration InitConfiguration(this Type programClassType, string[] cmdLineArgs)
         {
-            bool isDebug;
-#if Debug || DEBUG
-            isDebug = true;
-#else
-            isDebug = false;
-#endif
             string envName = isDebug ? "Development" : "Production";
 
             var builder = new ConfigurationBuilder();
@@ -50,8 +50,9 @@ namespace CdkLib
             IConfiguration configuration = programClassType.InitConfiguration(cmdLineArgs);
 
             T settings = new T();
+            settings.IsDebug = isDebug;
             configuration.Bind(settings);
-            settings.PostLoadUpdate();
+            settings.PostLoadUpdateInternal();
 
             return settings;
         }
