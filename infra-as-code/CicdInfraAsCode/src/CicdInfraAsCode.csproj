@@ -34,15 +34,27 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.CDK" Version="1.9.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.CodePipeline.Actions" Version="1.9.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.ECR" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.9.0-devpreview" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CdkLib\CdkLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\codebuild\buildpec.yaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

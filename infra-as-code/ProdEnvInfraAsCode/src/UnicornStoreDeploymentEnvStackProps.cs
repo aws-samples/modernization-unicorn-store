@@ -65,7 +65,7 @@ namespace ProdEnvInfraAsCode
         /// </summary>
         public InfrastructureType Infrastructure { get; set; } = InfrastructureType.EscFargate;
 
-        public string DockerImageRepository { get; set; } = "modernization-unicorn-store";
+        public string DockerImageRepository { get; set; } = "unicorn-store-app";
 
         /// <summary>
         /// ECR/Docker image label
@@ -109,6 +109,19 @@ namespace ProdEnvInfraAsCode
         public RdsType RdsKind { get; set; } = RdsType.AuroraServerless;
 
         public SubnetType DbSubnetType { get; set; } = SubnetType.PRIVATE;
+
+        private string ecsClusterName;
+
+        public string EcsClusterName
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(this.ecsClusterName) ?
+                    $"{this.ScopeName}{this.Infrastructure}Cluster"
+                    : this.ecsClusterName;
+            }
+            set { this.ecsClusterName = value; }
+        }
 
         internal DatabaseConstructFactory CreateDbConstructFactory()
         {

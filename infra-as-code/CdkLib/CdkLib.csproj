@@ -6,7 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.CDK" Version="1.9.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.CodePipeline.Actions" Version="1.9.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.ECS" Version="1.9.0-devpreview" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />

@@ -3,6 +3,8 @@ using SecMan = Amazon.CDK.AWS.SecretsManager;
 using Amazon.CDK;
 using Amazon.CDK.AWS.IAM;
 using System.Linq;
+using Amazon.CDK.AWS.CodePipeline;
+using Amazon.CDK.AWS.CodePipeline.Actions;
 
 namespace CdkLib
 {
@@ -63,5 +65,12 @@ namespace CdkLib
 
         public static PolicyStatement[] FromPolicyProps(params PolicyStatementProps[] propses) =>
             propses.Where(props => props != null).Select(props => new PolicyStatement(props)).ToArray();
+
+        public static StageProps StageFromActions(string stageName, params Action[] actions) =>
+                new StageProps
+                {
+                    StageName = stageName,
+                    Actions = actions
+                };
     }
 }

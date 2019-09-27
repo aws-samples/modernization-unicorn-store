@@ -1,17 +1,23 @@
 var AWS = require('aws-sdk');
 
 /*
-The helper extracting User Parameters from the CodePipeline stage
-settings, then invoking user event handler, after which it calls
+TL;DR
+This helper method extracts User Parameters from the CodePipeline stage
+settings, then invokes your event handler, after which it calls
 back CodePipeline to report whether user handler has succeeded
 or failed.
 
+Details:
 CodePipeline seems to call Lambda function in the "fire-and-forget" manner,
 but then CodePipeline appears to wait for a callback from the Lambda to
-report whether it succeeded or failed. Otherwise CodePipeline stage hangs for
-twenty minutes. The requirement to proactively communicate back to CodePipeline
-whether Lambda succeeded or failed pushes quite a bit of responsibility (and
+report whether the Lambda succeeded or failed. Otherwise CodePipeline stage hangs 
+for twenty minutes until it times out, with no obvious way to abort it manually. 
+The requirement to have Lambda proactively communicate back to CodePipeline
+whether the Lambda succeeded or failed pushes quite a bit of responsibility (and
 requires writing quite a bit of boilerplate code, which is better made reusable)
+on the Lambda developer. This method calls your main function, 
+the userDataAsyncProcessor(), and then does the boilerplate stuff - reporting
+back to the CodePipeline.
 */
 async function lambdaWrapper(event, context, userDataAsyncProcessor) {
     // Refer to https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-invoke-lambda-function.html

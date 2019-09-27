@@ -25,11 +25,11 @@ namespace ProdEnvInfraAsCode
             DatabaseConstructInfo database =
                 dbConstructFactory.CreateDatabaseConstruct(this, vpc, databasePasswordSecret);
 
-            var ecsCluster = new Cluster(this, $"{settings.ScopeName}{settings.Infrastructure}Cluster",
+            var ecsCluster = new Cluster(this, $"Application{settings.Infrastructure}Cluster",
                 new ClusterProps
                 {
                     Vpc = vpc,
-                    ClusterName = $"{settings.ScopeName}{settings.Infrastructure}Cluster",
+                    ClusterName = settings.EcsClusterName,
                 }
             );
 
