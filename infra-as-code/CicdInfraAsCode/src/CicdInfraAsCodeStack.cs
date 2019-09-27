@@ -26,7 +26,7 @@ namespace CicdInfraAsCode
             return new Vcs.Repository(this, "CodeCommitRepo",
                 new Vcs.RepositoryProps
                 {
-                    RepositoryName = $"{settings.ScopeName}GitRepo",
+                    RepositoryName = "Unicorn-Store-Sample-Git-Repo",
                     Description = $"Version control system for {settings.ScopeName} application"
                 }
             );
@@ -34,61 +34,79 @@ namespace CicdInfraAsCode
 
         private Pipeline CreateCiCdPipeline(UnicornStoreCiCdStackProps settings, Repository dockerRepo, Vcs.Repository gitRepo)
         {
-            var sourceOutput = new Artifact_($"Unicorn-Store-VS-Solution");
+            var sourceCodeArtifact = new Artifact_("Unicorn-Store-VS-Solution");
 
             var buildPipeline = new Pipeline(this, "BuildPipeline",
                 new PipelineProps
                 {
                     PipelineName = settings.ScopeName,
-                    Stages = new []
+                    Stages = new[]
                     {
-                        CdkExtensions.StageFromActions("Source",
-                            new CodeCommitSourceAction(new CodeCommitSourceActionProps{
-                                ActionName = "Git-checkout-from-CodeCommit-repo",
-                                Repository = gitRepo,
-                                Output = sourceOutput,
-                                Branch = settings.GitBranchToBuild,
-                            })
-                        ),
-                        CdkExtensions.StageFromActions("Build",
-                            new CodeBuildAction(new CodeBuildActionProps
-                            {
-                                Input = sourceOutput,
-                                ActionName = "Build-Docker-image",
-                                Type = CodeBuildActionType.BUILD,
-                                Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
-                                {
-                                    ProjectName = $"{settings.ScopeName}-App-Docker-image-build",
-                                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/buildpec.yaml"), // <= path relative to the git repo root
-                                    Environment = new BuildEnvironment{
-                                        Privileged = true,
-                                        BuildImage = LinuxBuildImage.UBUNTU_14_04_DOCKER_18_09_0,
-                                        EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
-                                        {
-                                            {   // Tells the Buildspec where to push images produced during the build
-                                                "DockerRepoUri", new BuildEnvironmentVariable { Value = dockerRepo.RepositoryArn }
-                                            },
-                                            { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
-                                            { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } }
-                                        },
-                                        ComputeType = settings.BuildInstanceSize
-                                    }
-                                })
-                            })
-                        )
+                        CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutStage(settings, gitRepo, sourceCodeArtifact)),
+                        CdkExtensions.StageFromActions("Build", CreateDockerImageBuildStage(settings, dockerRepo, sourceCodeArtifact))
                     }
                 }
             );
-            
+
             Function appRestartLambda = this.CreateLambdaForRestartingEcsApp();
 
             return buildPipeline;
         }
 
+        private static CodeCommitSourceAction CreateSourceVcsCheckoutStage(UnicornStoreCiCdStackProps settings, Vcs.Repository gitRepo, Artifact_ sourceOutput)
+        {
+            return new CodeCommitSourceAction(new CodeCommitSourceActionProps
+            {
+                ActionName = "Git-checkout-from-CodeCommit-repo",
+                Repository = gitRepo,
+                Output = sourceOutput,
+                Branch = settings.GitBranchToBuild,
+            });
+        }
+
+        private CodeBuildAction CreateDockerImageBuildStage(UnicornStoreCiCdStackProps settings, Repository dockerRepo, Artifact_ sourceOutput)
+        {
+            var codeBuildAction = new CodeBuildAction(new CodeBuildActionProps
+            {
+                Input = sourceOutput,
+                ActionName = "Build-app-Docker-image",
+                Type = CodeBuildActionType.BUILD,
+                Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
+                {
+                    ProjectName = "Unicorn-Store-app-Docker-image-build",
+                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/buildpec.yaml"), // <= path relative to the git repo root
+                    Environment = new BuildEnvironment
+                    {
+                        Privileged = true,
+                        BuildImage = LinuxBuildImage.UBUNTU_14_04_DOCKER_18_09_0,
+                        EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
+                        {
+                            {   // Tells the Buildspec where to push images produced during the build
+                                "DockerRepoUri", new BuildEnvironmentVariable { Value = dockerRepo.RepositoryUriForTag() }
+                            },
+                            { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
+                            { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } }
+                        },
+                        ComputeType = settings.BuildInstanceSize
+                    },
+                    Role = new Role(this, "Docker-Image-build-role", new RoleProps
+                    {   // Need to explicitly grant CodeBuild service permissions to let it push Docker 
+                        // images to ECR, because we do `docker push` straight from the Build stage, bypassing
+                        // Deploy stage, where it could have been done too.
+                        AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
+                        RoleName = $"{settings.ScopeName}-Build-Docker-Image-Role",
+                        ManagedPolicies = new[] { ManagedPolicy.FromAwsManagedPolicyName("AmazonEC2ContainerRegistryPowerUser") }
+                    }),
+                    Cache = Cache.Local(LocalCacheMode.SOURCE, LocalCacheMode.DOCKER_LAYER)
+                })
+            });
+
+            return codeBuildAction;
+        }
+
         private Repository CreateDockerRepo(UnicornStoreCiCdStackProps settings)
         {
-            return new Repository(this, "DockerImageRepository",
-                new RepositoryProps
+            return new Repository(this, "DockerImageRepository", new RepositoryProps
                 {
                     RepositoryName = settings.DockerImageRepository,
                     LifecycleRules = new []
