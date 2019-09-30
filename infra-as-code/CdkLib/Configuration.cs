@@ -31,7 +31,9 @@ namespace CdkLib
             {
                 // To enable "Manage User Secrets" project menu item, add dependency on the 
                 // "Microsoft.Extensions.Configuration.UserSecrets" NuGet package first.
+#pragma warning disable CS0162 // Unreachable code detected
                 builder.AddUserSecrets(programClassType.Assembly, optional: true);
+#pragma warning restore CS0162 // Unreachable code detected
             }
             return builder.Build();
         }

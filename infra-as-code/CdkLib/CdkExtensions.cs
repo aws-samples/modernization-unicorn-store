@@ -64,7 +64,11 @@ namespace CdkLib
         }
 
         public static PolicyStatement[] FromPolicyProps(params PolicyStatementProps[] propses) =>
-            propses.Where(props => props != null).Select(props => new PolicyStatement(props)).ToArray();
+            propses
+                .Where(props => props != null)
+                .Select(props => new PolicyStatement(props))
+                .ToArray()
+            ;
 
         public static StageProps StageFromActions(string stageName, params Action[] actions) =>
                 new StageProps
@@ -72,5 +76,12 @@ namespace CdkLib
                     StageName = stageName,
                     Actions = actions
                 };
+
+        public static IManagedPolicy[] FromAwsManagedPolicies(params string[] awsPolicyNames) =>
+            awsPolicyNames
+                .Where(policy => !string.IsNullOrWhiteSpace(policy))
+                .Select(policy => ManagedPolicy.FromAwsManagedPolicyName(policy))
+                .ToArray()
+            ;
     }
 }

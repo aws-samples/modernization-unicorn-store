@@ -43,24 +43,27 @@ namespace ProdEnvInfraAsCode
                     DesiredCount = settings.DesiredComputeReplicaCount,
                     Cpu = settings.CpuMillicores,
                     MemoryLimitMiB = settings.MemoryMiB,
-                    Image = ContainerImage.FromEcrRepository(imageRepository, settings.ImageTag),
                     PublicLoadBalancer = settings.PublicLoadBalancer,
-                    Environment = new Dictionary<string, string>()
+                    TaskImageOptions = new ApplicationLoadBalancedTaskImageOptions
                     {
-                        { "ASPNETCORE_ENVIRONMENT", settings.DotNetEnvironment ?? "Production" },
-                        { "DefaultAdminUsername", settings.DefaultSiteAdminUsername },
-                        { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DbConnStrBuilderServerPropName}",
-                            database.EndpointAddress },
-                        { $"UnicornDbConnectionStringBuilder__Port", database.Port },
-                        { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DBConnStrBuilderUserPropName}",
-                            settings.DbUsername }, 
+                        Image = ContainerImage.FromEcrRepository(imageRepository, settings.ImageTag),
+                        Environment = new Dictionary<string, string>()
+                        {
+                            { "ASPNETCORE_ENVIRONMENT", settings.DotNetEnvironment ?? "Production" },
+                            { "DefaultAdminUsername", settings.DefaultSiteAdminUsername },
+                            { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DbConnStrBuilderServerPropName}",
+                                database.EndpointAddress },
+                            { $"UnicornDbConnectionStringBuilder__Port", database.Port },
+                            { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DBConnStrBuilderUserPropName}",
+                                settings.DbUsername }, 
+                        },
+                        Secrets = new Dictionary<string, Secret>
+                        {
+                            { "DefaultAdminPassword", CdkExtensions.CreateAutoGenPasswordSecretDef($"{settings.ScopeName}DefaultSiteAdminPassword").CreateSecret(this) },
+                            { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DBConnStrBuilderPasswordPropName}",
+                                databasePasswordSecret.CreateSecret(this, databasePasswordSecretDef.SecretName) }
+                        }
                     },
-                    Secrets = new Dictionary<string, Secret>
-                    {
-                        { "DefaultAdminPassword", CdkExtensions.CreateAutoGenPasswordSecretDef($"{settings.ScopeName}DefaultSiteAdminPassword").CreateSecret(this) },
-                        { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DBConnStrBuilderPasswordPropName}",
-                            databasePasswordSecret.CreateSecret(this, databasePasswordSecretDef.SecretName) }
-                    }
                 }
             );
 

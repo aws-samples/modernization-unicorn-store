@@ -23,21 +23,20 @@ phases:
   pre_build:
     commands:
       - aws --version
-      #- $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - pip install --upgrade awscli
-      - aws --version
       - npm install -g aws-cdk
       - cdk --version
   build:
     commands:
       - echo Building CDK CI/CD project
       - cd ./infra-as-code/ProdEnvInfraAsCode
-      - dotnet build ./src/ProdEnvInfraAsCode.csproj -c ${BUILD_CONFIG}
-      - cdk synth
-      - cdk diff
-      - cdk deploy
+      - dotnet build ./src/ProdEnvInfraAsCode.csproj -c ${BuildConfig}${DbEngine}
+      - cdk synth -o ./cdk.out
+      - ls ./cdk.out/
+      - aws cloudformation deploy --template-file ./cdk.out/UnicornSuperstoreStack.template.json --stack-name InfraAsCodeStack --capabilities CAPABILITY_IAM
+      #- cdk diff
+      #- cdk deploy --require-approval never
       # - command
-  post_build:
+  # post_build:
     # commands:
       # - command
 #artifacts:

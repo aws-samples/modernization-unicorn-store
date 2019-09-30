@@ -43,7 +43,10 @@ namespace CicdInfraAsCode
                     Stages = new[]
                     {
                         CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutStage(settings, gitRepo, sourceCodeArtifact)),
-                        CdkExtensions.StageFromActions("Build", CreateDockerImageBuildStage(settings, dockerRepo, sourceCodeArtifact))
+                        CdkExtensions.StageFromActions("Build", 
+                            this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact),
+                            this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
+                        )
                     }
                 }
             );
@@ -64,7 +67,7 @@ namespace CicdInfraAsCode
             });
         }
 
-        private CodeBuildAction CreateDockerImageBuildStage(UnicornStoreCiCdStackProps settings, Repository dockerRepo, Artifact_ sourceOutput)
+        private CodeBuildAction CreateDockerImageBuildAction(UnicornStoreCiCdStackProps settings, Repository dockerRepo, Artifact_ sourceOutput)
         {
             var codeBuildAction = new CodeBuildAction(new CodeBuildActionProps
             {
@@ -95,7 +98,49 @@ namespace CicdInfraAsCode
                         // Deploy stage, where it could have been done too.
                         AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
                         RoleName = $"{settings.ScopeName}-Build-Docker-Image-Role",
-                        ManagedPolicies = new[] { ManagedPolicy.FromAwsManagedPolicyName("AmazonEC2ContainerRegistryPowerUser") }
+                        ManagedPolicies = CdkExtensions.FromAwsManagedPolicies("AmazonEC2ContainerRegistryPowerUser")
+                    }),
+                    Cache = Cache.Local(LocalCacheMode.SOURCE, LocalCacheMode.DOCKER_LAYER)
+                })
+            });
+
+            return codeBuildAction;
+        }
+
+        private CodeBuildAction CreateAppDeploymentEnvironmentBuildAction(UnicornStoreCiCdStackProps settings, Repository dockerRepo, Artifact_ sourceOutput)
+        {
+            var codeBuildAction = new CodeBuildAction(new CodeBuildActionProps
+            {
+                Input = sourceOutput,
+                ActionName = "Build-app-deployment-environment",
+                Type = CodeBuildActionType.BUILD,
+                Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
+                {
+                    ProjectName = "Unicorn-Store-app-Docker-image-build",
+                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/deployment-env-infra-buildspec.yaml"), // <= path relative to the git repo root
+                    Environment = new BuildEnvironment
+                    {
+                        Privileged = true,
+                        BuildImage = LinuxBuildImage.UBUNTU_14_04_DOCKER_18_09_0,
+                        ComputeType = settings.BuildInstanceSize,
+                        EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
+                        {
+                            { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
+                            { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } },
+                            { "DockerImageRepository", new BuildEnvironmentVariable { Value = settings.DockerImageRepository } }
+                        }
+                    },
+                    Role = new Role(this, "App-deployment-env-build-role", new RoleProps
+                    {   // Need to explicitly grant CodeBuild service permissions to let it push Docker 
+                        // images to ECR, because we do `docker push` straight from the Build stage, bypassing
+                        // Deploy stage, where it could have been done too.
+                        AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
+                        RoleName = $"{settings.ScopeName}-Build-Deployment-Env-Role",
+                        ManagedPolicies = CdkExtensions.FromAwsManagedPolicies(
+                            //"CloudWatchLogsFullAccess", 
+                            "AWSCodeDeployRoleForECSLimited",
+                            "AWSCloudFormationFullAccess"
+                        ) 
                     }),
                     Cache = Cache.Local(LocalCacheMode.SOURCE, LocalCacheMode.DOCKER_LAYER)
                 })
