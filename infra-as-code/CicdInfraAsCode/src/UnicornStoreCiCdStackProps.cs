@@ -16,7 +16,7 @@ namespace CicdInfraAsCode
             SqlServer
         }
 
-        public UnicornStoreCiCdStackProps() : base("UnicornCiCdPipeline") {}
+        public UnicornStoreCiCdStackProps() : base("Unicorn-Store-CI-CD-Pipeline") {}
 
         public DbEngineType DbEngine { get; set; } =
 #if MYSQL

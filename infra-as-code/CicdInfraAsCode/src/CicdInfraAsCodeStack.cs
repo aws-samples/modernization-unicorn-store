@@ -34,7 +34,7 @@ namespace CicdInfraAsCode
 
         private Pipeline CreateCiCdPipeline(UnicornStoreCiCdStackProps settings, Repository dockerRepo, Vcs.Repository gitRepo)
         {
-            var sourceCodeArtifact = new Artifact_("Unicorn-Store-VS-Solution");
+            var sourceCodeArtifact = new Artifact_("Unicorn-Store-Visual-Studio-Solution");
 
             var buildPipeline = new Pipeline(this, "BuildPipeline",
                 new PipelineProps
@@ -114,9 +114,9 @@ namespace CicdInfraAsCode
                 Input = sourceOutput,
                 ActionName = "Build-app-deployment-environment",
                 Type = CodeBuildActionType.BUILD,
-                Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
+                Project = new PipelineProject(this, "DeploymentEnvCreationProject", new PipelineProjectProps
                 {
-                    ProjectName = "Unicorn-Store-app-Docker-image-build",
+                    ProjectName = "Unicorn-Store-deployment-env-build",
                     BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/deployment-env-infra-buildspec.yaml"), // <= path relative to the git repo root
                     Environment = new BuildEnvironment
                     {
