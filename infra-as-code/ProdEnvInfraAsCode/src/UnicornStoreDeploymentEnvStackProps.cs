@@ -68,7 +68,7 @@ namespace ProdEnvInfraAsCode
         /// <summary>
         /// ECR/Docker image label
         /// </summary>
-        public string ImageTag => this.DbEngine.ToString().ToLowerInvariant();
+        public string ImageTag => this.DbEngine.ToString();
 
         public string ImageWithTag => $"{this.DockerImageRepository}:{this.ImageTag}";
 

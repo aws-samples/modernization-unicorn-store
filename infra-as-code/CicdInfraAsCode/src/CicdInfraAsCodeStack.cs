@@ -120,7 +120,7 @@ namespace CicdInfraAsCode
                     BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/deployment-env-infra-buildspec.yaml"), // <= path relative to the git repo root
                     Environment = new BuildEnvironment
                     {
-                        Privileged = true,
+                        //Privileged = true,
                         BuildImage = LinuxBuildImage.STANDARD_2_0,
                         ComputeType = settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
