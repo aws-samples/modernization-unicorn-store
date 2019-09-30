@@ -37,6 +37,8 @@ namespace CicdInfraAsCode
         public string BuildConfiguration => this.IsDebugBuild ? "Debug" : "Release";
 
         public string DockerImageRepository { get; set; } = "unicorn-store-app";
+
+        public string ImageTag => this.DbEngine.ToString();
         
         public int UntaggedImageExpirationDays { get; set; } = 3;
 

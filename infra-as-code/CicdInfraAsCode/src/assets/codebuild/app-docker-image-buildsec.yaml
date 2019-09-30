@@ -28,11 +28,11 @@ phases:
   build:
     commands:
       - echo $REPOSITORY_URI
-      - docker build --build-arg BUILD_CONFIG=${BuildConfig}${DbEngine} -t ${DockerRepoUri}:${DbEngine} .
+      - docker build --build-arg BUILD_CONFIG=${BuildConfig}${DbEngine} -t ${DockerRepoUri}:${ImageTag} .
       # - command
   post_build:
     commands:
-      - docker push ${DockerRepoUri}:${DbEngine}
+      - docker push ${DockerRepoUri}:${ImageTag}
       # - command
 #artifacts:
   #files:

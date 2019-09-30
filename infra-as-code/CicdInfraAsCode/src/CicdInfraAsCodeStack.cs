@@ -88,7 +88,8 @@ namespace CicdInfraAsCode
                                 "DockerRepoUri", new BuildEnvironmentVariable { Value = dockerRepo.RepositoryUriForTag() }
                             },
                             { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
-                            { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } }
+                            { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } },
+                            { "ImageTag", new BuildEnvironmentVariable { Value = settings.ImageTag } }
                         },
                         ComputeType = settings.BuildInstanceSize
                     },
