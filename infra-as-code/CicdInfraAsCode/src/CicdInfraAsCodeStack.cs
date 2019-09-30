@@ -128,7 +128,8 @@ namespace CicdInfraAsCode
                         {
                             { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
                             { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } },
-                            { "DockerImageRepository", new BuildEnvironmentVariable { Value = settings.DockerImageRepository } }
+                            { "DockerImageRepository", new BuildEnvironmentVariable { Value = settings.DockerImageRepository } },
+                            { "DotNetEnvironment", new BuildEnvironmentVariable { Value = settings.IsDebug ? "Development" : "Production"} }
                         }
                     },
                     Role = new Role(this, "App-deployment-env-creation-role", new RoleProps

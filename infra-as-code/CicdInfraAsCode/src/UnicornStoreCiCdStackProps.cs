@@ -27,14 +27,7 @@ namespace CicdInfraAsCode
             DbEngineType.SqlServer;
 #endif
 
-        public bool IsDebugBuild { get; set; } =
-#if Debug || DEBUG
-            true;
-#else
-            false;
-#endif
-
-        public string BuildConfiguration => this.IsDebugBuild ? "Debug" : "Release";
+        public string BuildConfiguration => this.IsDebug ? "Debug" : "Release";
 
         public string DockerImageRepository { get; set; } = "unicorn-store-app";
 
