@@ -30,9 +30,6 @@ phases:
       - echo Building CDK CI/CD project
       - cd ./infra-as-code/ProdEnvInfraAsCode
       - dotnet build ./src/ProdEnvInfraAsCode.csproj -c ${BuildConfig}${DbEngine}
-      #- cdk synth -o ./cdk.out
-      #- ls ./cdk.out/
-      #- aws cloudformation deploy --template-file ./cdk.out/UnicornSuperstoreStack.template.json --stack-name InfraAsCodeStack --capabilities CAPABILITY_IAM
       - cdk diff || true
       - cdk deploy --require-approval never
       # - command
