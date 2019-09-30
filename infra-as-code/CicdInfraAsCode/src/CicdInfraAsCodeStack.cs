@@ -44,8 +44,8 @@ namespace CicdInfraAsCode
                     {
                         CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutStage(settings, gitRepo, sourceCodeArtifact)),
                         CdkExtensions.StageFromActions("Build", 
-                            this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact),
-                            this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
+                            this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact)
+                            //,this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
                         )
                     }
                 }
@@ -121,7 +121,7 @@ namespace CicdInfraAsCode
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
-                        BuildImage = LinuxBuildImage.UBUNTU_14_04_DOCKER_18_09_0,
+                        BuildImage = LinuxBuildImage.STANDARD_2_0,
                         ComputeType = settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {

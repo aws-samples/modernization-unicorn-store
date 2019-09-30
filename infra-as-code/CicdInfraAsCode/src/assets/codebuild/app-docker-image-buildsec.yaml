@@ -10,12 +10,12 @@
   #git-credential-helper: yes
 
 phases:
-  install:
+  #install:
     #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
     #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
-    runtime-versions:
-      docker: 18
-      dotnet: 2.2
+    #runtime-versions:
+      #docker: 18
+      #dotnet: 2.2
       # name: version
     #commands:
       # - command
