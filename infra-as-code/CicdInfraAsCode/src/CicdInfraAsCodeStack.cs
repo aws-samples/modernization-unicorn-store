@@ -45,7 +45,7 @@ namespace CicdInfraAsCode
                         CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutStage(settings, gitRepo, sourceCodeArtifact)),
                         CdkExtensions.StageFromActions("Build", 
                             this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact)
-                            //,this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
+                            ,this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
                         )
                     }
                 }
@@ -131,7 +131,7 @@ namespace CicdInfraAsCode
                             { "DockerImageRepository", new BuildEnvironmentVariable { Value = settings.DockerImageRepository } }
                         }
                     },
-                    Role = new Role(this, "App-deployment-env-build-role", new RoleProps
+                    Role = new Role(this, "App-deployment-env-creation-role", new RoleProps
                     {   // Need to explicitly grant CodeBuild service permissions to let it push Docker 
                         // images to ECR, because we do `docker push` straight from the Build stage, bypassing
                         // Deploy stage, where it could have been done too.
@@ -139,8 +139,9 @@ namespace CicdInfraAsCode
                         RoleName = $"{settings.ScopeName}-Build-Deployment-Env-Role",
                         ManagedPolicies = CdkExtensions.FromAwsManagedPolicies(
                             //"CloudWatchLogsFullAccess", 
-                            "AWSCodeDeployRoleForECSLimited",
-                            "AWSCloudFormationFullAccess"
+                            //"AWSCodeDeployRoleForECSLimited",
+                            //"AWSCloudFormationFullAccess"
+                            "AdministratorAccess" // <= TODO: Find more fine-grained set of policies to enable CloudFormation stack creation
                         ) 
                     }),
                     Cache = Cache.Local(LocalCacheMode.SOURCE, LocalCacheMode.DOCKER_LAYER)
