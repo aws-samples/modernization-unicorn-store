@@ -24,9 +24,17 @@ async function lambdaWrapper(event, context, userDataAsyncProcessor) {
     // for details re: how to create CodePipeline-aware Lambda function.
 
     var pipelineInfo = event["CodePipeline.job"];
+    var userDataString = pipelineInfo.data.actionConfiguration.configuration.UserParameters; 
+
+    var clusterArn;
+    try {
+        var userData = JSON.parse(userDataString);
+        clusterArn = userData.clusterArn == null ? userData : userData.clusterArn;
+    }
+    catch(err) {
+        clusterArn = userDataString;
+    }
     
-    var userData = pipelineInfo.data.actionConfiguration.configuration.UserParameters; 
-    var clusterArn = userData.clusterArn == null ? userData : userData.clusterArn;
     var jobId = pipelineInfo.id;
     var invokeId = context.invokeid;
 

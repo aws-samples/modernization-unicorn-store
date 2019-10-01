@@ -35,7 +35,7 @@ namespace CicdInfraAsCode
         
         public int UntaggedImageExpirationDays { get; set; } = 3;
 
-        public string AppEcsClusterName { get; set; } = "Unicorn-Store-Esc-Fargate-Cluster";
+        public string AppEcsClusterName { get; set; } = "Unicorn-Store-ECS-Fargate-Cluster";
 
         public ComputeType BuildInstanceSize { get; set; } = ComputeType.SMALL;
 
