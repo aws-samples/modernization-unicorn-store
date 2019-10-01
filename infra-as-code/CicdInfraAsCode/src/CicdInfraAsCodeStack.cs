@@ -8,6 +8,7 @@ using Amazon.CDK.AWS.CodePipeline.Actions;
 using Vcs = Amazon.CDK.AWS.CodeCommit;
 using Amazon.CDK.AWS.CodeBuild;
 using System.Collections.Generic;
+using System;
 
 namespace CicdInfraAsCode
 {
@@ -42,21 +43,20 @@ namespace CicdInfraAsCode
                     PipelineName = settings.ScopeName,
                     Stages = new[]
                     {
-                        CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutStage(settings, gitRepo, sourceCodeArtifact)),
+                        CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutAction(settings, gitRepo, sourceCodeArtifact)),
                         CdkExtensions.StageFromActions("Build", 
-                            this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact)
-                            ,this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
-                        )
+                            this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact),
+                            this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
+                        ),
+                        CdkExtensions.StageFromActions("Restart-the-App", CreateLambdaInvokeAction(settings))
                     }
                 }
             );
 
-            Function appRestartLambda = this.CreateLambdaForRestartingEcsApp();
-
             return buildPipeline;
         }
 
-        private static CodeCommitSourceAction CreateSourceVcsCheckoutStage(UnicornStoreCiCdStackProps settings, Vcs.Repository gitRepo, Artifact_ sourceOutput)
+        private static CodeCommitSourceAction CreateSourceVcsCheckoutAction(UnicornStoreCiCdStackProps settings, Vcs.Repository gitRepo, Artifact_ sourceOutput)
         {
             return new CodeCommitSourceAction(new CodeCommitSourceActionProps
             {
@@ -129,7 +129,8 @@ namespace CicdInfraAsCode
                             { "DbEngine", new BuildEnvironmentVariable { Value = settings.DbEngine.ToString() } },
                             { "BuildConfig", new BuildEnvironmentVariable { Value = settings.BuildConfiguration } },
                             { "DockerImageRepository", new BuildEnvironmentVariable { Value = settings.DockerImageRepository } },
-                            { "DotNetEnvironment", new BuildEnvironmentVariable { Value = settings.IsDebug ? "Development" : "Production"} }
+                            { "DotNetEnvironment", new BuildEnvironmentVariable { Value = settings.IsDebug ? "Development" : "Production"} },
+                            { "EcsClusterName", new BuildEnvironmentVariable { Value = settings.AppEcsClusterName } }
                         }
                     },
                     Role = new Role(this, "App-deployment-env-creation-role", new RoleProps
@@ -170,11 +171,31 @@ namespace CicdInfraAsCode
             );
         }
 
+        private LambdaInvokeAction CreateLambdaInvokeAction(UnicornStoreCiCdStackProps settings)
+        {
+            string ecsClusterArn = this.FormatArn(new ArnComponents
+            {
+                Service = "ecs",
+                Resource = "cluster",
+                ResourceName = settings.AppEcsClusterName
+            });
+
+            var lambdaInvokeAction = new LambdaInvokeAction(new LambdaInvokeActionProps
+            {
+                ActionName = "Recycle-ECS-Cluster-Tasks",
+                Lambda = this.CreateLambdaForRestartingEcsApp(),
+                UserParameters = new Dictionary<string, object>() { { "clusterArn", ecsClusterArn } }
+            });
+
+            return lambdaInvokeAction;
+        }
+
         private Function CreateLambdaForRestartingEcsApp()
         {
             return new Function(this, "EcsAppRestartWithNewImage",
                 new FunctionProps
                 {
+                    FunctionName = $"Stop-ECS-Cluster-Tasks-From-CodePipeline",
                     Runtime = Runtime.NODEJS_8_10,
                     Code = Code.FromAsset("assets/lambda/ecs-container-recycle"),
                     Handler = "index.handler",

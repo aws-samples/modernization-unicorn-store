@@ -25,7 +25,8 @@ async function lambdaWrapper(event, context, userDataAsyncProcessor) {
 
     var pipelineInfo = event["CodePipeline.job"];
     
-    var clusterArn = pipelineInfo.data.actionConfiguration.configuration.UserParameters; 
+    var userData = pipelineInfo.data.actionConfiguration.configuration.UserParameters; 
+    var clusterArn = userData.clusterArn == null ? userData : userData.clusterArn;
     var jobId = pipelineInfo.id;
     var invokeId = context.invokeid;
 
