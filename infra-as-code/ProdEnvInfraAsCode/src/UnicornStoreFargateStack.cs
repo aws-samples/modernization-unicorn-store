@@ -17,7 +17,7 @@ namespace ProdEnvInfraAsCode
             var vpc = new Vpc(this, $"{settings.ScopeName}VPC", new VpcProps { MaxAzs = settings.MaxAzs });
 
             SecMan.SecretProps databasePasswordSecretDef = 
-                CdkExtensions.CreateAutoGenPasswordSecretDef($"{settings.ScopeName}DatabasePassword", passwordLength: 8);
+                Helpers.CreateAutoGenPasswordSecretDef($"{settings.ScopeName}DatabasePassword", passwordLength: 8);
             SecMan.Secret databasePasswordSecret = databasePasswordSecretDef.CreateSecretConstruct(this);
 
             var dbConstructFactory = settings.CreateDbConstructFactory();
@@ -59,7 +59,7 @@ namespace ProdEnvInfraAsCode
                         },
                         Secrets = new Dictionary<string, Secret>
                         {
-                            { "DefaultAdminPassword", CdkExtensions.CreateAutoGenPasswordSecretDef($"{settings.ScopeName}DefaultSiteAdminPassword").CreateSecret(this) },
+                            { "DefaultAdminPassword", Helpers.CreateAutoGenPasswordSecretDef($"{settings.ScopeName}DefaultSiteAdminPassword").CreateSecret(this) },
                             { $"UnicornDbConnectionStringBuilder__{dbConstructFactory.DBConnStrBuilderPasswordPropName}",
                                 databasePasswordSecret.CreateSecret(this, databasePasswordSecretDef.SecretName) }
                         }

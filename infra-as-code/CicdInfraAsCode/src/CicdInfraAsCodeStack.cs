@@ -8,7 +8,6 @@ using Amazon.CDK.AWS.CodePipeline.Actions;
 using Vcs = Amazon.CDK.AWS.CodeCommit;
 using Amazon.CDK.AWS.CodeBuild;
 using System.Collections.Generic;
-using System;
 
 namespace CicdInfraAsCode
 {
@@ -43,12 +42,12 @@ namespace CicdInfraAsCode
                     PipelineName = settings.ScopeName,
                     Stages = new[]
                     {
-                        CdkExtensions.StageFromActions("Source", CreateSourceVcsCheckoutAction(settings, gitRepo, sourceCodeArtifact)),
-                        CdkExtensions.StageFromActions("Build", 
+                        Helpers.StageFromActions("Source", CreateSourceVcsCheckoutAction(settings, gitRepo, sourceCodeArtifact)),
+                        Helpers.StageFromActions("Build", 
                             this.CreateDockerImageBuildAction(settings, dockerRepo, sourceCodeArtifact),
                             this.CreateAppDeploymentEnvironmentBuildAction(settings, dockerRepo, sourceCodeArtifact)
                         ),
-                        CdkExtensions.StageFromActions("Restart-the-App", CreateLambdaInvokeAction(settings))
+                        Helpers.StageFromActions("Restart-the-App", CreateLambdaInvokeAction(settings))
                     }
                 }
             );
@@ -77,7 +76,24 @@ namespace CicdInfraAsCode
                 Project = new PipelineProject(this, "CodeBuildProject", new PipelineProjectProps
                 {
                     ProjectName = "Unicorn-Store-app-Docker-image-build",
-                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/app-docker-image-buildsec.yaml"), // <= path relative to the git repo root
+                    BuildSpec = new BuildSpecHelper 
+                    { 
+                        PreBuildCommands = new []
+                        {
+                            "echo Logging in to Amazon ECR...",
+                            "aws --version",
+                            "$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)"
+                        },
+                        BuildCommands = new []
+                        {
+                            "docker build --build-arg BUILD_CONFIG=${BuildConfig}${DbEngine} -t ${DockerRepoUri}:${ImageTag} ."
+                        },
+                        PostBuildCommands = new []
+                        {
+                            "docker push ${DockerRepoUri}:${ImageTag}"
+                        }
+                    }.ToBuildSpec(),
+
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
@@ -99,7 +115,7 @@ namespace CicdInfraAsCode
                         // Deploy stage, where it could have been done too.
                         AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
                         RoleName = $"{settings.ScopeName}-Build-Docker-Image-Role",
-                        ManagedPolicies = CdkExtensions.FromAwsManagedPolicies("AmazonEC2ContainerRegistryPowerUser")
+                        ManagedPolicies = Helpers.FromAwsManagedPolicies("AmazonEC2ContainerRegistryPowerUser")
                     }),
                     Cache = Cache.Local(LocalCacheMode.SOURCE, LocalCacheMode.DOCKER_LAYER)
                 })
@@ -118,10 +134,31 @@ namespace CicdInfraAsCode
                 Project = new PipelineProject(this, "DeploymentEnvCreationProject", new PipelineProjectProps
                 {
                     ProjectName = "Unicorn-Store-deployment-env-build",
-                    BuildSpec = BuildSpec.FromSourceFilename("./infra-as-code/CicdInfraAsCode/src/assets/codebuild/deployment-env-infra-buildspec.yaml"), // <= path relative to the git repo root
+                    BuildSpec = new BuildSpecHelper
+                    {
+                        InstallRuntimes = new Dictionary<string, string>()
+                        {
+                            { "nodejs", "8" },
+                            { "dotnet", "2.2" }
+                        },
+                        PreBuildCommands = new [] 
+                        {
+                            "aws --version",
+                            "npm install -g aws-cdk",
+                            "cdk --version"
+                        },
+                        BuildCommands = new []
+                        {
+                            "echo Building CDK CI/CD project",
+                            "cd ./infra-as-code/ProdEnvInfraAsCode",
+                            "dotnet build ./src/ProdEnvInfraAsCode.csproj -c ${BuildConfig}${DbEngine}",
+                            "cdk diff || true",
+                            "cdk deploy --require-approval never"
+                        }
+                    }.ToBuildSpec(),
+
                     Environment = new BuildEnvironment
                     {
-                        //Privileged = true,
                         BuildImage = LinuxBuildImage.STANDARD_2_0,
                         ComputeType = settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
@@ -139,7 +176,7 @@ namespace CicdInfraAsCode
                         // Deploy stage, where it could have been done too.
                         AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
                         RoleName = $"{settings.ScopeName}-Build-Deployment-Env-Role",
-                        ManagedPolicies = CdkExtensions.FromAwsManagedPolicies(
+                        ManagedPolicies = Helpers.FromAwsManagedPolicies(
                             //"CloudWatchLogsFullAccess", 
                             //"AWSCodeDeployRoleForECSLimited",
                             //"AWSCloudFormationFullAccess"
@@ -200,7 +237,7 @@ namespace CicdInfraAsCode
                     Code = Code.FromAsset("assets/lambda/ecs-container-recycle"),
                     Handler = "index.handler",
 
-                    InitialPolicy = CdkExtensions.FromPolicyProps(
+                    InitialPolicy = Helpers.FromPolicyProps(
                         new PolicyStatementProps
                         {   // Allow talking to CodePipeline
                             Actions = new[] { "codepipeline:PutJobSuccessResult", "codepipeline:PutJobFailureResult" },

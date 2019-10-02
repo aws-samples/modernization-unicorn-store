@@ -69,10 +69,4 @@
     <ProjectReference Include="..\..\CdkLib\CdkLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="assets\codebuild\app-docker-image-buildsec.yaml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
