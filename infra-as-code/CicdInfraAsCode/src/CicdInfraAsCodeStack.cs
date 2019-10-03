@@ -16,9 +16,9 @@ namespace CicdInfraAsCode
         public CicdInfraAsCodeStack(Construct parent, string id, UnicornStoreCiCdStackProps settings)
             : base(parent, id, settings)
         {
-            Repository dockerRepo = this.CreateDockerRepo(settings);
+            Repository dockerImageRepo = this.CreateDockerImageRepo(settings);
             Vcs.Repository gitRepo = this.CreateVersionControlRepo(settings);
-            this.CreateCiCdPipeline(settings, dockerRepo, gitRepo);
+            this.CreateCiCdPipeline(settings, dockerImageRepo, gitRepo);
         }
 
         private Vcs.Repository CreateVersionControlRepo(UnicornStoreCiCdStackProps settings)
@@ -190,7 +190,7 @@ namespace CicdInfraAsCode
             return codeBuildAction;
         }
 
-        private Repository CreateDockerRepo(UnicornStoreCiCdStackProps settings)
+        private Repository CreateDockerImageRepo(UnicornStoreCiCdStackProps settings)
         {
             return new Repository(this, "DockerImageRepository", new RepositoryProps
                 {

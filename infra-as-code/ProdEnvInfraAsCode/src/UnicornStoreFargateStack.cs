@@ -33,7 +33,6 @@ namespace ProdEnvInfraAsCode
                 }
             );
 
-            // TODO: replace existing ECR with one created by the Stack
             var imageRepository = Repository.FromRepositoryName(this, "ExistingEcrRepository", settings.DockerImageRepository);
 
             var ecsService = new ApplicationLoadBalancedFargateService(this, $"{settings.ScopeName}FargateService",
