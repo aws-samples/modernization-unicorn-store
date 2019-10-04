@@ -46,14 +46,14 @@ namespace ProdEnvInfraAsCode.Reusable
             InstanceType.Of(this.DatabaseInstanceClass, this.DatabaseInstanceSize);
 
 
-        internal DatabaseConstructInfo CreateDatabaseConstruct(Construct parent, Vpc vpc, SecMan.Secret databasePasswordSecret)
+        internal DatabaseConstructOutput CreateDatabaseConstruct(Construct parent, Vpc vpc, SecretValue databasePasswordSecret)
         {
             return this.IsClustered ?
                 CreateDbClusterConstruct(parent, vpc, databasePasswordSecret)
                 : CreateDbInstanceConstruct(parent, vpc, databasePasswordSecret);
         }
 
-        private DatabaseConstructInfo CreateDbClusterConstruct(Construct parent, Vpc vpc, SecMan.Secret databasePasswordSecret)
+        private DatabaseConstructOutput CreateDbClusterConstruct(Construct parent, Vpc vpc, SecretValue databasePasswordSecret)
         {
             var database = new DatabaseCluster(parent, $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
                 new DatabaseClusterProps
@@ -67,7 +67,7 @@ namespace ProdEnvInfraAsCode.Reusable
                     MasterUser = new Login
                     {
                         Username = this.Settings.DbUsername,
-                        Password = databasePasswordSecret.SecretValue
+                        Password = databasePasswordSecret
                     },
                     InstanceProps = new Amazon.CDK.AWS.RDS.InstanceProps
                     {
@@ -83,7 +83,7 @@ namespace ProdEnvInfraAsCode.Reusable
 
             string clusterPort = database.ClusterEndpoint.SocketAddress.Split(':')[1]; // Bad - port placeholder is not available otherwise
 
-            return new DatabaseConstructInfo
+            return new DatabaseConstructOutput
             {
                 Connections = database.Connections,
                 EndpointAddress = database.ClusterEndpoint.Hostname,
@@ -91,7 +91,7 @@ namespace ProdEnvInfraAsCode.Reusable
             };
         }
 
-        private DatabaseConstructInfo CreateDbInstanceConstruct(Construct parent, Vpc vpc, SecMan.Secret databasePasswordSecret)
+        private DatabaseConstructOutput CreateDbInstanceConstruct(Construct parent, Vpc vpc, SecretValue databasePasswordSecret)
         {
             var database = new DatabaseInstance(parent, $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
                 new DatabaseInstanceProps
@@ -107,12 +107,12 @@ namespace ProdEnvInfraAsCode.Reusable
                     InstanceIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
                     Engine = this.DbInstanceEgnine,
                     MasterUsername = this.Settings.DbUsername,
-                    MasterUserPassword = databasePasswordSecret.SecretValue,
+                    MasterUserPassword = databasePasswordSecret,
                     RemovalPolicy = RemovalPolicy.DESTROY
                 }
             );
 
-            return new DatabaseConstructInfo
+            return new DatabaseConstructOutput
             {
                 EndpointAddress = database.InstanceEndpoint.Hostname,
                 Connections = database.Connections,

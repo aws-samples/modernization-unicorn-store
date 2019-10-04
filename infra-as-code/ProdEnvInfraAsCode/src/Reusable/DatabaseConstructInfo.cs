@@ -2,7 +2,7 @@
 
 namespace ProdEnvInfraAsCode.Reusable
 {
-    public class DatabaseConstructInfo
+    public class DatabaseConstructOutput
     {
         public string EndpointAddress { get; set; }
 
