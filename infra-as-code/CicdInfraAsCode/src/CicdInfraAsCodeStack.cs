@@ -8,6 +8,8 @@ using Amazon.CDK.AWS.CodePipeline.Actions;
 using Vcs = Amazon.CDK.AWS.CodeCommit;
 using Amazon.CDK.AWS.CodeBuild;
 using System.Collections.Generic;
+using Amazon.CDK.AWS.S3;
+using Amazon.CDK.AWS.KMS;
 
 namespace CicdInfraAsCode
 {
@@ -38,30 +40,37 @@ namespace CicdInfraAsCode
 
         private Pipeline CreateCiCdPipeline(Repository dockerRepo, Vcs.Repository gitRepo)
         {
-            Artifact_ sourceCodeArtifact = CreateSourceCodeArtifacr();
+            Artifact_ sourceCodeArtifact = new Artifact_("Unicorn-Store-Visual-Studio-Solution");
 
             var buildPipeline = new Pipeline(this, "BuildPipeline",
                 new PipelineProps
                 {
                     PipelineName = this.settings.ScopeName,
+                    /*
+                    ArtifactBucket = new Bucket(this, "PipelineArtifactBucket", // An attempt to create S3 bucket for pipeline artifacts - ran into a runtime bug. TODO: try again later.
+                        new BucketProps
+                        {
+                            EncryptionKey = new Key(this, "PipelineArtifactBucketEncryptionKey", new KeyProps
+                            {
+                                Description = $"{this.settings.ScopeName} CodePipeline artifact bucket encryption key",
+                                RemovalPolicy = RemovalPolicy.DESTROY
+                            })
+                        }
+                    ),
+                    */
                     Stages = new[]
                     {
                         Helpers.StageFromActions("Source", CreateSourceVcsCheckoutAction(gitRepo, sourceCodeArtifact)),
                         Helpers.StageFromActions("Build",
                             this.CreateDockerImageBuildAction(dockerRepo, sourceCodeArtifact),
-                            this.CreateAppDeploymentEnvironmentBuildAction(dockerRepo, sourceCodeArtifact)
+                            this.CreateAppDeploymentEnvironmentBuildAction(sourceCodeArtifact)
                         ),
                         Helpers.StageFromActions("Restart-the-App", this.CreateLambdaInvokeAction())
                     }
                 }
-            );
+            ); ;
 
             return buildPipeline;
-        }
-
-        private Artifact_ CreateSourceCodeArtifacr()
-        {
-            return new Artifact_("Unicorn-Store-Visual-Studio-Solution");
         }
 
         private CodeCommitSourceAction CreateSourceVcsCheckoutAction(Vcs.Repository gitRepo, Artifact_ sourceOutput)
@@ -133,7 +142,7 @@ namespace CicdInfraAsCode
             return codeBuildAction;
         }
 
-        private CodeBuildAction CreateAppDeploymentEnvironmentBuildAction(Repository dockerRepo, Artifact_ sourceOutput)
+        private CodeBuildAction CreateAppDeploymentEnvironmentBuildAction(Artifact_ sourceOutput)
         {
             var codeBuildAction = new CodeBuildAction(new CodeBuildActionProps
             {
@@ -206,7 +215,7 @@ namespace CicdInfraAsCode
                     RepositoryName = this.settings.DockerImageRepository,
                     LifecycleRules = new []
                     {
-                        new LifecycleRule
+                        new Amazon.CDK.AWS.ECR.LifecycleRule
                         {
                             Description = $"Expire untagged images in {this.settings.UntaggedImageExpirationDays} days",
                             TagStatus = TagStatus.UNTAGGED,

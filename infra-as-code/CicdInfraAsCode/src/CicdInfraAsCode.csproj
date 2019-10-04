@@ -59,6 +59,7 @@
     <PackageReference Include="Amazon.CDK.AWS.CodePipeline.Actions" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.ECR" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.11.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.KMS" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.11.0-devpreview" />
