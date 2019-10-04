@@ -20,6 +20,8 @@ namespace CicdInfraAsCode
         public CicdInfraAsCodeStack(Construct parent, string id, UnicornStoreCiCdStackProps settings)
             : base(parent, id, settings)
         {
+            new Bucket(this, "Delme bucket");
+
             this.settings = settings;
 
             Repository dockerImageRepo = this.CreateDockerImageRepo();
@@ -42,22 +44,22 @@ namespace CicdInfraAsCode
         {
             Artifact_ sourceCodeArtifact = new Artifact_("Unicorn-Store-Visual-Studio-Solution");
 
+            Bucket artifactBucket = new Bucket(this, "PipelineArtifactBucket"); // An attempt to create S3 bucket for pipeline artifacts - ran into a runtime bug. TODO: try again later.
+                    //    new BucketProps
+                    //    {
+                    //        EncryptionKey = new Key(this, "PipelineArtifactBucketEncryptionKey", new KeyProps
+                    //        {
+                    //            Description = $"{this.settings.ScopeName} CodePipeline artifact bucket encryption key",
+                    //            RemovalPolicy = RemovalPolicy.DESTROY
+                    //        })
+                    //    }
+                    //);
+
             var buildPipeline = new Pipeline(this, "BuildPipeline",
                 new PipelineProps
                 {
                     PipelineName = this.settings.ScopeName,
-                    /*
-                    ArtifactBucket = new Bucket(this, "PipelineArtifactBucket", // An attempt to create S3 bucket for pipeline artifacts - ran into a runtime bug. TODO: try again later.
-                        new BucketProps
-                        {
-                            EncryptionKey = new Key(this, "PipelineArtifactBucketEncryptionKey", new KeyProps
-                            {
-                                Description = $"{this.settings.ScopeName} CodePipeline artifact bucket encryption key",
-                                RemovalPolicy = RemovalPolicy.DESTROY
-                            })
-                        }
-                    ),
-                    */
+                    //ArtifactBucket = artifactBucket,
                     Stages = new[]
                     {
                         Helpers.StageFromActions("Source", CreateSourceVcsCheckoutAction(gitRepo, sourceCodeArtifact)),
