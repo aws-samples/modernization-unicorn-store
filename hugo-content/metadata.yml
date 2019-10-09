@@ -1,0 +1,38 @@
+#name - DNS-friendly name for the workshop. This will be used when generating the hosting URL (ie. https://my-first-workshop.workshops.aws/)
+name: aspnet-modernization
+#title - The title of your workshop
+title: ASP.NET Application Modernization
+#description - A short description that will be displayed in search results
+description: Adding containerization in the cloud, database freedom, infra-as-code and CI/CD pipeline for ASP.NET Core Unicorn Store web app.
+#categories - Refer to official AWS categories covered by the workshop content here
+categories: 
+  - Containers
+  - RDS
+  - ECS
+  - CI/CD
+  - infra-as-code
+  - Compute
+#services - Refer to the official AWS service names covered by the workshop content here
+services: 
+   - CDK
+   - ECS
+   - RDS
+   - ECR
+   - CodePipeline
+   - CodeCommit
+   - CodeBuild
+   - Lambda
+   - EC2
+#level - Approximate skill level needed for this workshop
+level: 300 
+#duration - Estimated duration in minutes
+duration: 90 
+#cost - Cost in USD. If the content is offered without cost, enter 0
+cost: 0 
+#author - Amazon alias of the primary author of the content
+author: vladhry 
+#audience - Names of the personas associated with this workshop
+audience: 
+  - Developer
+  - DevOps
+  - Architect
