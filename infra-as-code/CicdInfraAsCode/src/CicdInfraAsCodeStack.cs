@@ -20,8 +20,6 @@ namespace CicdInfraAsCode
         public CicdInfraAsCodeStack(Construct parent, string id, UnicornStoreCiCdStackProps settings)
             : base(parent, id, settings)
         {
-            new Bucket(this, "Delme bucket");
-
             this.settings = settings;
 
             Repository dockerImageRepo = this.CreateDockerImageRepo();
@@ -34,7 +32,7 @@ namespace CicdInfraAsCode
             return new Vcs.Repository(this, "CodeCommitRepo",
                 new Vcs.RepositoryProps
                 {
-                    RepositoryName = "Unicorn-Store-Sample-Git-Repo",
+                    RepositoryName = this.settings.CodeCommitRepoName,
                     Description = $"Version control system for {this.settings.ScopeName} application"
                 }
             );
@@ -44,7 +42,7 @@ namespace CicdInfraAsCode
         {
             Artifact_ sourceCodeArtifact = new Artifact_("Unicorn-Store-Visual-Studio-Solution");
 
-            Bucket artifactBucket = new Bucket(this, "PipelineArtifactBucket"); // An attempt to create S3 bucket for pipeline artifacts - ran into a runtime bug. TODO: try again later.
+            //Bucket artifactBucket = new Bucket(this, "PipelineArtifactBucket"); // An attempt to create S3 bucket for pipeline artifacts - ran into a runtime bug. TODO: try again later.
                     //    new BucketProps
                     //    {
                     //        EncryptionKey = new Key(this, "PipelineArtifactBucketEncryptionKey", new KeyProps

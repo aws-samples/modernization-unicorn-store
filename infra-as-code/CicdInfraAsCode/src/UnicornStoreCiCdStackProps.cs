@@ -40,5 +40,7 @@ namespace CicdInfraAsCode
         public ComputeType BuildInstanceSize { get; set; } = ComputeType.SMALL;
 
         public string GitBranchToBuild { get; set; } = "master";
+
+        public string CodeCommitRepoName { get; set; } = "Unicorn-Store-Sample-Git-Repo";
     }
 }
