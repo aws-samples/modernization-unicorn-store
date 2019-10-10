@@ -1,24 +1,20 @@
 using System.Data.SqlClient;
-using System;
 using System.Globalization;
-using System.Linq;
-using System.Net.Mime;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Hosting;
 using UnicornStore.Components;
 using UnicornStore.Models;
-using UnicornStore.HealthChecks;
+using System.Text.Json;
+using HealthChecks.UI.Client;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace UnicornStore
 {
@@ -41,10 +37,11 @@ namespace UnicornStore
             if (Configuration["UNICORNSTORE_DBSECRET"] != null)
             {
                 var unicorn_envvariables = Configuration["UNICORNSTORE_DBSECRET"];
-                JObject parsed_json = JObject.Parse(unicorn_envvariables);
-                Configuration["UNICORNSTORE_DBSECRET:username"] = (string)parsed_json["username"];
-                Configuration["UNICORNSTORE_DBSECRET:password"] = (string)parsed_json["password"];
-                Configuration["UNICORNSTORE_DBSECRET:host"] = (string)parsed_json["host"];
+                var document = JsonDocument.Parse(unicorn_envvariables);
+                var root = document.RootElement;
+                Configuration["UNICORNSTORE_DBSECRET:username"] = root.GetProperty("username").GetString();
+                Configuration["UNICORNSTORE_DBSECRET:password"] = root.GetProperty("password").GetString();
+                Configuration["UNICORNSTORE_DBSECRET:host"] = root.GetProperty("host").GetString();
             }
 
             var sqlconnectionbuilder = new SqlConnectionStringBuilder(
@@ -76,13 +73,19 @@ namespace UnicornStore
             services.AddLogging();
 
             // Add MVC services to the services container
-            services.AddMvc();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddOptions();
 
             // Add the Healthchecks
+            // https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
+            // AspNetCore.Diagnostics.HealthChecks isn't maintained or supported by Microsoft.
             services.AddHealthChecks()
-                .AddCheck<UnicornHomePageHealthCheck>("UnicornStore_HealthCheck");
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddSqlServer(_connection,
+                    name: "UnicornDB-check",
+                    tags: new string[] { "UnicornDB" });
 
             // Add memory cache services
             services.AddMemoryCache();
@@ -107,7 +110,7 @@ namespace UnicornStore
         }
 
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //This is invoked when ASPNETCORE_ENVIRONMENT is 'Development' or is not defined
             //The allowed values are Development,Staging and Production
@@ -124,7 +127,7 @@ namespace UnicornStore
             }
 
             //This is invoked when ASPNETCORE_ENVIRONMENT is 'Production' or 'Staging'
-            if (env.IsProduction() || env.IsStaging() )
+            if (env.IsProduction() || env.IsStaging())
             {
                 // StatusCode pages to gracefully handle status codes 400-599.
                 app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
@@ -132,27 +135,16 @@ namespace UnicornStore
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseHealthChecks("/health",
-                new HealthCheckOptions
-                {
-                    ResponseWriter = async (context, report) =>
-                    {
-                        var result = JsonConvert.SerializeObject(
-                            new
-                            {
-                                OverallStatus = report.Status.ToString(),
-                                HealthChecks = report.Entries.Select(e => new
-                                {
-                                    name = e.Key,
-                                    value = Enum.GetName(typeof(HealthStatus), e.Value.Status),
-                                    status = e.Value.Description,
-                                    duration = e.Value.Duration
-                                })
-                            });
-                        context.Response.ContentType = MediaTypeNames.Application.Json;
-                        await context.Response.WriteAsync(result);
-                    }
-                });
+            app.UseHealthChecks("/health", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
 
             // force the en-US culture, so that the app behaves the same even on machines with different default culture
             var supportedCultures = new[] { new CultureInfo("en-US") };
@@ -176,26 +168,32 @@ namespace UnicornStore
             // Add static files to the request pipeline
             app.UseStaticFiles();
 
+            // Add the endpoint routing matcher middleware to the request pipeline
+            app.UseRouting();
+
             // Add cookie-based authentication to the request pipeline
             app.UseAuthentication();
 
-            // Add MVC to the request pipeline
-            app.UseMvc(routes =>
+            // Add the authorization middleware to the request pipeline
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}",
-                    defaults: new { action = "Index" });
+                endpoints.MapControllers();
+                endpoints.MapAreaControllerRoute(
+                    "admin",
+                    "admin",
+                    "Admin/{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "api",
-                    template: "{controller}/{id?}");
+                    pattern: "{controller=Home}/{id?}");
             });
         }
+
     }
 }
