@@ -60,6 +60,7 @@ namespace UnicornStore.Controllers
                     order.OrderDate = DateTime.Now;
 
                     //Add the Order
+                    // TODO: investigate why intermediary SaveChangesAsync() is necessary.
                     await dbContext.Orders.AddAsync(order);
                     await dbContext.SaveChangesAsync();
 
