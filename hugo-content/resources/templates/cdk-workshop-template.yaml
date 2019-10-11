@@ -103,12 +103,12 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1:
-      AmiId: ami-0186dc52f0218bca9
+      AmiId: ami-012a4b65e41ebd666
       AZ1: us-east-1a
       AZ2: us-east-1b
       AZ3: us-east-1c
     us-west-2:
-      AmiId: ami-036339ddc7885ee93
+      AmiId: ami-014fe7a162bf3ffd3
       AZ1: us-west-2a
       AZ2: us-west-2b
       AZ3: us-west-2c
