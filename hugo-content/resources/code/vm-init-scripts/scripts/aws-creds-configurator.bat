@@ -2,15 +2,13 @@
 echo starting script
 
 cd C:\Users\Administrator\
-if not exist credentials (
-mkdir C:\Projects
-cd C:\Projects
-git clone https://github.com/vgribok/modernization-unicorn-store.git
-cd modernization-unicorn-store
-git checkout development
-dotnet build UnicornStore.sln -c DebugSqlServer
-echo checked out latest project
+if not exist .aws (
+mkdir .aws
+)
+echo .aws directory created
 
+cd C:\Users\Administrator\.aws\
+if not exist credentials (
 powershell -executionpolicy bypass -file C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeInstance.ps1
 
 net user Administrator Passw0rd
@@ -43,12 +41,6 @@ powershell -Command "(gc '.gitconfig.template') -replace 'AWSREGION', (gc region
 echo codecommit region configured 
 powershell -Command "(gc gitremote.template) -replace 'AWSREGION', (gc region.txt) | Out-File -encoding ASCII gitremote.txt"
 echo codecommit region configured 
-
-cd C:\Users\Administrator\
-if not exist .aws (
-mkdir .aws
-)
-echo .aws directory created
 
 cd C:\Users\Administrator\AppData\Local\AWSToolkit
 if not exist teamexplorer (
