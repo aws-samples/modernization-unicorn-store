@@ -7,7 +7,7 @@ mkdir C:\Projects
 cd C:\Projects
 git clone https://github.com/vgribok/modernization-unicorn-store.git
 cd modernization-unicorn-store
-git checkout feature/hugo-web-site-content
+git checkout cdk-module
 dotnet build UnicornStore.sln -c DebugSqlServer
 echo checked out latest project
 
