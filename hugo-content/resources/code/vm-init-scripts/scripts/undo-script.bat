@@ -9,7 +9,8 @@ del credentials
 cd C:\Users\Administrator\AppData\Local\AWSToolkit\teamexplorer\
 del connections.json
 
-rd /s /q "C:\ProjectsTemp\"
+REM rd /s /q "C:\ProjectsTemp\"
 rd /s /q "C:\Projects\"
+rd /s /q "C:\Users\Administrator\StartupArea\"
 
-cd C:\Users\Administrator\StartupArea\scripts
+cd C:\Users\Administrator\InitScripts
