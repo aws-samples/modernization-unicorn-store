@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Configurations>DebugSqlServer;DebugMySQL;DebugPostgres;ReleaseMySQL;ReleasePostgres;ReleaseSqlServer</Configurations>
+    <UserSecretsId>9fdabace-e7d2-4418-9961-dbd57e655520</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
@@ -64,6 +65,7 @@
     <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.11.0-devpreview" />
     <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.11.0-devpreview" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

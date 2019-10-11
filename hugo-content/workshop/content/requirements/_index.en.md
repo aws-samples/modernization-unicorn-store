@@ -7,4 +7,7 @@ chapter = true
 pre = "<b>1. </b>"
 +++
 
-TBD
+> To successfully execute any module of this workshop, following *common* requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.
+
+* [.NET Core Framework 2.2](https://dotnet.microsoft.com/download)
+* 
