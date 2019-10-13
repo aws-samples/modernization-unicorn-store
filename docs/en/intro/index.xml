@@ -17,8 +17,9 @@
       <pubDate>Sat, 12 Oct 2019 17:36:04 -0400</pubDate>
       
       <guid>/en/intro/target-audience.html</guid>
-      <description>.NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don&amp;rsquo;t have to be seasoned engineer though to learn and enjoy from this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.
-Other technical roles, like Architects, DevOps, Site Reliability Engineers, with some familiarity with .NET software development ecosystem, should also have easy time following lab steps and learning how a run-of-the-mill ASP.</description>
+      <description>Anyone comfortable with Visual Studio or Jetbrains Rider is going to have easy time with this workshop. Proficiency with C# is quite important and familiarity with Amazon Web Services is beneficial too.
+This is level 300-400 (intermediate to advanced) workshop, so please do not assume &amp;ldquo;Hello, World&amp;rdquo; simplicity.
+.NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don&amp;rsquo;t have to be seasoned engineer though to learn and enjoy from this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.</description>
     </item>
     
     <item>
@@ -39,7 +40,7 @@ Data Access components of the application are written using code-first style, en
       <guid>/en/intro/prerequisites.html</guid>
       <description>To successfully execute any module of this workshop, following common requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.
 If you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available for workshop participants.
-  .NET Core Framework 2.2. Visual Studio 2019 Community Edition or any other IDE capable of building and running Visual Studio solutions.</description>
+ Note to non-Windows users: since most modules are based on .NET Core version of the application, Mac and Linux users should have no trouble executing most modules.</description>
     </item>
     
   </channel>

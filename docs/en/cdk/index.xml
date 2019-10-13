@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Overview</title>
+      <title>CDK Module Overview</title>
       <link>/en/cdk/overview.html</link>
       <pubDate>Sat, 12 Oct 2019 18:06:59 -0400</pubDate>
       
@@ -20,6 +20,16 @@
       <description>Welcome to the .NET AWS CDK module of the workshop! &amp;ldquo;CDK&amp;rdquo; stands for Cloud Development Kit.
 Workshop Goals The goal of this lab is to guide participants through adding support for MySQL database to both ASP.NET application codebase, and to the existing infra-as-code C# CDK projects defining cloud CI/CD pipeline and cloud application deployment environment.
 This workshop skips the &amp;ldquo;Hello, World&amp;rdquo; CDK project creation, and instead focuses on somewhat more in-depth capabilities of the CDK, showing higher-fidelity code samples implementing closer-to-real-life scenarios.</description>
+    </item>
+    
+    <item>
+      <title>Setting Up Dev Environment</title>
+      <link>/en/cdk/setting-up.html</link>
+      <pubDate>Sun, 13 Oct 2019 14:29:41 -0400</pubDate>
+      
+      <guid>/en/cdk/setting-up.html</guid>
+      <description>You may skip this page and move on to the next step and you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.
+Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.</description>
     </item>
     
   </channel>
