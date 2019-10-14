@@ -8,7 +8,7 @@ namespace CdkLib
     {
         /// <summary>
         /// The work-around for the "Resolution error: System.Reflection.TargetParameterCountException: Parameter count mismatch"
-        /// bug when using Secrets as is
+        /// bug when using Secrets as is. The bug reported at https://github.com/aws/aws-cdk/issues/4151
         /// </summary>
         /// <param name="secret"></param>
         /// <param name="secretName"></param>

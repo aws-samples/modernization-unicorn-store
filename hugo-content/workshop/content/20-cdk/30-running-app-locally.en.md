@@ -16,4 +16,8 @@ pre = "<b>2. </b>"
 
 #### Exploring and Testing Unicorn Store Web Application Functionality
 
-TBD
+Unicorn Store is an emulation of an e-commerce web site implementing simplified product catalog, shopping cart and checkout flow.
+
+After you have started the application, you should see the home page shown on the screenshot above. At the bottom of the screen you should see RDBMS type and database server address information.
+
+Please add a few unicorns to the basket, and click the "Checkout >>" button at the top of the shopping cart page. You will be prompted to log in. Please use credentials saved in the "secrets" file at the [previous step](20-setting-up.en.md): "`Administrator@test.com`" for username, and "`Secret1*`" for the password. To complete checkout flow, please enter  shipping address, and for payment simply enter "**FREE**" in the "Promo Code" field and click "Submit Order" - if all went as planned, you should see the "Checkout Complete" message.

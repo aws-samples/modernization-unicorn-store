@@ -41,5 +41,25 @@ Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or
       <description>Starting Unicorn Store Web Application     Notes      Once you have prepared your development environment, the only thing remains is to ensure that UnicornStore.csproj is selected as a startup project, switch hosting from &amp;ldquo;IIS Express&amp;rdquo; to Console, as shown on the screenshot on the left, and start the application in the debug mode.    After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.</description>
     </item>
     
+    <item>
+      <title>Creating AWS CI/CD Pipeline</title>
+      <link>/en/20-cdk/40-creating-ci-cd-pipeline.html</link>
+      <pubDate>Mon, 14 Oct 2019 11:11:14 -0400</pubDate>
+      
+      <guid>/en/20-cdk/40-creating-ci-cd-pipeline.html</guid>
+      <description>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&amp;rsquo;s spend a few moments to create the CI/CD pipeline in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&amp;rsquo;ll spend some time looking into the structure of project and getting familiar with CDK concepts.
+    Notes      Again, please select either Posgres or SQL Server configuration from Solution&amp;rsquo;s Build Configuration drop-down in Visual Studio&amp;hellip;    &amp;hellip;and mark &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a startup project.</description>
+    </item>
+    
+    <item>
+      <title>Project Structure</title>
+      <link>/en/20-cdk/50-project-structure.html</link>
+      <pubDate>Mon, 14 Oct 2019 14:11:33 -0400</pubDate>
+      
+      <guid>/en/20-cdk/50-project-structure.html</guid>
+      <description>Let&amp;rsquo;s use the few minutes that it takes for the application CI/CD pipeline infrastructure to build, to get familiar with the structure of the project.
+    Notes      Solution contains one ASP.NET Core application project named UnicornStore, and three CDK-related projects: CdkLib - a C# class library project, containing reusable components shared between two executable CDK projects.    The first of executable CDK projects is CicdInfraAsCode - the project we ran at the previous step of the lab.</description>
+    </item>
+    
   </channel>
 </rss>

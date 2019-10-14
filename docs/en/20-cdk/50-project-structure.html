@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 <link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 
-  <title>What&#39;s Inside :: ASP.NET Modernization Workshop</title>
+  <title>Project Structure :: ASP.NET Modernization Workshop</title>
 
   
   <link href="../../css/nucleus.css" rel="stylesheet">
@@ -45,7 +45,7 @@
   
 </head>
 
-<body class="" data-url="/en/10-intro/10-overview.html">
+<body class="" data-url="/en/20-cdk/50-project-structure.html">
   <nav id="sidebar" class="">
 
 
@@ -90,7 +90,7 @@
   
     
     <li data-nav-id="/en/10-intro.html" title="What and Why" class="dd-item 
-        parent
+        
         
         
         ">
@@ -133,7 +133,7 @@
  
   
     
-      <li data-nav-id="/en/10-intro/10-overview.html" title="What&#39;s Inside" class="dd-item active">
+      <li data-nav-id="/en/10-intro/10-overview.html" title="What&#39;s Inside" class="dd-item ">
         <a href="../../en/10-intro/10-overview.html">
         What&#39;s Inside
         
@@ -198,7 +198,7 @@
   
     
     <li data-nav-id="/en/20-cdk.html" title="AWS .NET CDK" class="dd-item 
-        
+        parent
         
         
         ">
@@ -298,7 +298,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/50-project-structure.html" title="Project Structure" class="dd-item ">
+      <li data-nav-id="/en/20-cdk/50-project-structure.html" title="Project Structure" class="dd-item active">
         <a href="../../en/20-cdk/50-project-structure.html">
         <b>4. </b>Project Structure
         
@@ -364,7 +364,7 @@
                   
                     
                     
-                      <option id="en" value="/en/10-intro/10-overview.html" selected>English</option>
+                      <option id="en" value="/en/20-cdk/50-project-structure.html" selected>English</option>
                     
                   
               
@@ -415,7 +415,7 @@
           
           
           <div id="top-github-link">
-            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/10-intro/10-overview.en.md"
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/50-project-structure.en.md"
               target="blank">
               <i class="fas fa-code-branch"></i>
               <span id="top-github-link-text">Edit this page</span>
@@ -445,7 +445,7 @@
           
           
           
-          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/10-intro.html'>What and Why</a> > What's Inside
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > Project Structure
           
           
           
@@ -463,10 +463,11 @@
 <ul>
 <li>
 <ul>
-<li>
+<li><a href="#unicorn-store-asp-net-core-application-overview">Unicorn Store ASP.NET Core Application Overview</a></li>
+<li><a href="#cdk-projects-overview">CDK Projects Overview</a>
 <ul>
-<li><a href="#asp-net-application">ASP.NET Application</a></li>
-<li><a href="#ci-cd-pipeline-and-deployment-environment-infra-as-code">CI/CD Pipeline and Deployment Environment Infra As Code</a></li>
+<li><a href="#cdklib">CdkLib</a></li>
+<li><a href="#cicdinfraascode">CicdInfraAsCode</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -482,22 +483,70 @@
 
       
         <div id="body-inner">
-          <h1>What&#39;s Inside</h1>
+          <h1>Project Structure</h1>
           
           
 
 
 
 
-<h4 id="asp-net-application">ASP.NET Application</h4>
+<p>Let&rsquo;s use the few minutes that it takes for the <a href="./50-project-structure.html">application CI/CD pipeline infrastructure</a> to build, to get familiar with the structure of the project.</p>
 
-<p>The foundation of every module here is an ASP.NET <em>Core</em> Unicorn Store web application that has an MVC/Razor UI and MVC Controllers implementing business logic and data access layers. Unicorn Store application is based on an established ASP.NET Music Store sample and thus should be fairly familiar to many participants.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Notes</th>
+</tr>
+</thead>
 
-<p>Data Access components of the application are written using <em>code-first</em> style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.</p>
+<tbody>
+<tr>
+<td><img src="./images/CicdInfraAsCode-csproj-as-startup.png?width=600" alt="Project Structure" /></td>
+<td>Solution contains one ASP.NET Core application project named <code>UnicornStore</code>, and three CDK-related projects: <code>CdkLib</code> - a C# class library project, containing reusable components shared between two executable CDK projects.</td>
+</tr>
+</tbody>
+</table>
 
-<h4 id="ci-cd-pipeline-and-deployment-environment-infra-as-code">CI/CD Pipeline and Deployment Environment Infra As Code</h4>
+<p>The first of executable CDK projects is <code>CicdInfraAsCode</code> - the project we ran at the <a href="./40-creating-ci-cd-pipeline.html">previous step</a> of the lab. &ldquo;CicdInfraAsCode&rdquo; is a C# Console project, generating CloudFormation templates from C# code, to build out AWS CodePipeline CI/CD infrastructure.</p>
 
-<p>All workshop modules feature AWS CI/CD pipeline infrastructure and deployment environment infrastructure as expressed as AWS CDK based C# code, thus enabling an easy building and deployment of the application in AWS cloud.</p>
+<blockquote>
+<p>The &ldquo;CicdInfraAsCode&rdquo; project contains a small <em>Node.js sub-project</em> in the &ldquo;/assets/lambda/ecs-container-recycle&rdquo; directory, which defines serverless AWS Lambda function used at the final stage of the CI/CD pipeline to recycle Linux containers, after new container image is built and made available to the application hosted by Amazon ECS.</p>
+</blockquote>
+
+<p>Second executable CDK project is <code>ProdEnvInfraAsCode</code> - an C# Console project, generating CloudFormation templates that build out Unicorn Store application deployment environment in AWS cloud. This project will not be run from the Visual Studio because it will be run from the AWS CodePipeline to deploy Unicorn Store application packaged as a Linux container to Amazon Elastic Cloud Service (ECS), and to provision an RDBMS instance for the application from Amazon Relational Database Service (RDS).</p>
+
+<h3 id="unicorn-store-asp-net-core-application-overview">Unicorn Store ASP.NET Core Application Overview</h3>
+
+<p>A descendant from a well-known ASP.NET <a href="https://github.com/aspnet/AspNetCore/tree/v2.2.7/src/MusicStore" target="_blank">Music Store sample</a>, Unicorn Store is created to be a fairly typical ASP.NET Core 2.x MVC/Razor &amp; Entity Framework Core application, combining UI, business logic and data access tiers in a single application, which is arguably a very typical design for most ASP.NET applications pre-dating microservices, <a href="https://www.12factor.net/" target="_blank">12-factor</a>/cloud-native applications, and as such, suitable for modernization-focused labs.</p>
+
+<blockquote>
+<p>Something worth noting: <em>Unicorn Store application project has no dependencies on any AWS components</em>. The goal of the sample project is to represent an application that has <em>only open-source dependencies</em> and thus <em>can run anywhere</em>, from local developer workstation, to a proprietary datacenter, to any cloud service provider.</p>
+</blockquote>
+
+<p>Unicorn Store data access tier is designed using <em>code-first</em> style, which uses C# code to define entity relationships and consequently database structure. This approach enables relatively easy swapping of database engines without drastically affecting the codebase. This module starts with the application codebase already retrofitted with pluggable RDBMS architecture and supporting SQL Server and PostgreSQL database engines out of the box.</p>
+
+<p>This lab&rsquo;s focus is on adding support for MySQL database, which is a pretty simple task enabled by most of database engine configuration code abstracted away and already implemented. This relative simplicity will let us focus on the CDK-related tasks in later chapters.</p>
+
+<h3 id="cdk-projects-overview">CDK Projects Overview</h3>
+
+<h4 id="cdklib">CdkLib</h4>
+
+<p>CdkLib, a shorthand for CDK library, contains modest amount of reusable C# code referenced by both executable .NET CDK projects. It&rsquo;s home to classes and helper methods reducing amount of boilerplate, making infrastructure build-out &ldquo;meat&rdquo; code in main projects more concise and expressive. It also serves as an illustration that CDK code is very easy to componentize and parameterize.</p>
+
+<p>One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core <code>IConfiguration</code> from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it ver easy to pass parameters to CDK projects via Environment Variable in CodePipeline, CodeBuild, and many other places.</p>
+
+<h4 id="cicdinfraascode">CicdInfraAsCode</h4>
+
+<p>The more complex of all CDK projects, still with only about 300 lines of CDK code (plus another 100 lines of Node.js code), this C# Console app project produces three-stage project build and deployment pipeline, show below.</p>
+
+<p><img src="./images/CodePipeline-in-AWS-console.png" alt="Unicorn Store CI/CD Pipeline in AWS CodePipeline Console" /></p>
+
+<p>The Build stage of the pipeline contains two <em>parallel</em> sub-stages: a) building application and packaging its artifacts as a <a href="https://www.docker.com/resources/what-container" target="_blank">Docker</a> container image, and b) compiling and running second CDK project, the &ldquo;ProdEnvInfraAsCode&rdquo;, which builds out deployment infrastructure for the Unicorn Store app.</p>
+
+<p>The pipeline is not overly complicated and does not yet contain any quality gates, like testing, but it can serve as a springboard for an evolving CI/CD pipeline project.</p>
+
+<p>TBD</p>
 
 
 <footer class=" footline" >
@@ -568,7 +617,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -584,9 +632,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -630,22 +675,6 @@
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -711,6 +740,23 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -718,6 +764,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -739,10 +788,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/10-intro/05-target-audience.html" title="Who this Workshop is For"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/10-intro/20-prerequisites.html" title="Prerequisites" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/30-containerization.html" title="Containerization (Coming Soon)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

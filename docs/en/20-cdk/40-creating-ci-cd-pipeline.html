@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 <link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 
-  <title>What&#39;s Inside :: ASP.NET Modernization Workshop</title>
+  <title>Creating AWS CI/CD Pipeline :: ASP.NET Modernization Workshop</title>
 
   
   <link href="../../css/nucleus.css" rel="stylesheet">
@@ -45,7 +45,7 @@
   
 </head>
 
-<body class="" data-url="/en/10-intro/10-overview.html">
+<body class="" data-url="/en/20-cdk/40-creating-ci-cd-pipeline.html">
   <nav id="sidebar" class="">
 
 
@@ -90,7 +90,7 @@
   
     
     <li data-nav-id="/en/10-intro.html" title="What and Why" class="dd-item 
-        parent
+        
         
         
         ">
@@ -133,7 +133,7 @@
  
   
     
-      <li data-nav-id="/en/10-intro/10-overview.html" title="What&#39;s Inside" class="dd-item active">
+      <li data-nav-id="/en/10-intro/10-overview.html" title="What&#39;s Inside" class="dd-item ">
         <a href="../../en/10-intro/10-overview.html">
         What&#39;s Inside
         
@@ -198,7 +198,7 @@
   
     
     <li data-nav-id="/en/20-cdk.html" title="AWS .NET CDK" class="dd-item 
-        
+        parent
         
         
         ">
@@ -279,7 +279,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline" class="dd-item ">
+      <li data-nav-id="/en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline" class="dd-item active">
         <a href="../../en/20-cdk/40-creating-ci-cd-pipeline.html">
         <b>3. </b>Creating Cloud CI/CD Pipeline
         
@@ -364,7 +364,7 @@
                   
                     
                     
-                      <option id="en" value="/en/10-intro/10-overview.html" selected>English</option>
+                      <option id="en" value="/en/20-cdk/40-creating-ci-cd-pipeline.html" selected>English</option>
                     
                   
               
@@ -415,7 +415,7 @@
           
           
           <div id="top-github-link">
-            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/10-intro/10-overview.en.md"
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/40-creating-ci-cd-pipeline.en.md"
               target="blank">
               <i class="fas fa-code-branch"></i>
               <span id="top-github-link-text">Edit this page</span>
@@ -445,7 +445,7 @@
           
           
           
-          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/10-intro.html'>What and Why</a> > What's Inside
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > Creating AWS CI/CD Pipeline
           
           
           
@@ -457,21 +457,7 @@
           
           <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#asp-net-application">ASP.NET Application</a></li>
-<li><a href="#ci-cd-pipeline-and-deployment-environment-infra-as-code">CI/CD Pipeline and Deployment Environment Infra As Code</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
+
     </div>
 </div>
 
@@ -482,22 +468,37 @@
 
       
         <div id="body-inner">
-          <h1>What&#39;s Inside</h1>
+          <h1>Creating AWS CI/CD Pipeline</h1>
           
           
 
 
+<p>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&rsquo;s spend a few moments to create the CI/CD pipeline in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&rsquo;ll spend some time looking into the structure of project and getting familiar with CDK concepts.</p>
 
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Notes</th>
+</tr>
+</thead>
 
-<h4 id="asp-net-application">ASP.NET Application</h4>
+<tbody>
+<tr>
+<td><img src="images/solution-build-configurations.png" alt="VS Build Configurations" /></td>
+<td>Again, please select either Posgres or SQL Server configuration from Solution&rsquo;s Build Configuration drop-down in Visual Studio&hellip;</td>
+</tr>
 
-<p>The foundation of every module here is an ASP.NET <em>Core</em> Unicorn Store web application that has an MVC/Razor UI and MVC Controllers implementing business logic and data access layers. Unicorn Store application is based on an established ASP.NET Music Store sample and thus should be fairly familiar to many participants.</p>
+<tr>
+<td><img src="./images/CicdInfraAsCode-csproj-as-startup.png" alt="CI/CD project as startup" /></td>
+<td>&hellip;and mark &ldquo;CicdInfraAsCode&rdquo; project as a startup project.<br/><br/>Please run the project. If all went well you should see a console window with output starting with something like <em>Synthesized to &ldquo;C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ&rdquo;.</em> That path is the location of where CloudFormation templates generated.</td>
+</tr>
+</tbody>
+</table>
 
-<p>Data Access components of the application are written using <em>code-first</em> style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.</p>
-
-<h4 id="ci-cd-pipeline-and-deployment-environment-infra-as-code">CI/CD Pipeline and Deployment Environment Infra As Code</h4>
-
-<p>All workshop modules feature AWS CI/CD pipeline infrastructure and deployment environment infrastructure as expressed as AWS CDK based C# code, thus enabling an easy building and deployment of the application in AWS cloud.</p>
+<p>Now please open a Command Prompt window and cd into the directory containing &ldquo;CicdInfraAsCode.csproj&rdquo; project file, which relative to the project root is &ldquo;infra-as-code/CicdInfraAsCode/src&rdquo;, and run the following command to start creation of the CI/CD pipeline:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cdk deploy --require-approval never</code></pre></div>
+<p>That will start a process of creating a CI/CD pipeline for the application using AWS CodePipeline service, which in turn orchestrates few other AWS services, like CodeCommit and CodeBuild. This CI/CD infrastructure build-out job should take a few minutes, which will be well spent in the next section, which deals with the structure of the project.</p>
 
 
 <footer class=" footline" >
@@ -568,7 +569,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -584,9 +584,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -630,22 +627,6 @@
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -699,6 +680,26 @@
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -739,10 +740,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/10-intro/05-target-audience.html" title="Who this Workshop is For"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk/30-running-app-locally.html" title="Running App Locally"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/10-intro/20-prerequisites.html" title="Prerequisites" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/20-cdk/50-project-structure.html" title="Project Structure" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

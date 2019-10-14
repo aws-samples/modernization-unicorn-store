@@ -83,5 +83,25 @@ If you are taking this lab within the scope of an Amazon event, in many cases a 
  This lab makes an extensive use of .NET Core Secret Manager on your development workstation to save database passwords and similar types of sensitive application configuration data that varies from one developer&amp;rsquo;s workstation to another. Please note that despite the name .NET Core Secret Manager is not secure! It does not encrypt or password-protect your sensitive data. .NET Secrets are just plain text JSON files stored in a well-known directory.</description>
     </item>
     
+    <item>
+      <title>Creating AWS CI/CD Pipeline</title>
+      <link>/en/20-cdk/40-creating-ci-cd-pipeline.html</link>
+      <pubDate>Mon, 14 Oct 2019 11:11:14 -0400</pubDate>
+      
+      <guid>/en/20-cdk/40-creating-ci-cd-pipeline.html</guid>
+      <description>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&amp;rsquo;s spend a few moments to create the CI/CD pipeline in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&amp;rsquo;ll spend some time looking into the structure of project and getting familiar with CDK concepts.
+    Notes      Again, please select either Posgres or SQL Server configuration from Solution&amp;rsquo;s Build Configuration drop-down in Visual Studio&amp;hellip;    &amp;hellip;and mark &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a startup project.</description>
+    </item>
+    
+    <item>
+      <title>Project Structure</title>
+      <link>/en/20-cdk/50-project-structure.html</link>
+      <pubDate>Mon, 14 Oct 2019 14:11:33 -0400</pubDate>
+      
+      <guid>/en/20-cdk/50-project-structure.html</guid>
+      <description>Let&amp;rsquo;s use the few minutes that it takes for the application CI/CD pipeline infrastructure to build, to get familiar with the structure of the project.
+    Notes      Solution contains one ASP.NET Core application project named UnicornStore, and three CDK-related projects: CdkLib - a C# class library project, containing reusable components shared between two executable CDK projects.    The first of executable CDK projects is CicdInfraAsCode - the project we ran at the previous step of the lab.</description>
+    </item>
+    
   </channel>
 </rss>

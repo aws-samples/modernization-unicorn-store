@@ -272,6 +272,44 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline" class="dd-item ">
+        <a href="../../en/20-cdk/40-creating-ci-cd-pipeline.html">
+        <b>3. </b>Creating Cloud CI/CD Pipeline
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/50-project-structure.html" title="Project Structure" class="dd-item ">
+        <a href="../../en/20-cdk/50-project-structure.html">
+        <b>4. </b>Project Structure
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -519,6 +557,9 @@ UnicornStore.sln</code></pre></div></li>
 
 <p>Application setting named <code>UnicornDbConnectionStringBuilder</code> represents properties from RDBMS-specific subclasses of the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.data.common.dbconnectionstringbuilder?view=netcore-2.2" target="_blank">DbConnectionStringBuilder</a>. Since the plan here is to use PostgreSQL, properties of the &ldquo;UnicornDbConnectionStringBuilder&rdquo; section will represent properties of the <a href="https://www.npgsql.org/doc/api/Npgsql.NpgsqlConnectionStringBuilder.html#properties" target="_blank">NpgsqlConnectionStringBuilder</a> class.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;DefaultAdminUsername&#34;</span>: <span style="color:#e6db74">&#34;Administrator@test.com&#34;</span>,
+  <span style="color:#f92672">&#34;DefaultAdminPassword&#34;</span>: <span style="color:#e6db74">&#34;Secret1*&#34;</span>,
+
    <span style="color:#f92672">&#34;UnicornDbConnectionStringBuilder&#34;</span>: {
     <span style="color:#f92672">&#34;Password&#34;</span>: <span style="color:#e6db74">&#34;&lt;YOUR POSTGRES PASSWORD&gt;&#34;</span>,
   }
@@ -693,6 +734,38 @@ UnicornStore.sln</code></pre></div></li>
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

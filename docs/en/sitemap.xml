@@ -68,6 +68,16 @@
   </url>
   
   <url>
+    <loc>/en/20-cdk/40-creating-ci-cd-pipeline.html</loc>
+    <lastmod>2019-10-14T11:11:14-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/20-cdk/50-project-structure.html</loc>
+    <lastmod>2019-10-14T14:11:33-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/en/categories.html</loc>
     <xhtml:link
                 rel="alternate"

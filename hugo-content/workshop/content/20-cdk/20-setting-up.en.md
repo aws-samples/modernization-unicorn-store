@@ -50,6 +50,9 @@ Application setting named `UnicornDbConnectionStringBuilder` represents properti
 
 ```json
 {
+  "DefaultAdminUsername": "Administrator@test.com",
+  "DefaultAdminPassword": "Secret1*",
+
    "UnicornDbConnectionStringBuilder": {
     "Password": "<YOUR POSTGRES PASSWORD>",
   }
