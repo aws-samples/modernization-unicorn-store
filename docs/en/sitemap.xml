@@ -3,27 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/en/intro/target-audience.html</loc>
-    <lastmod>2019-10-12T17:36:04-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/en/intro.html</loc>
+    <loc>/en/10-intro.html</loc>
     <lastmod>2019-10-10T17:22:32-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/en/cdk/overview.html</loc>
+    <loc>/en/10-intro/05-target-audience.html</loc>
+    <lastmod>2019-10-12T17:36:04-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/20-cdk/10-overview.html</loc>
     <lastmod>2019-10-12T18:06:59-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/en/intro/overview.html</loc>
+    <loc>/en/10-intro/10-overview.html</loc>
     <lastmod>2019-10-11T17:38:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/en/cdk.html</loc>
+    <loc>/en/20-cdk.html</loc>
     <lastmod>2019-10-10T16:56:01-04:00</lastmod>
   </url>
   
@@ -43,18 +43,28 @@
   </url>
   
   <url>
-    <loc>/en/cdk/setting-up.html</loc>
+    <loc>/en/20-cdk/20-setting-up.html</loc>
     <lastmod>2019-10-13T14:29:41-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/en/intro/prerequisites.html</loc>
+    <loc>/en/10-intro/20-prerequisites.html</loc>
     <lastmod>2019-10-11T17:39:00-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/en/containerization.html</loc>
+    <loc>/en/30-containerization.html</loc>
     <lastmod>2019-10-10T16:56:29-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/20-cdk/30-running-app-locally.html</loc>
+    <lastmod>2019-10-13T21:19:51-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/10-intro/30-dotnet-secrets.html</loc>
+    <lastmod>2019-10-13T19:55:57-04:00</lastmod>
   </url>
   
   <url>

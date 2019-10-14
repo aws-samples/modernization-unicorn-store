@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>What and Why on ASP.NET Modernization Workshop</title>
-    <link>/en/intro.html</link>
+    <link>/en/10-intro.html</link>
     <description>Recent content in What and Why on ASP.NET Modernization Workshop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Thu, 10 Oct 2019 17:22:32 -0400</lastBuildDate>
     
-	<atom:link href="/en/intro/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/en/10-intro/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Who this Workshop is For</title>
-      <link>/en/intro/target-audience.html</link>
+      <link>/en/10-intro/05-target-audience.html</link>
       <pubDate>Sat, 12 Oct 2019 17:36:04 -0400</pubDate>
       
-      <guid>/en/intro/target-audience.html</guid>
+      <guid>/en/10-intro/05-target-audience.html</guid>
       <description>Anyone comfortable with Visual Studio or Jetbrains Rider is going to have easy time with this workshop. Proficiency with C# is quite important and familiarity with Amazon Web Services is beneficial too.
 This is level 300-400 (intermediate to advanced) workshop, so please do not assume &amp;ldquo;Hello, World&amp;rdquo; simplicity.
 .NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don&amp;rsquo;t have to be seasoned engineer though to learn and enjoy from this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.</description>
@@ -24,23 +24,33 @@ This is level 300-400 (intermediate to advanced) workshop, so please do not assu
     
     <item>
       <title>What&#39;s Inside</title>
-      <link>/en/intro/overview.html</link>
+      <link>/en/10-intro/10-overview.html</link>
       <pubDate>Fri, 11 Oct 2019 17:38:34 -0400</pubDate>
       
-      <guid>/en/intro/overview.html</guid>
+      <guid>/en/10-intro/10-overview.html</guid>
       <description>ASP.NET Application The foundation of every module here is an ASP.NET Core Unicorn Store web application that has an MVC/Razor UI and MVC Controllers implementing business logic and data access layers. Unicorn Store application is based on an established ASP.NET Music Store sample and thus should be fairly familiar to many participants.
 Data Access components of the application are written using code-first style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.</description>
     </item>
     
     <item>
       <title>Prerequisites</title>
-      <link>/en/intro/prerequisites.html</link>
+      <link>/en/10-intro/20-prerequisites.html</link>
       <pubDate>Fri, 11 Oct 2019 17:39:00 -0400</pubDate>
       
-      <guid>/en/intro/prerequisites.html</guid>
+      <guid>/en/10-intro/20-prerequisites.html</guid>
       <description>To successfully execute any module of this workshop, following common requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.
 If you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available for workshop participants.
  Note to non-Windows users: since most modules are based on .NET Core version of the application, Mac and Linux users should have no trouble executing most modules.</description>
+    </item>
+    
+    <item>
+      <title>.NET Core Secret Manager</title>
+      <link>/en/10-intro/30-dotnet-secrets.html</link>
+      <pubDate>Sun, 13 Oct 2019 19:55:57 -0400</pubDate>
+      
+      <guid>/en/10-intro/30-dotnet-secrets.html</guid>
+      <description>An important note on using .NET Core Secret Manager:
+ This lab makes an extensive use of .NET Core Secret Manager on your development workstation to save database passwords and similar types of sensitive application configuration data that varies from one developer&amp;rsquo;s workstation to another. Please note that despite the name .NET Core Secret Manager is not secure! It does not encrypt or password-protect your sensitive data. .NET Secrets are just plain text JSON files stored in a well-known directory.</description>
     </item>
     
   </channel>

@@ -1,38 +1,38 @@
 [
 {
-	"uri": "/en/intro/target-audience.html",
-	"title": "Who this Workshop is For",
-	"tags": [],
-	"description": "",
-	"content": "Anyone comfortable with Visual Studio or Jetbrains Rider is going to have easy time with this workshop. Proficiency with C# is quite important and familiarity with Amazon Web Services is beneficial too.\nThis is level 300-400 (intermediate to advanced) workshop, so please do not assume \u0026ldquo;Hello, World\u0026rdquo; simplicity.\n.NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don\u0026rsquo;t have to be seasoned engineer though to learn and enjoy from this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.\nOther technical roles, like Architects, DevOps, Site Reliability Engineers, with some familiarity with .NET software development ecosystem, should also have easy time following lab steps and learning how a run-of-the-mill ASP.NET application can be modernized and ripping benefits from moving to the cloud.\n"
-},
-{
-	"uri": "/en/intro.html",
+	"uri": "/en/10-intro.html",
 	"title": "What and Why",
 	"tags": [],
 	"description": "",
 	"content": "Before you dive head first into running the labs, please spend few minutes perusing this section to find out what this content is and isn\u0026rsquo;t, what type of professional will benefit from using it, what is required for running lab modules of this workshop and how to be productive and have fun.\n"
 },
 {
-	"uri": "/en/cdk/overview.html",
+	"uri": "/en/10-intro/05-target-audience.html",
+	"title": "Who this Workshop is For",
+	"tags": [],
+	"description": "",
+	"content": "Anyone comfortable with Visual Studio or Jetbrains Rider is going to have easy time with this workshop. Proficiency with C# is quite important and familiarity with Amazon Web Services is beneficial too.\nThis is level 300-400 (intermediate to advanced) workshop, so please do not assume \u0026ldquo;Hello, World\u0026rdquo; simplicity.\n.NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don\u0026rsquo;t have to be seasoned engineer though to learn and enjoy from this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.\nOther technical roles, like Architects, DevOps, Site Reliability Engineers, with some familiarity with .NET software development ecosystem, should also have easy time following lab steps and learning how a run-of-the-mill ASP.NET application can be modernized and ripping benefits from moving to the cloud.\n"
+},
+{
+	"uri": "/en/20-cdk/10-overview.html",
 	"title": "CDK Module Overview",
 	"tags": [],
 	"description": "",
 	"content": " Welcome to the .NET AWS CDK module of the workshop! \u0026ldquo;CDK\u0026rdquo; stands for Cloud Development Kit.\nWorkshop Goals The goal of this lab is to guide participants through adding support for MySQL database to both ASP.NET application codebase, and to the existing infra-as-code C# CDK projects defining cloud CI/CD pipeline and cloud application deployment environment.\nThis workshop skips the \u0026ldquo;Hello, World\u0026rdquo; CDK project creation, and instead focuses on somewhat more in-depth capabilities of the CDK, showing higher-fidelity code samples implementing closer-to-real-life scenarios. This means that the lab will start with a couple of existing, but still pretty small CDK projects, and the lab flow focuses on modifying these projects.\nThe aim is to help you learn how to take your cloud-unaware ASP.NET Core application and use C# to write code defining parts of:\n CI/CD pipeline infrastructure in AWS cloud that builds and deploys the application. AWS cloud application deployment infrastructure, including an application hosting components and a database: Amazon Elastic Container Service (ECS Fargate) and Amazon Relational Database Service (RDS) hosting a selection of popular relational databases like Aurora MySQL (HA), Aurora Postgres (HA), and SQL Server.  CKD Demystified  AWS CDK is higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing order of magnitude less code than with CloudFormation.\n CDK consists of a CLI and a set of libraries available for most popular programming languages. In the case of .NET CDK, the libraries are added via NuGet.\nA .NET CDK project is a Console app, generating AWS CloudFormation template. CDK CLI is a convenience tool making it possible to bypass direct contact with lower-level CloudFormation templates and related commands of AWS CLI.\n"
 },
 {
-	"uri": "/en/intro/overview.html",
+	"uri": "/en/10-intro/10-overview.html",
 	"title": "What&#39;s Inside",
 	"tags": [],
 	"description": "",
 	"content": " ASP.NET Application The foundation of every module here is an ASP.NET Core Unicorn Store web application that has an MVC/Razor UI and MVC Controllers implementing business logic and data access layers. Unicorn Store application is based on an established ASP.NET Music Store sample and thus should be fairly familiar to many participants.\nData Access components of the application are written using code-first style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.\nCI/CD Pipeline and Deployment Environment Infra As Code All workshop modules feature AWS CI/CD pipeline infrastructure and deployment environment infrastructure as expressed as AWS CDK based C# code, thus enabling an easy building and deployment of the application in AWS cloud.\n"
 },
 {
-	"uri": "/en/cdk.html",
-	"title": "AWS .NET CDK Infra-as-Code",
+	"uri": "/en/20-cdk.html",
+	"title": "AWS .NET CDK",
 	"tags": [],
 	"description": "",
-	"content": " This module covers several facets of a modern application, namely creation of a cloud-based CI/CD pipeline, as well as application cloud deployment environment, using AWS .NET Cloud Development Kit based infrastructure-as-code.\nLevel: 300-400 (not a \u0026ldquo;Hello, World\u0026rdquo;)\n "
+	"content": " This module covers several facets of a modern application, namely creation of a cloud-based CI/CD pipeline, as well as creation of an application cloud deployment environment, using AWS .NET Cloud Development Kit based infrastructure-as-code.\nLevel: 300-400 (not a \u0026ldquo;Hello, World\u0026rdquo;)\n "
 },
 {
 	"uri": "/en/",
@@ -42,25 +42,39 @@
 	"content": " This site comprises a set of workshop modules created to showcase how an ASP.NET application can be converted from being an IIS and SQL Server bound monolith into a modern cross-platform application capable of running in the cloud.\nPlease use either navigation arrows on each sides of the page, or the Table of Contents on the left, to move around and find material that is most useful for you.\nDisclaimer Using AWS resources may result in resource usage and other charges if you are using your personal or corporate AWS accounts.\n"
 },
 {
-	"uri": "/en/cdk/setting-up.html",
+	"uri": "/en/20-cdk/20-setting-up.html",
 	"title": "Setting Up Dev Environment",
 	"tags": [],
 	"description": "",
-	"content": " You may skip this page and move on to the next step and you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.\nPre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.  Checking Out Source Code In a directory of your choice, please run\ngit clone https://github.com/vgribok/modernization-unicorn-store.git git checkout cdk-module Building and Running Unicorn Store Application Locally  Open Visual Studio solution:\ncd modernization-unicorn-store UnicornStore.sln In VS Solution Explorer, click the Collapse All [-] icon to clean up the tree view and select UnicornStore.csproj as a Startup Project.\n Choose build configuration for your choice of RDBMS. You can use either MS SQL Server or PostgreSQL as a database at this point in the lab flow. (MySQL is not yet available at this point as it\u0026rsquo;s a new RDBMS to add support for as a part of this lab.) When using SQL Server LocalDb, no application configuration setting changes are necessary. You may simply select \u0026ldquo;DebugSqlServer\u0026rdquo; build configuration from the drop-down and run the application. For PostgreSQL, please select \u0026ldquo;DebugPostgres\u0026rdquo; from the build configuration drop down in the IDE.\n  TBD: PG user secret settings\n"
+	"content": " You may skip this page and move on to the next step and you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.\nPre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.  Checking Out Source Code In a directory of your choice, please run\ngit clone https://github.com/vgribok/modernization-unicorn-store.git git checkout cdk-module Building and Running Unicorn Store Application Locally  Open Visual Studio solution:\ncd modernization-unicorn-store UnicornStore.sln In VS Solution Explorer, click the Collapse All [-] icon to clean up the tree view and select UnicornStore.csproj as a Startup Project.\n Choose build configuration for your choice of RDBMS:\n     Build Configurations Notes      You can use either MS SQL Server or PostgreSQL as a database at this point in the lab flow. (MySQL is not yet available at this point as it\u0026rsquo;s a new RDBMS to add support for as a part of this lab.) When using SQL Server LocalDb, no application configuration setting changes are necessary. You may simply select \u0026ldquo;DebugSqlServer\u0026rdquo; build configuration from the drop-down and run the application. For PostgreSQL, please select \u0026ldquo;DebugPostgres\u0026rdquo; from the build configuration drop down in the IDE.    Application Configuration for PostgreSQL You may skip this section if you plan to use MS SQL Server as a RDBMS for the application.\nIf you choose PostgreSQL as application\u0026rsquo;s RDBMS, additional changes in application settings will need to be made so that application could connect to a database other than local SQL Server with integrated authentication.\n   Notes Secret Manger     Please open UnicornStore project Secret Manager by right-clicking on the project and selecting Manage User Secrets menu item. It will open secrets.json file in Visual Studio, where you can make changes as it was the appsettings.json file.  Changes made in \u0026ldquo;secrets.json\u0026rdquo; override values stored in the \u0026ldquo;appsettings.json\u0026rdquo; files at run time, without making any changes to the \u0026ldquo;appsettings.json\u0026rdquo;.     Application setting named UnicornDbConnectionStringBuilder represents properties from RDBMS-specific subclasses of the DbConnectionStringBuilder. Since the plan here is to use PostgreSQL, properties of the \u0026ldquo;UnicornDbConnectionStringBuilder\u0026rdquo; section will represent properties of the NpgsqlConnectionStringBuilder class.\n{ \u0026#34;UnicornDbConnectionStringBuilder\u0026#34;: { \u0026#34;Password\u0026#34;: \u0026#34;\u0026lt;YOUR POSTGRES PASSWORD\u0026gt;\u0026#34;, } } Please replace the content of the \u0026ldquo;secrets.js\u0026rdquo; file open in the Visual Studio, with the code snippet above, and replace the value of the Password property with your local Postgres password. Don\u0026rsquo;t forget to save the file before moving on to the next section of the lab.\n"
 },
 {
-	"uri": "/en/intro/prerequisites.html",
+	"uri": "/en/10-intro/20-prerequisites.html",
 	"title": "Prerequisites",
 	"tags": [],
 	"description": "",
 	"content": "  To successfully execute any module of this workshop, following common requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.\nIf you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available for workshop participants.\n Note to non-Windows users: since most modules are based on .NET Core version of the application, Mac and Linux users should have no trouble executing most modules. Mac users should be able to use either Visual Studio for Mac, or Jetbrains Rider for an IDE. Linux users should use Jetbrains Rider IDE. Also, some of the links below target Chocolatey - Windows package manager, Mac and Linux users could simply switch to Homebrew or yum/apt/etc package managers respectively.\n(Although it is possible to use just dotnet CLI for this workshop, for simplicity and efficiency sake we dare to assume that takers of this 300-400 level workshop focusing on software development already know how to install their most basic tools, so that this workshop could skip IDE etc. installation steps boilerplate.)\nSoftware Required for Most Modules  .NET Core Framework 2.2. Visual Studio 2019 Community Edition or any other IDE capable of building and running Visual Studio solutions. An RDBMS like MySQL, PostgreSQL or MS SQL Server LocalDB, along with a corresponding management console, will be required for most modules. AWS account to run the lab in the AWS could. AWS CLI to interact with AWS services from your system. Node.js and AWS CDK for building infrastructure-as-code projects that are part of the solution. Git for pushing lab code to the cloud CI/CD pipeline for deployment.  The list above provides good baseline for your environment, but some modules will have additional requirements specified in the introduction section of each module.\n"
 },
 {
-	"uri": "/en/containerization.html",
+	"uri": "/en/30-containerization.html",
 	"title": "Containerization (Coming Soon)",
 	"tags": [],
 	"description": "",
 	"content": "TODO: Existing/Legacy Containerization lab flow needs to be imported here and refactored.\n"
+},
+{
+	"uri": "/en/20-cdk/30-running-app-locally.html",
+	"title": "Running App Locally",
+	"tags": [],
+	"description": "",
+	"content": " Starting Unicorn Store Web Application     Notes      Once you have prepared your development environment, the only thing remains is to ensure that UnicornStore.csproj is selected as a startup project, switch hosting from \u0026ldquo;IIS Express\u0026rdquo; to Console, as shown on the screenshot on the left, and start the application in the debug mode.    After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.NET application.    Exploring and Testing Unicorn Store Web Application Functionality TBD\n"
+},
+{
+	"uri": "/en/10-intro/30-dotnet-secrets.html",
+	"title": ".NET Core Secret Manager",
+	"tags": [],
+	"description": "",
+	"content": " An important note on using .NET Core Secret Manager:\n This lab makes an extensive use of .NET Core Secret Manager on your development workstation to save database passwords and similar types of sensitive application configuration data that varies from one developer\u0026rsquo;s workstation to another. Please note that despite the name .NET Core Secret Manager is not secure! It does not encrypt or password-protect your sensitive data. .NET Secrets are just plain text JSON files stored in a well-known directory. All they do is:\n Allow saving applications settings data outside of project root, eliminating the risk of committing your sensitive appsettings data inadvertently, and Provide one more layer in appsettings.json hierarchy.  One can think of .NET Core Secret Manager as just a way to alter appsettings.json at development time, without modifying actual appsettings.json or launchsettings.json, or without having to save setting values as environment variables.\n"
 },
 {
 	"uri": "/en/categories.html",

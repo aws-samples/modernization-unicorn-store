@@ -1,9 +1,10 @@
+<!--
 +++
 title = "CDK Module Overview"
 date = 2019-10-12T18:06:59-04:00
 weight = 10
 +++
-
+-->
 Welcome to the `.NET AWS CDK` module of the workshop! "CDK" stands for `Cloud Development Kit`.
 
 ### Workshop Goals

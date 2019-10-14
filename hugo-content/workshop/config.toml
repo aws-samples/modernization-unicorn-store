@@ -14,7 +14,7 @@ pygmentsCodeFences = true
 pygmentsStyle = "monokai"
 
 [params]
-  editURL = "https://code.amazon.com/packages/Aws-workshop-template/blobs/master/--/workshop/content/"
+  editURL = "https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/"
   description = "Brings containerization, database freedom, CI/CD-pipeline and infra-as-code to Unicorn Store ASP.NET Core web application"
   author = "Carmen Puccio, Vlad Hrybok"
   disableBreadcrumb = false

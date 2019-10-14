@@ -1,8 +1,10 @@
+<!--
 +++
 title = "Prerequisites"
 date = 2019-10-11T17:39:00-04:00
 weight = 20
 +++
+-->
 
 > To successfully execute any module of this workshop, following **common** requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide. 
 > 

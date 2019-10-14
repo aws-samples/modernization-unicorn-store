@@ -1,8 +1,10 @@
+<!--
 +++
 title = "Who this Workshop is For"
 date = 2019-10-12T17:36:04-04:00
 weight = 5
 +++
+-->
 
 Anyone comfortable with Visual Studio or Jetbrains Rider is going to have easy time with this workshop. Proficiency with C# is quite important and familiarity with Amazon Web Services is beneficial too.
 

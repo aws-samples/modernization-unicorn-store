@@ -1,8 +1,10 @@
+<!--
 +++
 title = "What's Inside"
 date = 2019-10-11T17:38:34-04:00
 weight = 10
 +++
+-->
 
 #### ASP.NET Application
 

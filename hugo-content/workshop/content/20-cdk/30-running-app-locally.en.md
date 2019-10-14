@@ -1,0 +1,19 @@
+<!--
++++
+title = "Running App Locally"
+menutitle = "Running Unicorn Store App Locally"
+date = 2019-10-13T21:19:51-04:00
+weight = 30
+pre = "<b>2. </b>"
++++
+-->
+#### Starting Unicorn Store Web Application
+
+|     | Notes |
+| --- | ----- |
+| ![App self-hosting](./images/app-self-host.png?width=900) | Once you have [prepared your development environment](./20-setting-up.html), the only thing remains is to ensure that `UnicornStore.csproj` is selected as a startup project, switch hosting from "IIS Express" to Console, as shown on the screenshot on the left, and *start the application* in the debug mode. |
+| ![UnicornStor app open in browser](./images/unicorn-store-app-in-browser.png?width=900) | After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.NET application. |
+
+#### Exploring and Testing Unicorn Store Web Application Functionality
+
+TBD
