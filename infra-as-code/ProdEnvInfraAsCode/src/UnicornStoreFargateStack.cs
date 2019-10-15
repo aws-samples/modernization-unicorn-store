@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using SecMan = Amazon.CDK.AWS.SecretsManager;
 using ProdEnvInfraAsCode.Reusable;
 using CdkLib;
+using Amazon.CDK.AWS.ElasticLoadBalancingV2;
 
 namespace ProdEnvInfraAsCode
 {
@@ -32,7 +33,7 @@ namespace ProdEnvInfraAsCode
             var ecsCluster = new Cluster(this, $"Application{settings.Infrastructure}Cluster", new ClusterProps
                 {
                     Vpc = vpc,
-                    ClusterName = settings.EcsClusterName,
+                    ClusterName = settings.EcsClusterName
                 }
             );
 
@@ -65,6 +66,12 @@ namespace ProdEnvInfraAsCode
                     Cpu = settings.CpuMillicores,
                     MemoryLimitMiB = settings.MemoryMiB,
                     PublicLoadBalancer = settings.PublicLoadBalancer,
+                    LoadBalancer = new ApplicationLoadBalancer(this, $"{settings.ScopeName}-ALB", new ApplicationLoadBalancerProps {
+                        LoadBalancerName = "unicorn-store",
+                        Vpc = ecsCluster.Vpc,
+                        InternetFacing = true,
+                        DeletionProtection = false,
+                    }),
                     TaskImageOptions = new ApplicationLoadBalancedTaskImageOptions
                     {
                         Image = ContainerImage.FromEcrRepository(imageRepository, settings.ImageTag),

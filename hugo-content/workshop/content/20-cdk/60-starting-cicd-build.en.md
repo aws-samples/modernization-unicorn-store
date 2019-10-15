@@ -44,9 +44,18 @@ git remote add aws (aws codecommit get-repository --repository-name Unicorn-Stor
 git push aws cdk-module
 ```
 
-1. Observe CodePipeline Build in Progress by waiting half a minute or so and  then going to the [CodePipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) page in the AWS Console:
+1. Observe CodePipeline Build in-progress by waiting half a minute or so and  then going to the [CodePipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) page in the AWS Console:
 ![CodePipeline](./images/pipeline-in-progress.png)
 
 > First run of the pipeline is likely to take approximately `15 minutes`, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs cas run to completion in *under one minute*.
 
-While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK project, adding MySQL support to it.
+While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK project, adding MySQL support to it. Feel free to go to the next chapter and come back here later to ensure the pipeline 
+
+### Verifying the CI/CD Pipeline Run Has Completed 
+
+Whenever [the pipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) has finished, feel free to browse to the [AWS Load Balancer](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName) page in the AWS Console, select a load balancer with the name starting with "Unico" and click the "copy to clipboard" icon next to the "**DNS Name**" field.
+
+Then paste the URL into a new browser tab, hit Enter and observe Unicorn Application home page loaded:
+![Unicorn Store application in browser](./images/unicorn-store-app-in-browser.png) 
+
+Please follow these [verification steps](./30-running-app-locally.html#exploring-and-testing-unicorn-store-web-application-functionality) to ensure application functionality is not broken.

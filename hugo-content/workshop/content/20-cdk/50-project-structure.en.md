@@ -40,7 +40,7 @@ One of the most useful bits in the CdkLib project is helper methods loading stan
 
 This project is a .NET CDK Console application project responsible for generating AWS CloudFormation templates that create Unicorn Store application hosting environment. The hosting environment, at the high level, consists of the Amazon [Elastic Container Service (ECS)](https://aws.amazon.com/ecs/) and [Relational Database Service (RDS)](https://aws.amazon.com/rds/). Under the hood the infrastructure built by this project is more complex, including various networking components, like a load balancer, virtual private cloud, subnets, security groups (firewall rules), roles and others.
 
-However, despite the sophistication of the cloud infrastructure produced by this project, the amount and complexity of the code required to implement it is strikingly low. In fact, **the "meat" code of the project is less than 100 lines of C# code**! That makes this project the smallest in the entire solution.
+However, despite the sophistication of the cloud infrastructure produced by this project, the amount and complexity of the code required to implement it is strikingly low. 
 
 > ProdEnvInfraAsCode project is going to be run by the "build" part of the CI/CD pipeline, and *not manually* by developers, except for debugging purposes discussed in later chapters.
 
@@ -62,5 +62,7 @@ The pipeline is not overly complicated and does not yet contain any quality gate
 The project contains a `Node.js sub-project` in the "/src/assets/lambda/ecs-container-recycle", which implements a *serverless AWS Lambda function* that is invoked by the final stage of the CI/CD pipeline to *restart the* ECS-hosted Unicorn Store *application* to load newly-minted application build.
 
 The size of the Node.js code-base is fairly modest, and the code is split between the "cdklib" directory, where reusable and potentially boilerplate code is sequestered, and the "index.js" file, where the man logic of the function is implemented.
+
+> At this point, please spend 5-10 minutes browsing through the UnicornStore solution and to familiar with where major parts of the codebase located.
 
 Now that we've taken the tour of the project, let's move to the next chapter to see whether our CI/CD infrastructure has finished building.
