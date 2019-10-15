@@ -162,7 +162,7 @@ namespace CicdInfraAsCode
                         PreBuildCommands = new [] 
                         {
                             "aws --version",
-                            "npm install -g aws-cdk",
+                            "npm install -g aws-cdk${CdkVersion}",
                             "cdk --version"
                         },
                         BuildCommands = new []
@@ -185,7 +185,8 @@ namespace CicdInfraAsCode
                             { "BuildConfig", new BuildEnvironmentVariable { Value = this.settings.BuildConfiguration } },
                             { "DockerImageRepository", new BuildEnvironmentVariable { Value = this.settings.DockerImageRepository } },
                             { "DotNetEnvironment", new BuildEnvironmentVariable { Value = this.settings.IsDebug ? "Development" : "Production"} },
-                            { "EcsClusterName", new BuildEnvironmentVariable { Value = this.settings.AppEcsClusterName } }
+                            { "EcsClusterName", new BuildEnvironmentVariable { Value = this.settings.AppEcsClusterName } },
+                            { "CdkVersion", new BuildEnvironmentVariable { Value = this.settings.CdkInstallCommandVersion } }
                         }
                     },
                     Role = new Role(this, "App-deployment-env-creation-role", new RoleProps

@@ -39,5 +39,9 @@ namespace CicdInfraAsCode
         public string GitBranchToBuild { get; set; } = "master";
 
         public string CodeCommitRepoName { get; set; } = "Unicorn-Store-Sample-Git-Repo";
+
+        public string CdkVersion { get; set; }
+
+        internal string CdkInstallCommandVersion => string.IsNullOrWhiteSpace(this.CdkVersion) ? string.Empty : $"@{this.CdkVersion}"; // Install latest CDK if version is not specified.
     }
 }
