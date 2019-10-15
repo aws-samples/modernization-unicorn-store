@@ -6,7 +6,10 @@ weight = 10
 pre = "<b>6.1. </b>"
 +++
 -->
-### Adding MySQL Library to the Application via NuGet
+
+> This chapter assumes that MySQL is installed locally.
+
+#### Adding MySQL Library to the Application via NuGet
 
 1. Please start with marking "UnicornStore" project as a *Startup Project* in Visual Studio.
 1. Open "Package Manager Console" by selecting it from the "View | Other Windows" menu.
@@ -14,3 +17,11 @@ pre = "<b>6.1. </b>"
 ```bash
 Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0
 ```
+
+#### Adding Default Connection String String to "appSettings.json"
+
+Open "appSettings.json" file of the "UnicornStore" project and add following entry to the "`ConnectionStrings`" section.
+```json
+"UnicornStoreMySQL": "Server=localhost;Database=UnicornStore;Uid=root;Pwd=NeverEVERsavePasswordInConfigFiles;"
+```
+Don't forget the comma before or after the "UnicornStoreMySQL" property.
