@@ -14,6 +14,8 @@ Before we dive into the code base of the Unicorn Store solution and start hackin
 | ![VS Build Configurations](images/solution-build-configurations.png) | Again, please select either Posgres or SQL Server configuration from Solution's Build Configuration drop-down in Visual Studio...  |
 | ![CI/CD project as startup](./images/CicdInfraAsCode-csproj-as-startup.png) | ...and mark "CicdInfraAsCode" project as a startup project.<br/><br/>Please run the project. If all went well you should see a console window with output starting with something like *Synthesized to "C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ".* That path is the location of where CloudFormation templates generated.  |
 
+### Launching CI/CD Pipeline Infrastructure Creation
+
 Now please open a Command Prompt window and cd into the directory containing "CicdInfraAsCode.csproj" project file, which relative to the project root is "infra-as-code/CicdInfraAsCode/src", and run the following command to start creation of the CI/CD pipeline:
 ```bash
 cdk deploy --require-approval never

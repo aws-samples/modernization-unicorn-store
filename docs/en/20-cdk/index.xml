@@ -17,7 +17,7 @@
       <pubDate>Sat, 12 Oct 2019 18:06:59 -0400</pubDate>
       
       <guid>/en/20-cdk/10-overview.html</guid>
-      <description>Welcome to the .NET AWS CDK module of the workshop! &amp;ldquo;CDK&amp;rdquo; stands for Cloud Development Kit.
+      <description>Welcome to the .NET AWS CDK module of the workshop!
 Workshop Goals The goal of this lab is to guide participants through adding support for MySQL database to both ASP.NET application codebase, and to the existing infra-as-code C# CDK projects defining cloud CI/CD pipeline and cloud application deployment environment.
 This workshop skips the &amp;ldquo;Hello, World&amp;rdquo; CDK project creation, and instead focuses on somewhat more in-depth capabilities of the CDK, showing higher-fidelity code samples implementing closer-to-real-life scenarios.</description>
     </item>
@@ -59,6 +59,28 @@ Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or
       <guid>/en/20-cdk/50-project-structure.html</guid>
       <description>Let&amp;rsquo;s use the few minutes that it takes for the application CI/CD pipeline infrastructure to build, to get familiar with the structure of the project.
     Notes      Solution contains one ASP.NET Core application project named UnicornStore, and three CDK-related projects: CdkLib - a C# class library project, containing reusable components shared between two executable CDK projects.    The first of executable CDK projects is CicdInfraAsCode - the project we ran at the previous step of the lab.</description>
+    </item>
+    
+    <item>
+      <title>Starting Pipeline Build</title>
+      <link>/en/20-cdk/60-starting-cicd-build.html</link>
+      <pubDate>Tue, 15 Oct 2019 11:34:12 -0400</pubDate>
+      
+      <guid>/en/20-cdk/60-starting-cicd-build.html</guid>
+      <description>At this point the CI/CD pipeline cloud infrastructure, the build out of which was launched two chapters back, should now be completed.
+First, please check the command prompt console where you ran cdk deploy for the &amp;ldquo;CicdInfraAsCode&amp;rdquo; project, to make there were errors. You should see something like the following at the tail of the output after command has finished:
+ 30/30 | 1:10:43 PM | CREATE_COMPLETE | AWS::CloudFormation::Stack | Unicorn-Store-CI-CD-PipelineStack ✅ Unicorn-Store-CI-CD-PipelineStack Stack ARN: arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-PipelineStack/eee6e58c-6808-48a2-9885-c719f44dd8b6  Next, navigate to the CodePipeline in the AWS Console and observe &amp;ldquo;Unicorn-Store-CI-CD-Pipeline&amp;rdquo; in the list, showing the &amp;ldquo;Failed&amp;rdquo; status next to it.</description>
+    </item>
+    
+    <item>
+      <title>Cleanup</title>
+      <link>/en/20-cdk/99-cleanup.html</link>
+      <pubDate>Tue, 15 Oct 2019 11:53:46 -0400</pubDate>
+      
+      <guid>/en/20-cdk/99-cleanup.html</guid>
+      <description>Some manual clean up steps are required to delete resources created in the course of this module. You may need to follow these steps if you used your personal or corporate AWS Account.
+You will also need to use these steps if you are taking this lab at an AWS event and you simply want to reset your cloud resources and restart the module from the beginning.
+ When using your personal or corporate AWS Account, leaving resources created by this lab will result in recurring monthly charges for used resources.</description>
     </item>
     
   </channel>

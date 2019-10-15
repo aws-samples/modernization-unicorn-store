@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 <link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 
-  <title>Setting Up Dev Environment :: ASP.NET Modernization Workshop</title>
+  <title>Starting Pipeline Build :: ASP.NET Modernization Workshop</title>
 
   
   <link href="../../css/nucleus.css" rel="stylesheet">
@@ -45,7 +45,7 @@
   
 </head>
 
-<body class="" data-url="/en/20-cdk/20-setting-up.html">
+<body class="" data-url="/en/20-cdk/60-starting-cicd-build.html">
   <nav id="sidebar" class="">
 
 
@@ -241,7 +241,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/20-setting-up.html" title="Setting Up Dev Environment" class="dd-item active">
+      <li data-nav-id="/en/20-cdk/20-setting-up.html" title="Setting Up Dev Environment" class="dd-item ">
         <a href="../../en/20-cdk/20-setting-up.html">
         <b>1. </b>Setting Up Dev Environment
         
@@ -317,7 +317,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" class="dd-item ">
+      <li data-nav-id="/en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" class="dd-item active">
         <a href="../../en/20-cdk/60-starting-cicd-build.html">
         <b>5. </b>Starting Pipeline Build
         
@@ -402,7 +402,7 @@
                   
                     
                     
-                      <option id="en" value="/en/20-cdk/20-setting-up.html" selected>English</option>
+                      <option id="en" value="/en/20-cdk/60-starting-cicd-build.html" selected>English</option>
                     
                   
               
@@ -453,7 +453,7 @@
           
           
           <div id="top-github-link">
-            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/20-setting-up.en.md"
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/60-starting-cicd-build.en.md"
               target="blank">
               <i class="fas fa-code-branch"></i>
               <span id="top-github-link-text">Edit this page</span>
@@ -483,7 +483,7 @@
           
           
           
-          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > Setting Up Dev Environment
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > Starting Pipeline Build
           
           
           
@@ -501,13 +501,7 @@
 <ul>
 <li>
 <ul>
-<li>
-<ul>
-<li><a href="#pre-requisites">Pre-Requisites</a></li>
-<li><a href="#checking-out-source-code">Checking Out Source Code</a></li>
-<li><a href="#building-and-running-unicorn-store-application-locally">Building and Running Unicorn Store Application Locally</a></li>
-<li><a href="#application-configuration-for-postgresql">Application Configuration for PostgreSQL</a></li>
-</ul></li>
+<li><a href="#starting-the-pipeline-pushing-source-code-to-codecommit">Starting the Pipeline: Pushing Source Code to CodeCommit</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -522,96 +516,58 @@
 
       
         <div id="body-inner">
-          <h1>Setting Up Dev Environment</h1>
+          <h1>Starting Pipeline Build</h1>
           
           
 
 
 
 
-<p>You may <em>skip this page</em> and move on to the next step and you are <em>using Amazon-supplied VM image</em> (AMI) at an Amazon event, with all tools installed and pre-configured.</p>
+<p>At this point the CI/CD pipeline cloud infrastructure, the build out of which was <a href="./40-creating-ci-cd-pipeline.en.md#launching-ci-cd-pipeline-infrastructure-creation">launched</a> two chapters back, should now be completed.</p>
 
-<h4 id="pre-requisites">Pre-Requisites</h4>
+<p>First, please check the command prompt console where you ran <code>cdk deploy</code> for the &ldquo;CicdInfraAsCode&rdquo; project, to make there were errors. You should see something like the following at the tail of the output after command has finished:</p>
 
-<ul>
-<li>Either MS SQL Server (<a href="https://chocolatey.org/packages/sqllocaldb" target="_blank">LocalDB</a> version is perfectly suitable), or PostgreSQL, per <a href="../10-intro/20-prerequisites.html">Common Prerequisites</a>.</li>
-<li><a href="https://chocolatey.org/packages/mysql" target="_blank">MySQL</a> is required as the goal of the module is to add MySQL support to the app. <a href="https://chocolatey.org/packages/mysql.workbench" target="_blank">MySQL Workbench</a>, a MySQL management UI console, is recommended.</li>
-</ul>
+<pre><code> 30/30 | 1:10:43 PM | CREATE_COMPLETE      | AWS::CloudFormation::Stack  | Unicorn-Store-CI-CD-PipelineStack
+
+ ✅  Unicorn-Store-CI-CD-PipelineStack
+
+Stack ARN:
+arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-PipelineStack/eee6e58c-6808-48a2-9885-c719f44dd8b6
+</code></pre>
+
+<p>Next, navigate to the <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">CodePipeline</a> in the AWS Console and observe &ldquo;Unicorn-Store-CI-CD-Pipeline&rdquo; in the list, showing the &ldquo;Failed&rdquo; status next to it. The pipeline is in the failed state because the source code of the Unicorn Store solution has not yet been pushed to the CodeCommit Git repository.</p>
+
+<p>Please click on the &ldquo;Unicorn-Store-CI-CD-Pipeline&rdquo; link to see the never-run pipeline:
+<img src="./images/pipeline-failed-no-source.png" alt="CodePipeline in Failed state without source code" /></p>
+
+<h3 id="starting-the-pipeline-pushing-source-code-to-codecommit">Starting the Pipeline: Pushing Source Code to CodeCommit</h3>
+
+<p>To trigger the build and deployment pipeline, all we need to do is to push the Unicorn Store to the CodeCommit Git repository just created.</p>
 
 <blockquote>
-<p>For Windows Users Only:</p>
+<p>Following step - adding Git &ldquo;remote&rdquo; (alias) pointing to the CodeCommit repository, can be skipped if you are taking this lab at an AWS event, as the &ldquo;aws&rdquo; Git remote is already on your dev VM.</p>
 </blockquote>
 
+<p>Windows users, please use <code>Powershell</code> in <em>Administrator mode</em> for running commands that follow.</p>
+
 <ol>
-<li><a href="https://chocolatey.org/docs/installation#install-with-cmdexe" target="_blank">Chocolatey</a> package manager.</li>
-<li>The <a href="https://chocolatey.org/packages/jq" target="_blank">jq</a> utility that parses JSON.</li>
+<li>First, cd into the <em>root</em> of the Unicorn Store solution.</li>
+
+<li><p>Create Git &ldquo;remote&rdquo; named &ldquo;aws&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ps" data-lang="ps"><span style="color:#a6e22e">git</span> <span style="color:#a6e22e">remote</span> <span style="color:#a6e22e">add</span> <span style="color:#a6e22e">aws</span> <span style="color:#e6db74">(aws codecommit get-repository --repository-name Unicorn-Store-Sample-Git-Repo | jq -r .repositoryMetadata.cloneUrlHttp)</span></code></pre></div></li>
+
+<li><p>Push the code to the CodeCommit repository:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git push aws cdk-module</code></pre></div></li>
+
+<li><p>Observe CodePipeline Build in Progress by waiting half a minute or so and  then going to the <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">CodePipeline</a> page in the AWS Console:
+<img src="./images/pipeline-in-progress.png" alt="CodePipeline" /></p></li>
 </ol>
 
-<h4 id="checking-out-source-code">Checking Out Source Code</h4>
+<blockquote>
+<p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs cas run to completion in <em>under one minute</em>.</p>
+</blockquote>
 
-<p>In a directory of your choice, please run</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/vgribok/modernization-unicorn-store.git
-git checkout cdk-module</code></pre></div>
-<h4 id="building-and-running-unicorn-store-application-locally">Building and Running Unicorn Store Application Locally</h4>
-
-<ul>
-<li><p>Open Visual Studio solution:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd modernization-unicorn-store
-UnicornStore.sln</code></pre></div></li>
-
-<li><p>In VS Solution Explorer, click the Collapse All [-] icon to clean up the tree view and select UnicornStore.csproj as a Startup Project.</p></li>
-
-<li><p>Choose build configuration for your choice of RDBMS:</p></li>
-</ul>
-
-<table>
-<thead>
-<tr>
-<th>Build Configurations</th>
-<th>Notes</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td><img src="images/solution-build-configurations.png?width=1000px" alt="VS Build Configurations" /></td>
-<td>You can use either MS SQL Server or PostgreSQL as a database at this point in the lab flow. (MySQL is not yet available at this point as it&rsquo;s a new RDBMS to add support for as a part of this lab.) When using  SQL Server <em>LocalDb</em>, no application configuration setting changes are necessary. You may simply select &ldquo;DebugSqlServer&rdquo; build configuration from the drop-down and run the application. For PostgreSQL, please select &ldquo;DebugPostgres&rdquo; from the build configuration drop down in the IDE.</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="application-configuration-for-postgresql">Application Configuration for PostgreSQL</h4>
-
-<p>You may skip this section if you plan to use MS SQL Server as a RDBMS for the application.</p>
-
-<p>If you choose PostgreSQL as application&rsquo;s RDBMS, additional changes in application settings will need to be made so that application could connect to a database other than local SQL Server with integrated authentication.</p>
-
-<table>
-<thead>
-<tr>
-<th>Notes</th>
-<th>Secret Manger</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Please open UnicornStore project <a href="../10-intro/30-dotnet-secrets.html">Secret Manager</a> by right-clicking on the project and selecting <code>Manage User Secrets</code> menu item. It will open <code>secrets.json</code> file in Visual Studio, where you can make changes as it was the <code>appsettings.json</code> file. <br/><br/> Changes made in &ldquo;secrets.json&rdquo; override values stored in the &ldquo;appsettings.json&rdquo; files at run time, without making any changes to the &ldquo;appsettings.json&rdquo;.</td>
-<td><img src="images/open-project-secret-manager.png?width=1100" alt="VS Project Secret Manager Menu" /></td>
-</tr>
-</tbody>
-</table>
-
-<p>Application setting named <code>UnicornDbConnectionStringBuilder</code> represents properties from RDBMS-specific subclasses of the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.data.common.dbconnectionstringbuilder?view=netcore-2.2" target="_blank">DbConnectionStringBuilder</a>. Since the plan here is to use PostgreSQL, properties of the &ldquo;UnicornDbConnectionStringBuilder&rdquo; section will represent properties of the <a href="https://www.npgsql.org/doc/api/Npgsql.NpgsqlConnectionStringBuilder.html#properties" target="_blank">NpgsqlConnectionStringBuilder</a> class.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;DefaultAdminUsername&#34;</span>: <span style="color:#e6db74">&#34;Administrator@test.com&#34;</span>,
-  <span style="color:#f92672">&#34;DefaultAdminPassword&#34;</span>: <span style="color:#e6db74">&#34;Secret1*&#34;</span>,
-
-   <span style="color:#f92672">&#34;UnicornDbConnectionStringBuilder&#34;</span>: {
-    <span style="color:#f92672">&#34;Password&#34;</span>: <span style="color:#e6db74">&#34;&lt;YOUR POSTGRES PASSWORD&gt;&#34;</span>,
-  }
-}</code></pre></div>
-<p>Please replace the content of the &ldquo;secrets.js&rdquo; file open in the Visual Studio, with the code snippet above, and replace the value of the <code>Password</code> property with your local Postgres password. Don&rsquo;t forget to save the file before moving on to the next section of the lab.</p>
+<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK project, adding MySQL support to it.</p>
 
 
 <footer class=" footline" >
@@ -762,26 +718,6 @@ UnicornStore.sln</code></pre></div></li>
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -845,6 +781,26 @@ UnicornStore.sln</code></pre></div></li>
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -885,10 +841,10 @@ UnicornStore.sln</code></pre></div></li>
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/20-cdk/10-overview.html" title="CDK Module Overview"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk/50-project-structure.html" title="Project Structure"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/20-cdk/30-running-app-locally.html" title="Running App Locally" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/20-cdk/99-cleanup.html" title="Cleanup" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

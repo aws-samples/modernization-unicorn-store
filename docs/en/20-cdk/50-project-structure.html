@@ -95,7 +95,7 @@
         
         ">
       <a href="../../en/10-intro.html">
-          <b>1. </b>Before You Begin
+          Before You Begin
           
       </a>
       
@@ -203,7 +203,7 @@
         
         ">
       <a href="../../en/20-cdk.html">
-          <b>2. </b>AWS CDK, CI/CD Infra as Code
+          AWS .NET CDK CI/CD Infra as Code
           
       </a>
       
@@ -310,6 +310,44 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" class="dd-item ">
+        <a href="../../en/20-cdk/60-starting-cicd-build.html">
+        <b>5. </b>Starting Pipeline Build
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/99-cleanup.html" title="Cleanup" class="dd-item ">
+        <a href="../../en/20-cdk/99-cleanup.html">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -324,13 +362,13 @@
  
   
     
-    <li data-nav-id="/en/30-containerization.html" title="Containerization (Coming Soon)" class="dd-item 
+    <li data-nav-id="/en/30-containerization.html" title="ECS Containerization (Coming Soon)" class="dd-item 
         
         
         
         ">
       <a href="../../en/30-containerization.html">
-          <b>3. </b>Containerization (TBD)
+          Containerization with ECS (TBD)
           
       </a>
       
@@ -467,6 +505,7 @@
 <li><a href="#cdk-projects-overview">CDK Projects Overview</a>
 <ul>
 <li><a href="#cdklib">CdkLib</a></li>
+<li><a href="#prodenvinfraascode">ProdEnvInfraAsCode</a></li>
 <li><a href="#cicdinfraascode">CicdInfraAsCode</a></li>
 </ul></li>
 </ul></li>
@@ -534,19 +573,38 @@
 
 <p>CdkLib, a shorthand for CDK library, contains modest amount of reusable C# code referenced by both executable .NET CDK projects. It&rsquo;s home to classes and helper methods reducing amount of boilerplate, making infrastructure build-out &ldquo;meat&rdquo; code in main projects more concise and expressive. It also serves as an illustration that CDK code is very easy to componentize and parameterize.</p>
 
-<p>One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core <code>IConfiguration</code> from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it ver easy to pass parameters to CDK projects via Environment Variable in CodePipeline, CodeBuild, and many other places.</p>
+<p>One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core <code>IConfiguration</code> from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it ver easy to pass parameters to CDK projects via Environment variables in CodePipeline, CodeBuild and other places.</p>
+
+<h4 id="prodenvinfraascode">ProdEnvInfraAsCode</h4>
+
+<p>This project is a .NET CDK Console application project responsible for generating AWS CloudFormation templates that create Unicorn Store application hosting environment. The hosting environment, at the high level, consists of the Amazon <a href="https://aws.amazon.com/ecs/" target="_blank">Elastic Container Service (ECS)</a> and <a href="https://aws.amazon.com/rds/" target="_blank">Relational Database Service (RDS)</a>. Under the hood the infrastructure built by this project is more complex, including various networking components, like a load balancer, virtual private cloud, subnets, security groups (firewall rules), roles and others.</p>
+
+<p>However, despite the sophistication of the cloud infrastructure produced by this project, the amount and complexity of the code required to implement it is strikingly low. In fact, <strong>the &ldquo;meat&rdquo; code of the project is less than 100 lines of C# code</strong>! That makes this project the smallest in the entire solution.</p>
+
+<blockquote>
+<p>ProdEnvInfraAsCode project is going to be run by the &ldquo;build&rdquo; part of the CI/CD pipeline, and <em>not manually</em> by developers, except for debugging purposes discussed in later chapters.</p>
+</blockquote>
+
+<p>Here&rsquo;s the architectural diagram of the application hosting environment:
+<img src="./images/app-hosting-env-architecture.png" alt="Unicorn Store app hosting environment architecture" /></p>
 
 <h4 id="cicdinfraascode">CicdInfraAsCode</h4>
 
 <p>The more complex of all CDK projects, still with only about 300 lines of CDK code (plus another 100 lines of Node.js code), this C# Console app project produces three-stage project build and deployment pipeline, show below.</p>
 
+<p>At high level, the CI/CD pipeline infrastructure includes Amazon <a href="https://aws.amazon.com/codepipeline/" target="_blank">CodePipeline</a>, <a href="https://aws.amazon.com/codecommit/" target="_blank">CodeCommit</a> - a Git repository service, <a href="https://aws.amazon.com/codebuild/" target="_blank">CodeBuild</a>, <a href="https://aws.amazon.com/ecr/" target="_blank">Elastic Container Registry (ECR)</a>, and <a href="https://aws.amazon.com/lambda/" target="_blank">Lambda</a> services.</p>
+
 <p><img src="./images/CodePipeline-in-AWS-console.png" alt="Unicorn Store CI/CD Pipeline in AWS CodePipeline Console" /></p>
 
-<p>The Build stage of the pipeline contains two <em>parallel</em> sub-stages: a) building application and packaging its artifacts as a <a href="https://www.docker.com/resources/what-container" target="_blank">Docker</a> container image, and b) compiling and running second CDK project, the &ldquo;ProdEnvInfraAsCode&rdquo;, which builds out deployment infrastructure for the Unicorn Store app.</p>
+<p>The Build stage of the pipeline contains two <em>parallel</em> sub-stages: a) building application and packaging its artifacts as a <a href="https://www.docker.com/resources/what-container" target="_blank">Docker</a> container image, and b) compiling and running second CDK project, the &ldquo;ProdEnvInfraAsCode&rdquo;, which builds out deployment infrastructure for hosting Unicorn Store app.</p>
 
 <p>The pipeline is not overly complicated and does not yet contain any quality gates, like testing, but it can serve as a springboard for an evolving CI/CD pipeline project.</p>
 
-<p>TBD</p>
+<p>The project contains a <code>Node.js sub-project</code> in the &ldquo;/src/assets/lambda/ecs-container-recycle&rdquo;, which implements a <em>serverless AWS Lambda function</em> that is invoked by the final stage of the CI/CD pipeline to <em>restart the</em> ECS-hosted Unicorn Store <em>application</em> to load newly-minted application build.</p>
+
+<p>The size of the Node.js code-base is fairly modest, and the code is split between the &ldquo;cdklib&rdquo; directory, where reusable and potentially boilerplate code is sequestered, and the &ldquo;index.js&rdquo; file, where the man logic of the function is implemented.</p>
+
+<p>Now that we&rsquo;ve taken the tour of the project, let&rsquo;s move to the next chapter to see whether our CI/CD infrastructure has finished building.</p>
 
 
 <footer class=" footline" >
@@ -757,6 +815,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
                     
@@ -765,8 +839,24 @@
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
                         
-                        
+            
+            
+                
                     
                 
                 
@@ -791,7 +881,7 @@
 			<a class="nav nav-prev" href="../../en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/30-containerization.html" title="Containerization (Coming Soon)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

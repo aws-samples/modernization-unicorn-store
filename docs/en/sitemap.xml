@@ -78,6 +78,16 @@
   </url>
   
   <url>
+    <loc>/en/20-cdk/60-starting-cicd-build.html</loc>
+    <lastmod>2019-10-15T11:34:12-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/20-cdk/99-cleanup.html</loc>
+    <lastmod>2019-10-15T11:53:46-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/en/categories.html</loc>
     <xhtml:link
                 rel="alternate"

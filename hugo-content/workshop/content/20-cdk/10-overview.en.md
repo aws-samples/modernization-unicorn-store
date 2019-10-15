@@ -5,7 +5,7 @@ date = 2019-10-12T18:06:59-04:00
 weight = 10
 +++
 -->
-Welcome to the `.NET AWS CDK` module of the workshop! "CDK" stands for `Cloud Development Kit`.
+Welcome to the `.NET AWS CDK` module of the workshop!
 
 ### Workshop Goals
 
@@ -20,7 +20,7 @@ The aim is to help you learn how to take your cloud-unaware ASP.NET Core applica
 
 ### CKD Demystified
 
-> [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) is higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference  that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing *order of magnitude less code* than with CloudFormation.
+> [AWS Cloud Development Kit](https://docs.aws.amazon.com/cdk/latest/guide/home.html) is higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference  that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing *order of magnitude less code* than with CloudFormation.
 
 CDK consists of a CLI and a set of libraries available for most popular programming languages. In the case of .NET CDK, the libraries are added via [NuGet](https://www.nuget.org/packages/Amazon.CDK/).
 

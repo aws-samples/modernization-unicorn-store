@@ -14,6 +14,12 @@ You may *skip this page* and move on to the next step and you are *using Amazon-
 * Either MS SQL Server ([LocalDB](https://chocolatey.org/packages/sqllocaldb) version is perfectly suitable), or PostgreSQL, per [Common Prerequisites](../10-intro/20-prerequisites.html).
 * [MySQL](https://chocolatey.org/packages/mysql) is required as the goal of the module is to add MySQL support to the app. [MySQL Workbench](https://chocolatey.org/packages/mysql.workbench), a MySQL management UI console, is recommended.
 
+> For Windows Users Only:
+
+1. [Chocolatey](https://chocolatey.org/docs/installation#install-with-cmdexe) package manager.
+2. The [jq](https://chocolatey.org/packages/jq) utility that parses JSON.
+
+
 #### Checking Out Source Code
 
 In a directory of your choice, please run 

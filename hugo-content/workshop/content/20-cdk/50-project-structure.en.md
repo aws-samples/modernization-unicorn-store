@@ -34,16 +34,33 @@ This lab's focus is on adding support for MySQL database, which is a pretty simp
 
 CdkLib, a shorthand for CDK library, contains modest amount of reusable C# code referenced by both executable .NET CDK projects. It's home to classes and helper methods reducing amount of boilerplate, making infrastructure build-out "meat" code in main projects more concise and expressive. It also serves as an illustration that CDK code is very easy to componentize and parameterize. 
 
-One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core `IConfiguration` from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it ver easy to pass parameters to CDK projects via Environment Variable in CodePipeline, CodeBuild, and many other places.
+One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core `IConfiguration` from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it ver easy to pass parameters to CDK projects via Environment variables in CodePipeline, CodeBuild and other places.
+
+#### ProdEnvInfraAsCode
+
+This project is a .NET CDK Console application project responsible for generating AWS CloudFormation templates that create Unicorn Store application hosting environment. The hosting environment, at the high level, consists of the Amazon [Elastic Container Service (ECS)](https://aws.amazon.com/ecs/) and [Relational Database Service (RDS)](https://aws.amazon.com/rds/). Under the hood the infrastructure built by this project is more complex, including various networking components, like a load balancer, virtual private cloud, subnets, security groups (firewall rules), roles and others.
+
+However, despite the sophistication of the cloud infrastructure produced by this project, the amount and complexity of the code required to implement it is strikingly low. In fact, **the "meat" code of the project is less than 100 lines of C# code**! That makes this project the smallest in the entire solution.
+
+> ProdEnvInfraAsCode project is going to be run by the "build" part of the CI/CD pipeline, and *not manually* by developers, except for debugging purposes discussed in later chapters.
+
+Here's the architectural diagram of the application hosting environment:
+![Unicorn Store app hosting environment architecture](./images/app-hosting-env-architecture.png)
 
 #### CicdInfraAsCode
 
 The more complex of all CDK projects, still with only about 300 lines of CDK code (plus another 100 lines of Node.js code), this C# Console app project produces three-stage project build and deployment pipeline, show below. 
 
+At high level, the CI/CD pipeline infrastructure includes Amazon [CodePipeline](https://aws.amazon.com/codepipeline/), [CodeCommit](https://aws.amazon.com/codecommit/) - a Git repository service, [CodeBuild](https://aws.amazon.com/codebuild/), [Elastic Container Registry (ECR)](https://aws.amazon.com/ecr/), and [Lambda](https://aws.amazon.com/lambda/) services.
+
 ![Unicorn Store CI/CD Pipeline in AWS CodePipeline Console](./images/CodePipeline-in-AWS-console.png)
 
-The Build stage of the pipeline contains two *parallel* sub-stages: a) building application and packaging its artifacts as a [Docker](https://www.docker.com/resources/what-container) container image, and b) compiling and running second CDK project, the "ProdEnvInfraAsCode", which builds out deployment infrastructure for the Unicorn Store app.
+The Build stage of the pipeline contains two *parallel* sub-stages: a) building application and packaging its artifacts as a [Docker](https://www.docker.com/resources/what-container) container image, and b) compiling and running second CDK project, the "ProdEnvInfraAsCode", which builds out deployment infrastructure for hosting Unicorn Store app.
 
 The pipeline is not overly complicated and does not yet contain any quality gates, like testing, but it can serve as a springboard for an evolving CI/CD pipeline project.
 
-TBD
+The project contains a `Node.js sub-project` in the "/src/assets/lambda/ecs-container-recycle", which implements a *serverless AWS Lambda function* that is invoked by the final stage of the CI/CD pipeline to *restart the* ECS-hosted Unicorn Store *application* to load newly-minted application build.
+
+The size of the Node.js code-base is fairly modest, and the code is split between the "cdklib" directory, where reusable and potentially boilerplate code is sequestered, and the "index.js" file, where the man logic of the function is implemented.
+
+Now that we've taken the tour of the project, let's move to the next chapter to see whether our CI/CD infrastructure has finished building.

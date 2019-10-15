@@ -95,7 +95,7 @@
         
         ">
       <a href="../../en/10-intro.html">
-          <b>1. </b>Before You Begin
+          Before You Begin
           
       </a>
       
@@ -203,7 +203,7 @@
         
         ">
       <a href="../../en/20-cdk.html">
-          <b>2. </b>AWS CDK, CI/CD Infra as Code
+          AWS .NET CDK CI/CD Infra as Code
           
       </a>
       
@@ -310,6 +310,44 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" class="dd-item ">
+        <a href="../../en/20-cdk/60-starting-cicd-build.html">
+        <b>5. </b>Starting Pipeline Build
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/99-cleanup.html" title="Cleanup" class="dd-item ">
+        <a href="../../en/20-cdk/99-cleanup.html">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -324,13 +362,13 @@
  
   
     
-    <li data-nav-id="/en/30-containerization.html" title="Containerization (Coming Soon)" class="dd-item 
+    <li data-nav-id="/en/30-containerization.html" title="ECS Containerization (Coming Soon)" class="dd-item 
         
         
         
         ">
       <a href="../../en/30-containerization.html">
-          <b>3. </b>Containerization (TBD)
+          Containerization with ECS (TBD)
           
       </a>
       
@@ -457,7 +495,17 @@
           
           <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#launching-ci-cd-pipeline-infrastructure-creation">Launching CI/CD Pipeline Infrastructure Creation</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -471,6 +519,8 @@
           <h1>Creating AWS CI/CD Pipeline</h1>
           
           
+
+
 
 
 <p>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&rsquo;s spend a few moments to create the CI/CD pipeline in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&rsquo;ll spend some time looking into the structure of project and getting familiar with CDK concepts.</p>
@@ -495,6 +545,8 @@
 </tr>
 </tbody>
 </table>
+
+<h3 id="launching-ci-cd-pipeline-infrastructure-creation">Launching CI/CD Pipeline Infrastructure Creation</h3>
 
 <p>Now please open a Command Prompt window and cd into the directory containing &ldquo;CicdInfraAsCode.csproj&rdquo; project file, which relative to the project root is &ldquo;infra-as-code/CicdInfraAsCode/src&rdquo;, and run the following command to start creation of the CI/CD pipeline:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cdk deploy --require-approval never</code></pre></div>
@@ -700,6 +752,38 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
