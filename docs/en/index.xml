@@ -209,6 +209,17 @@ Amazon RDS and Amazon Aurora are SQL Server, MySQL and PostgreSQL-compatible, ma
     </item>
     
     <item>
+      <title>Explore CDK Stack Source</title>
+      <link>/en/20-cdk/81-explore-cdk-stack-source.html</link>
+      <pubDate>Wed, 16 Oct 2019 16:05:30 -0400</pubDate>
+      
+      <guid>/en/20-cdk/81-explore-cdk-stack-source.html</guid>
+      <description>Now it&amp;rsquo;s perfect time to take a look at how a CDK &amp;ldquo;stack&amp;rdquo; written in C# looks like.
+For best experience, please mark &amp;ldquo;ProdEnvInfraAsCode&amp;rdquo; as a Startup Project, open &amp;ldquo;Program.cs&amp;rdquo; in the IDE editor, put the break on the line with the `new UnicornStoreFargateStack(&amp;hellip;)&amp;rdquo; and start debugging.
+First you will skip over the straightforward-sounding LoadConfiguration() method that reads in &amp;ldquo;appSettings.json&amp;rdquo; etc. and passes loaded data to the UnicornStoreFargateStack(...) constructor in the settings variable.</description>
+    </item>
+    
+    <item>
       <title>Thank You!</title>
       <link>/en/20-cdk/95-thank-you.html</link>
       <pubDate>Wed, 16 Oct 2019 01:51:19 -0400</pubDate>
