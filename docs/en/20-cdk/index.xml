@@ -73,6 +73,110 @@ First, please check the command prompt console where you ran cdk deploy for the 
     </item>
     
     <item>
+      <title>Verify Pipeline Run Completion</title>
+      <link>/en/20-cdk/63-verify-ci-cd-completion.html</link>
+      <pubDate>Tue, 15 Oct 2019 17:48:00 -0400</pubDate>
+      
+      <guid>/en/20-cdk/63-verify-ci-cd-completion.html</guid>
+      <description>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK project, adding MySQL support to it. Feel free to go to the next chapter and come back here later to ensure the pipeline is alright.
+Verifying the CI/CD Pipeline Run Has Completed Whenever the pipeline has finished, feel free to browse to the AWS Load Balancer page in the AWS Console, select a load balancer named &amp;ldquo;unicorn-store&amp;rdquo; and click the &amp;ldquo;copy to clipboard&amp;rdquo; icon next to the &amp;ldquo;DNS Name&amp;rdquo; field.</description>
+    </item>
+    
+    <item>
+      <title>MySQL Support</title>
+      <link>/en/20-cdk/65-adding-mysql-support.html</link>
+      <pubDate>Tue, 15 Oct 2019 15:42:30 -0400</pubDate>
+      
+      <guid>/en/20-cdk/65-adding-mysql-support.html</guid>
+      <description>This chapter will guide you through the process of adding support for MySQL to the Unicorn Store application and to infra-as-code projects. MySQL is an open source, cross-platform, relational database that can be run in a cloud, on premises, or locally on developer workstation free of charge.
+This set of steps builds on the existing, multi-database-friendly architecture of the Unicorn Store application, which already supports MS SQL Server and open-source PostgreSQL, while requiring only modest changes to the code of executable projects in the Solution.</description>
+    </item>
+    
+    <item>
+      <title>App: NuGet and AppSettings</title>
+      <link>/en/20-cdk/67-app-nuget-and-appsettings.html</link>
+      <pubDate>Tue, 15 Oct 2019 16:13:30 -0400</pubDate>
+      
+      <guid>/en/20-cdk/67-app-nuget-and-appsettings.html</guid>
+      <description>This chapter assumes that MySQL is installed locally.
+ Adding MySQL Library to the Application via NuGet  Please start with marking &amp;ldquo;UnicornStore&amp;rdquo; project as a Startup Project in Visual Studio. Open &amp;ldquo;Package Manager Console&amp;rdquo; by selecting it from the &amp;ldquo;View | Other Windows&amp;rdquo; menu. Install Pomelo.EntityFrameworkCore.MySql version 2.2 package by running following command in Visual Studio &amp;ldquo;Package Manager Console&amp;rdquo;:
+Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0  Adding Default Connection String String to &amp;ldquo;appSettings.</description>
+    </item>
+    
+    <item>
+      <title>Updating Build Config</title>
+      <link>/en/20-cdk/69-updating-build-config.html</link>
+      <pubDate>Tue, 15 Oct 2019 17:22:29 -0400</pubDate>
+      
+      <guid>/en/20-cdk/69-updating-build-config.html</guid>
+      <description>Before anything else, we need to update solution-to-project Build Configuration mapping.
+    Notes      Please start with bringing up Solution Configuration Manager.    Then select &amp;ldquo;DebugMySQL from the &amp;ldquo;Active solution configuration dropdown and change executable project configuration mapping from &amp;ldquo;DebugProject&amp;rdquo; to &amp;ldquo;DebugMySQL&amp;rdquo;:
+           Changeto =&amp;gt;     Please do the same for the ReleaseMySQL solution configuration: map executable project context configuration to &amp;ldquo;ReleaseMySQL&amp;rdquo;</description>
+    </item>
+    
+    <item>
+      <title>Modifying Startup.cs</title>
+      <link>/en/20-cdk/71-modifying-startup-cs.html</link>
+      <pubDate>Tue, 15 Oct 2019 17:13:32 -0400</pubDate>
+      
+      <guid>/en/20-cdk/71-modifying-startup-cs.html</guid>
+      <description>Please open &amp;ldquo;Startup.cs&amp;rdquo; file of the &amp;ldquo;UnicornStore&amp;rdquo; project in Visual Studio. Add using MySql.Data.MySqlClient; line to top part of the file. Find ConfigureDatabaseEngine() method and replace the #if POSTGRES line in it with
+#if MYSQL  this.HookupMySQL(services); #elif POSTGRES  Now, to implement missing &amp;ldquo;HookupMySQL()&amp;rdquo; function, find the HookupPostgres() method and replace the #if POSTGRES line right above it with
+#if MYSQL  private void HookupMySQL(IServiceCollection services) { #if Debug || DEBUG  // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up #warning Using MySQL for a database #endif  this.</description>
+    </item>
+    
+    <item>
+      <title>MySQL Options Configurator</title>
+      <link>/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html</link>
+      <pubDate>Tue, 15 Oct 2019 23:10:12 -0400</pubDate>
+      
+      <guid>/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html</guid>
+      <description>Each database engine supported by the Unicorn Store application needs a DbContextOptionsConfigurator subclass. &amp;ldquo;DbContextOptionsConfigurator&amp;rdquo; facilitates deferred and dynamic update of stored database connection information in case when connection string information stored in the &amp;ldquo;appsettings.json&amp;rdquo; file changes while the application is running.
+ Unlike common practice shown in countless .NET Core samples, loading connection string once when Configure() method is called goes against the design goals of the IConfiguration-based settings handling, as doing so circumvents dynamic settings reloading capabilities of &amp;ldquo;IConfiguration&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Verifying MySQL Support</title>
+      <link>/en/20-cdk/75-verifying-mysql-support-locally.html</link>
+      <pubDate>Tue, 15 Oct 2019 23:47:33 -0400</pubDate>
+      
+      <guid>/en/20-cdk/75-verifying-mysql-support-locally.html</guid>
+      <description>Please be sure that &amp;ldquo;DebugMySQL&amp;rdquo; solution configuration is active. Build &amp;ldquo;UnicornStore&amp;rdquo; project - it should build without errors. Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &amp;ldquo;appSettings.json&amp;rdquo; or any other file in the solution root, which might lead to inadvertent committing credentials information to the version control system. To do this, we&amp;rsquo;ll use .NET Secret Manager. Please right-click &amp;ldquo;UnicornStore&amp;rdquo; project and select Manage User Secrets from the context menu.</description>
+    </item>
+    
+    <item>
+      <title>Adding MySQL Support to the Hosting Env CDK Project</title>
+      <link>/en/20-cdk/77-mysql-hosting-env-stack.html</link>
+      <pubDate>Wed, 16 Oct 2019 00:15:05 -0400</pubDate>
+      
+      <guid>/en/20-cdk/77-mysql-hosting-env-stack.html</guid>
+      <description>Next couple of sections will guide you through adding MySQL support to the ProdEnvInfraAsCode project that defines application cloud hosting environment using infrastructure-as-code approach.
+MySQL database underpinning Unicorn Store application is going to run in AWS cloud and is implemented either by Amazon RDS for MySQL or by Amazon Aurora service, depending whether the infrastructure is configured to run in a single-instance or in the cluster mode.
+Amazon RDS and Amazon Aurora are SQL Server, MySQL and PostgreSQL-compatible, managed, &amp;ldquo;serverless&amp;rdquo; services, capable of replacing self-managed RDBMS deployments running on unmanaged VMs or in containers.</description>
+    </item>
+    
+    <item>
+      <title>MySQL in CI/CD CDK Project</title>
+      <link>/en/20-cdk/79-mysql-ci-cd-stack.html</link>
+      <pubDate>Wed, 16 Oct 2019 01:18:54 -0400</pubDate>
+      
+      <guid>/en/20-cdk/79-mysql-ci-cd-stack.html</guid>
+      <description>Here we&amp;rsquo;ll add MySQL support to the CI/CD CDK project.
+  Please start with marking &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a &amp;ldquo;Startup Project&amp;rdquo; in Visual Studio. Open &amp;ldquo;UnicornStoreCiCdStackProps.cs&amp;rdquo; file in the IDE editor. Find the DbEngineType enum and add MySQL entry to it. Find the DbEngine property and replace the #if POSTGRES line with
+#if MYSQL  DbEngineType.MySQL; #elif POSTGRES  Run the project to ensure there are no exceptions thrown.</description>
+    </item>
+    
+    <item>
+      <title>Thank You!</title>
+      <link>/en/20-cdk/95-thank-you.html</link>
+      <pubDate>Wed, 16 Oct 2019 01:51:19 -0400</pubDate>
+      
+      <guid>/en/20-cdk/95-thank-you.html</guid>
+      <description>This concludes the CDK module of the workshop. Thank you very much for your participation! We hope you have learned something new and useful today, and would not mind to let us know what we could improve.
+Feel free to explore further the codebase of all CDK projects to understand better the ins and outs of how to start building your own AWS infrastructure using all great features of C#.</description>
+    </item>
+    
+    <item>
       <title>Cleanup</title>
       <link>/en/20-cdk/99-cleanup.html</link>
       <pubDate>Tue, 15 Oct 2019 11:53:46 -0400</pubDate>

@@ -336,6 +336,196 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/63-verify-ci-cd-completion.html" title="Verify Pipeline Run Completion" class="dd-item ">
+        <a href="../../en/20-cdk/63-verify-ci-cd-completion.html">
+        <b>6. </b>Verify Pipeline Run Completion
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/65-adding-mysql-support.html" title="MySQL Support" class="dd-item ">
+        <a href="../../en/20-cdk/65-adding-mysql-support.html">
+        <b>7. </b>Adding MySQL Database Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/67-app-nuget-and-appsettings.html" title="App: NuGet and AppSettings" class="dd-item ">
+        <a href="../../en/20-cdk/67-app-nuget-and-appsettings.html">
+        <b>7.1 </b>App: NuGet and AppSettings
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/69-updating-build-config.html" title="Updating Build Config" class="dd-item ">
+        <a href="../../en/20-cdk/69-updating-build-config.html">
+        <b>7.2 </b>Updating Build Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/71-modifying-startup-cs.html" title="Modifying Startup.cs" class="dd-item ">
+        <a href="../../en/20-cdk/71-modifying-startup-cs.html">
+        <b>7.3 </b>Modifying Startup.cs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" title="MySQL Options Configurator" class="dd-item ">
+        <a href="../../en/20-cdk/73-mysqldbcontextoptionsconfigurator.html">
+        <b>7.4 </b>MySQL Options Configurator
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/75-verifying-mysql-support-locally.html" title="Verifying MySQL Support" class="dd-item ">
+        <a href="../../en/20-cdk/75-verifying-mysql-support-locally.html">
+        <b>7.5 </b>Verifying MySQL Support Locally
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/77-mysql-hosting-env-stack.html" title="Adding MySQL Support to the Hosting Env CDK Project" class="dd-item ">
+        <a href="../../en/20-cdk/77-mysql-hosting-env-stack.html">
+        <b>7.6 </b>MySQL in Hosting Env CDK Proj
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/79-mysql-ci-cd-stack.html" title="MySQL in CI/CD CDK Project" class="dd-item ">
+        <a href="../../en/20-cdk/79-mysql-ci-cd-stack.html">
+        <b>7.7 </b>MySQL in CI/CD CDK Project
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/95-thank-you.html" title="Thank You!" class="dd-item ">
+        <a href="../../en/20-cdk/95-thank-you.html">
+        <b>8. </b>Thank You!
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/99-cleanup.html" title="Cleanup" class="dd-item ">
         <a href="../../en/20-cdk/99-cleanup.html">
         Cleanup
@@ -579,7 +769,7 @@
 
 <p>This project is a .NET CDK Console application project responsible for generating AWS CloudFormation templates that create Unicorn Store application hosting environment. The hosting environment, at the high level, consists of the Amazon <a href="https://aws.amazon.com/ecs/" target="_blank">Elastic Container Service (ECS)</a> and <a href="https://aws.amazon.com/rds/" target="_blank">Relational Database Service (RDS)</a>. Under the hood the infrastructure built by this project is more complex, including various networking components, like a load balancer, virtual private cloud, subnets, security groups (firewall rules), roles and others.</p>
 
-<p>However, despite the sophistication of the cloud infrastructure produced by this project, the amount and complexity of the code required to implement it is strikingly low. In fact, <strong>the &ldquo;meat&rdquo; code of the project is less than 100 lines of C# code</strong>! That makes this project the smallest in the entire solution.</p>
+<p>However, despite the sophistication of the cloud infrastructure produced by this project, the amount and complexity of the code required to implement it is strikingly low.</p>
 
 <blockquote>
 <p>ProdEnvInfraAsCode project is going to be run by the &ldquo;build&rdquo; part of the CI/CD pipeline, and <em>not manually</em> by developers, except for debugging purposes discussed in later chapters.</p>
@@ -603,6 +793,10 @@
 <p>The project contains a <code>Node.js sub-project</code> in the &ldquo;/src/assets/lambda/ecs-container-recycle&rdquo;, which implements a <em>serverless AWS Lambda function</em> that is invoked by the final stage of the CI/CD pipeline to <em>restart the</em> ECS-hosted Unicorn Store <em>application</em> to load newly-minted application build.</p>
 
 <p>The size of the Node.js code-base is fairly modest, and the code is split between the &ldquo;cdklib&rdquo; directory, where reusable and potentially boilerplate code is sequestered, and the &ldquo;index.js&rdquo; file, where the man logic of the function is implemented.</p>
+
+<blockquote>
+<p>At this point, please spend 5-10 minutes browsing through the UnicornStore solution and to familiar with where major parts of the codebase located.</p>
+</blockquote>
 
 <p>Now that we&rsquo;ve taken the tour of the project, let&rsquo;s move to the next chapter to see whether our CI/CD infrastructure has finished building.</p>
 
@@ -822,6 +1016,166 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
