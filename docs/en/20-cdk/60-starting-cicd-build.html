@@ -692,7 +692,6 @@
 <li>
 <ul>
 <li><a href="#starting-the-pipeline-pushing-source-code-to-codecommit">Starting the Pipeline: Pushing Source Code to CodeCommit</a></li>
-<li><a href="#verifying-the-ci-cd-pipeline-run-has-completed">Verifying the CI/CD Pipeline Run Has Completed</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -757,17 +756,6 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
 <blockquote>
 <p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs cas run to completion in <em>under one minute</em>.</p>
 </blockquote>
-
-<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK project, adding MySQL support to it. Feel free to go to the next chapter and come back here later to ensure the pipeline</p>
-
-<h3 id="verifying-the-ci-cd-pipeline-run-has-completed">Verifying the CI/CD Pipeline Run Has Completed</h3>
-
-<p>Whenever <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">the pipeline</a> has finished, feel free to browse to the <a href="https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName" target="_blank">AWS Load Balancer</a> page in the AWS Console, select a load balancer with the name starting with &ldquo;Unico&rdquo; and click the &ldquo;copy to clipboard&rdquo; icon next to the &ldquo;<strong>DNS Name</strong>&rdquo; field.</p>
-
-<p>Then paste the URL into a new browser tab, hit Enter and observe Unicorn Application home page loaded:
-<img src="./images/unicorn-store-app-in-browser.png" alt="Unicorn Store application in browser" /></p>
-
-<p>Please follow these <a href="./30-running-app-locally.html#exploring-and-testing-unicorn-store-web-application-functionality">verification steps</a> to ensure application functionality is not broken.</p>
 
 
 <footer class=" footline" >
