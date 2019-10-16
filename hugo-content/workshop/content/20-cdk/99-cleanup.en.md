@@ -16,9 +16,16 @@ You will also need to use these steps if you are taking this lab at an AWS event
 
 ### Delete Infrastructure "Stacks" Created by CDK Projects
 
+To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the "CicdInfraAsCode" project. Here run `cdk destroy` to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.
+
+As an alternative, you may run 
+```bash
+aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack
+```
+
+Since hosting environment stack was run as part of the CI/CD pipeline, deleting it is easily done with deleting the corresponding CloudFormation stack:
 ```bash
 aws cloudformation delete-stack --stack-name UnicornSuperstoreStack
-aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack
 ```
 Although both commands return instantaneously, the process of deleting resources up to 10 minutes, give or take. To see the progress, please browse to [CloudFormation -> Stacks](https://console.aws.amazon.com/cloudformation/home) in AWS Console. There you should see **DELETE_IN_PROGRESS** status next to "UnicornSuperstoreStack" and "Unicorn-Store-CI-CD-PipelineStack" items. Refresh the page periodically using the round arrow icon.
 
