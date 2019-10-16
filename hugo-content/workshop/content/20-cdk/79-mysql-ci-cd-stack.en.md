@@ -61,7 +61,7 @@ Please note parts reflecting the RDBMS type change in the output above:
             [-]   "Value": "Postgres"
             [+]   "Value": "MySQL"
 ```
-> `cdk diff` is a very, very useful tool, allowing a developer to build-out an infrastructure as a base line, and then modify the infra-as-code project and run "cdk diff" to see what will be changed if they run "cdk deploy", providing *fast and non-destructive way of understanding what changes in the the infrastructure will be made by corresponding changes in the CDK project*.
+> `cdk diff` is a very, very useful tool, allowing developers to build-out an infrastructure base line, and then make changes to the infra-as-code project code and run "cdk diff" to see what will be changed in the cloud infrastructure if they run "cdk deploy". That provides *fast and non-destructive way of understanding what changes in the the infra-as-code project will be made by corresponding changes in the CDK project*.
 
 8. Run `cdk deploy --require-approval never` and it should complete in a minute or two without errors, updating the CI/CD pipeline infrastructure in AWS with MySQL configured and the database engine.
 9. Now we need to trigger the pipeline by committing and pushing code changes to the AWS CodeCommit. For that please run `git commit` followed by `git push aws` and in a minute or so you should see the [CI/CD pipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) executing.

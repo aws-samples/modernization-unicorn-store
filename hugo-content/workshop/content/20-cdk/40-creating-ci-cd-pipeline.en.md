@@ -16,7 +16,11 @@ Before we dive into the code base of the Unicorn Store solution and start hackin
 
 ### Launching CI/CD Pipeline Infrastructure Creation
 
-Now please open a Command Prompt window and cd into the directory containing "CicdInfraAsCode.csproj" project file, which relative to the project root is "infra-as-code/CicdInfraAsCode/src", and run the following command to start creation of the CI/CD pipeline:
+Now please open a Command Prompt window and cd into the directory containing "CicdInfraAsCode.csproj" project file, which relative to the solution root is in "infra-as-code/CicdInfraAsCode/src".
+
+> If you never ran `cdK` CLI before in the currently-configured AWS Region, and you are not using an AWS event supplied VM, you may need to run `cdk bootstrap` command that runs a CloudFormation template that configures some resources required for the CDK to function. This is a one-time thing per AWS region.
+
+Next, run the following command to start creation of the CI/CD pipeline:
 ```bash
 cdk deploy --require-approval never
 ```
