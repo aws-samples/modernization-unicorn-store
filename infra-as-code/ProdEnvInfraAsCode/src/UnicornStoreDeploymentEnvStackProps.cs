@@ -29,6 +29,7 @@ namespace ProdEnvInfraAsCode
         /// </summary>
         public enum DbEngineType
         {
+            MySQL,
             Postgres,
             SqlServer
         }
@@ -49,7 +50,9 @@ namespace ProdEnvInfraAsCode
         }
 
         public DbEngineType DbEngine { get; set; } =
-#if POSTGRES
+#if MYSQL
+            DbEngineType.MySQL;
+#elif POSTGRES
             DbEngineType.Postgres;
 #else
             DbEngineType.SqlServer;
@@ -120,6 +123,8 @@ namespace ProdEnvInfraAsCode
         {
             switch(this.DbEngine)
             {
+                case DbEngineType.MySQL:
+                    return new MySqlConstructFactory(this);
                 case DbEngineType.Postgres:
                     return new PostgresConstructFactory(this);
                 case DbEngineType.SqlServer:

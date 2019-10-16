@@ -11,6 +11,7 @@ namespace CicdInfraAsCode
         /// </summary>
         public enum DbEngineType
         {
+            MySQL,
             Postgres,
             SqlServer
         }
@@ -18,7 +19,9 @@ namespace CicdInfraAsCode
         public UnicornStoreCiCdStackProps() : base("Unicorn-Store-CI-CD-Pipeline") {}
 
         public DbEngineType DbEngine { get; set; } =
-#if POSTGRES
+#if MYSQL
+            DbEngineType.MySQL;
+#elif POSTGRES
             DbEngineType.Postgres;
 #else
             DbEngineType.SqlServer;
