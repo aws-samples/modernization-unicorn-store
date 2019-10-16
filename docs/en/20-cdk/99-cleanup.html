@@ -507,6 +507,25 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
+        <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
+        <b>7.8 </b>Explore CDK Stack Source Code
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/95-thank-you.html" title="Thank You!" class="dd-item ">
         <a href="../../en/20-cdk/95-thank-you.html">
         <b>8. </b>Thank You!
@@ -726,8 +745,13 @@
 </blockquote>
 
 <h3 id="delete-infrastructure-stacks-created-by-cdk-projects">Delete Infrastructure &ldquo;Stacks&rdquo; Created by CDK Projects</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws cloudformation delete-stack --stack-name UnicornSuperstoreStack
-aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack</code></pre></div>
+
+<p>To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the &ldquo;CicdInfraAsCode&rdquo; project. Here run <code>cdk destroy</code> to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.</p>
+
+<p>As an alternative, you may run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack</code></pre></div>
+<p>Since hosting environment stack was run as part of the CI/CD pipeline, deleting it is easily done with deleting the corresponding CloudFormation stack:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws cloudformation delete-stack --stack-name UnicornSuperstoreStack</code></pre></div>
 <p>Although both commands return instantaneously, the process of deleting resources up to 10 minutes, give or take. To see the progress, please browse to <a href="https://console.aws.amazon.com/cloudformation/home" target="_blank">CloudFormation -&gt; Stacks</a> in AWS Console. There you should see <strong>DELETE_IN_PROGRESS</strong> status next to &ldquo;UnicornSuperstoreStack&rdquo; and &ldquo;Unicorn-Store-CI-CD-PipelineStack&rdquo; items. Refresh the page periodically using the round arrow icon.</p>
 
 <h3 id="delete-kms-key">Delete KMS Key</h3>
@@ -869,6 +893,22 @@ aws kms schedule-key-deletion --key-id &lt;PASTE Key ID VALUE HERE&gt; --pending
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             

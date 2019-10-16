@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 <link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 
-  <title>MySQL Options Configurator :: ASP.NET Modernization Workshop</title>
+  <title>Explore CDK Stack Source :: ASP.NET Modernization Workshop</title>
 
   
   <link href="../../css/nucleus.css" rel="stylesheet">
@@ -45,7 +45,7 @@
   
 </head>
 
-<body class="" data-url="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html">
+<body class="" data-url="/en/20-cdk/81-explore-cdk-stack-source.html">
   <nav id="sidebar" class="">
 
 
@@ -431,7 +431,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" title="MySQL Options Configurator" class="dd-item active">
+      <li data-nav-id="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" title="MySQL Options Configurator" class="dd-item ">
         <a href="../../en/20-cdk/73-mysqldbcontextoptionsconfigurator.html">
         <b>7.4 </b>MySQL Options Configurator
         
@@ -507,7 +507,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
+      <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item active">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
         <b>7.8 </b>Explore CDK Stack Source Code
         
@@ -611,7 +611,7 @@
                   
                     
                     
-                      <option id="en" value="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" selected>English</option>
+                      <option id="en" value="/en/20-cdk/81-explore-cdk-stack-source.html" selected>English</option>
                     
                   
               
@@ -662,7 +662,7 @@
           
           
           <div id="top-github-link">
-            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/73-MySqlDbContextOptionsConfigurator.en.md"
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/81-explore-cdk-stack-source.en.md"
               target="blank">
               <i class="fas fa-code-branch"></i>
               <span id="top-github-link-text">Edit this page</span>
@@ -692,7 +692,7 @@
           
           
           
-          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > MySQL Options Configurator
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > Explore CDK Stack Source
           
           
           
@@ -715,60 +715,30 @@
 
       
         <div id="body-inner">
-          <h1>MySQL Options Configurator</h1>
+          <h1>Explore CDK Stack Source</h1>
           
           
 
 
-<p>Each database engine supported by the Unicorn Store application needs a <code>DbContextOptionsConfigurator</code> subclass. &ldquo;DbContextOptionsConfigurator&rdquo; facilitates deferred and dynamic update of stored database connection information in case when connection string information stored in the &ldquo;appsettings.json&rdquo; file changes while the application is running.</p>
+<p>Now it&rsquo;s perfect time to take a look at how a CDK &ldquo;stack&rdquo; written in C# looks like.</p>
+
+<p>For best experience, please <em>mark &ldquo;ProdEnvInfraAsCode&rdquo; as a Startup Project</em>, open &ldquo;Program.cs&rdquo; in the IDE editor, put the break on the line with the `new UnicornStoreFargateStack(&hellip;)&rdquo; and start debugging.</p>
+
+<p>First you will skip over the straightforward-sounding <code>LoadConfiguration()</code> method that reads in &ldquo;appSettings.json&rdquo; etc. and passes loaded data to the <code>UnicornStoreFargateStack(...)</code> constructor in the <code>settings</code> variable.</p>
+
+<p>Next, with the debugger, step into the &ldquo;UnicornStoreFargateStack(&hellip;)&rdquo; constructor. That&rsquo;s where the highest-level flow creating <a href="./50-project-structure.html#architectural-diagram-of-the-application-hosting-environment">Unicorn Store application hosting environment</a> in its entirety, is defined.</p>
 
 <blockquote>
-<p>Unlike common practice shown in countless .NET Core samples, loading connection string once when <code>Configure()</code> method is called goes against the design goals of the <code>IConfiguration</code>-based settings handling, as doing so circumvents dynamic settings reloading capabilities of &ldquo;IConfiguration&rdquo;.</p>
+<p>Please use the debugger to step inside every method you can in this project - it will only take five minutes or so to do that, but it will provide more insight info what CDK is all about than most of the &ldquo;Hello, World&rdquo; type of examples. This project is still pretty small in terms of code line count, but it provisions really sophisticated hosting environment.</p>
 
-<p>To work-around this somewhat deeply ingrained anti-pattern, a small set of classes was created to enable deferred loading and dynamic re-loading database connection information from the &ldquo;appsettings.json&rdquo;, without having to restart the application.</p>
+<p>The exercises of stepping through this project using debugger may be the most valuable activity of the entire Workshop.</p>
 </blockquote>
 
-<ol>
-<li>In the IDE, please expand the &ldquo;UnicornStore&rdquo; project tree, right-click the <code>Configuration</code> folder, and select &ldquo;Add | Class&rdquo; from the context menu.</li>
-<li>For class name, enter <code>MySqlDbContextOptionsConfigurator.cs</code> and hit Enter.</li>
+<p>For those not inclined to step-debug through the code, here&rsquo;s the screenshot of the main logic orchestrating application hosting environment creation at the highest level.</p>
 
-<li><p>Replace generated stock content of the file with</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> Microsoft.EntityFrameworkCore;
-<span style="color:#66d9ef">using</span> Microsoft.Extensions.Logging;
-<span style="color:#66d9ef">using</span> System.Data.Common;
+<p><img src="./images/hosting-env-stack-source.png" alt="CDK Stack in C# for the app Hosting Environment" /></p>
 
-<span style="color:#66d9ef">namespace</span> UnicornStore.Configuration
-{
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MySqlDbContextOptionsConfigurator</span> : DbContextOptionsConfigurator
-{
-    <span style="color:#66d9ef">public</span> MySqlDbContextOptionsConfigurator(
-        DbConnectionStringBuilder dbConnectionStringBuilder,
-        ILogger&lt;MySqlDbContextOptionsConfigurator&gt; logger
-        ) : <span style="color:#66d9ef">base</span>(dbConnectionStringBuilder, logger)
-    {
-    }
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">string</span> DbEngine =&gt; <span style="color:#e6db74">&#34;MySQL&#34;</span>;
-
-    <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> Configure(DbContextOptionsBuilder optionsBuilder)
-    {
-        <span style="color:#66d9ef">base</span>.Configure(optionsBuilder);
-
-        optionsBuilder.UseMySql(<span style="color:#66d9ef">this</span>.dbConnectionStringBuilder.ConnectionString);
-    }
-}
-}
-</code></pre></div></li>
-</ol>
-
-<p>As you have probably noticed, the only consequential line of code in the snippet above is</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">optionsBuilder.UseMySql(<span style="color:#66d9ef">this</span>.dbConnectionStringBuilder.ConnectionString);
-</code></pre></div>
-<p>This line is the one usually called from the &ldquo;Startup.cs&rdquo;. Here the only thing we do differently is we defer calling <code>UseMySql()</code> to when &ldquo;IConfiguration&rdquo; becomes injectable, like you do it when you need &ldquo;IConfiguration&rdquo; in your MVC controller.</p>
-
-<blockquote>
-<p>Injecting &ldquo;IConfiguration&rdquo;, as it&rsquo;s done in a typical MVC controller example, is the right way to use configuration settings. Manually loading connection string data, as often done in &ldquo;Startup.cs&rdquo;, <em>breaks dynamic settings reload support</em>. Mixing two mutually-exclusive approaches makes no practical sense, so we took this opportunity to make configuration settings data usage consistent across the entire ASP.NET application. Feel free to improve this logic and create a PR.</p>
-</blockquote>
+<p>If you have experience with CloudFormation, you likely will appreciate ability to use imperative and object-oriented features of a real programming language, which may provision different resources depending on the execution path dictated by configuration settings.</p>
 
 
 <footer class=" footline" >
@@ -1079,26 +1049,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -1162,6 +1112,26 @@
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -1218,10 +1188,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/20-cdk/71-modifying-startup-cs.html" title="Modifying Startup.cs"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk/79-mysql-ci-cd-stack.html" title="MySQL in CI/CD CDK Project"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/20-cdk/75-verifying-mysql-support-locally.html" title="Verifying MySQL Support" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/20-cdk/95-thank-you.html" title="Thank You!" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
