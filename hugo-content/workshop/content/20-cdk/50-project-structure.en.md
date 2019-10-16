@@ -44,7 +44,8 @@ However, despite the sophistication of the cloud infrastructure produced by this
 
 > ProdEnvInfraAsCode project is going to be run by the "build" part of the CI/CD pipeline, and *not manually* by developers, except for debugging purposes discussed in later chapters.
 
-Here's the architectural diagram of the application hosting environment:
+#### Architectural Diagram of the Application Hosting Environment
+
 ![Unicorn Store app hosting environment architecture](./images/app-hosting-env-architecture.png)
 
 #### CicdInfraAsCode
