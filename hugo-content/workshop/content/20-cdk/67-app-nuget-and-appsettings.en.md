@@ -2,8 +2,8 @@
 +++
 title = "App: NuGet and AppSettings"
 date = 2019-10-15T16:13:30-04:00
-weight = 10
-pre = "<b>6.1. </b>"
+weight = 67
+pre = "<b>7.1 </b>"
 +++
 -->
 
