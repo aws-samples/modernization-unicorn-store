@@ -765,7 +765,7 @@ Resources
 </code></pre>
 
 <blockquote>
-<p><code>cdk diff</code> is a very, very useful tool, allowing a developer to build-out an infrastructure as a base line, and then modify the infra-as-code project and run &ldquo;cdk diff&rdquo; to see what will be changed if they run &ldquo;cdk deploy&rdquo;, providing <em>fast and non-destructive way of understanding what changes in the the infrastructure will be made by corresponding changes in the CDK project</em>.</p>
+<p><code>cdk diff</code> is a very, very useful tool, allowing developers to build-out an infrastructure base line, and then make changes to the infra-as-code project code and run &ldquo;cdk diff&rdquo; to see what will be changed in the cloud infrastructure if they run &ldquo;cdk deploy&rdquo;. That provides <em>fast and non-destructive way of understanding what changes in the the infra-as-code project will be made by corresponding changes in the CDK project</em>.</p>
 </blockquote></li>
 
 <li><p>Run <code>cdk deploy --require-approval never</code> and it should complete in a minute or two without errors, updating the CI/CD pipeline infrastructure in AWS with MySQL configured and the database engine.</p></li>

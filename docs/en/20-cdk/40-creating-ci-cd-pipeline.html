@@ -738,7 +738,13 @@
 
 <h3 id="launching-ci-cd-pipeline-infrastructure-creation">Launching CI/CD Pipeline Infrastructure Creation</h3>
 
-<p>Now please open a Command Prompt window and cd into the directory containing &ldquo;CicdInfraAsCode.csproj&rdquo; project file, which relative to the project root is &ldquo;infra-as-code/CicdInfraAsCode/src&rdquo;, and run the following command to start creation of the CI/CD pipeline:</p>
+<p>Now please open a Command Prompt window and cd into the directory containing &ldquo;CicdInfraAsCode.csproj&rdquo; project file, which relative to the solution root is in &ldquo;infra-as-code/CicdInfraAsCode/src&rdquo;.</p>
+
+<blockquote>
+<p>If you never ran <code>cdK</code> CLI before in the currently-configured AWS Region, and you are not using an AWS event supplied VM, you may need to run <code>cdk bootstrap</code> command that runs a CloudFormation template that configures some resources required for the CDK to function. This is a one-time thing per AWS region.</p>
+</blockquote>
+
+<p>Next, run the following command to start creation of the CI/CD pipeline:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cdk deploy --require-approval never</code></pre></div>
 <p>That will start a process of creating a CI/CD pipeline for the application using AWS CodePipeline service, which in turn orchestrates few other AWS services, like CodeCommit and CodeBuild. This CI/CD infrastructure build-out job should take a few minutes, which will be well spent in the next section, which deals with the structure of the project.</p>
 
