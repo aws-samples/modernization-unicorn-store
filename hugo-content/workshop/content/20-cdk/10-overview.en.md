@@ -18,6 +18,8 @@ The aim is to help you learn how to take your cloud-unaware ASP.NET Core applica
 1. **CI/CD pipeline** infrastructure in AWS cloud that builds and deploys the application.
 2. AWS cloud **application deployment infrastructure**, including an application hosting components and a database: Amazon Elastic Container Service (`ECS` Fargate) and Amazon Relational Database Service (`RDS`) hosting a selection of popular relational databases like Aurora MySQL (HA), Aurora Postgres (HA), and SQL Server.
 
+> If you find yourself struggling with the lab or running into unexpected errors, you may skip ahead by checking out `cdk-module-completed` Git branch, where all changes required for adding MySQL support are already implemented.
+
 ### CKD Demystified
 
 > [AWS Cloud Development Kit](https://docs.aws.amazon.com/cdk/latest/guide/home.html) is higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference  that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing *order of magnitude less code* than with CloudFormation.
