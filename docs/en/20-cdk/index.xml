@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>20-cdks on ASP.NET Modernization Workshop</title>
+    <title>AWS .NET CDK on ASP.NET Modernization Workshop</title>
     <link>/en/20-cdk.html</link>
-    <description>Recent content in 20-cdks on ASP.NET Modernization Workshop</description>
+    <description>Recent content in AWS .NET CDK on ASP.NET Modernization Workshop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 16 Oct 2019 16:05:30 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 10 Oct 2019 16:56:01 -0400</lastBuildDate>
     
 	<atom:link href="/en/20-cdk/index.xml" rel="self" type="application/rss+xml" />
     
