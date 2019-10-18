@@ -132,7 +132,6 @@ namespace CicdInfraAsCode
                         // images to ECR, because we do `docker push` straight from the Build stage, bypassing
                         // Deploy stage, where it could have been done too.
                         AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
-                        RoleName = $"{this.settings.ScopeName}-Build-Docker-Image-Role",
                         ManagedPolicies = Helpers.FromAwsManagedPolicies("AmazonEC2ContainerRegistryPowerUser")
                     }),
                     Cache = Cache.Local(LocalCacheMode.SOURCE, LocalCacheMode.DOCKER_LAYER)
@@ -194,7 +193,6 @@ namespace CicdInfraAsCode
                         // images to ECR, because we do `docker push` straight from the Build stage, bypassing
                         // Deploy stage, where it could have been done too.
                         AssumedBy = new ServicePrincipal("codebuild.amazonaws.com"),
-                        RoleName = $"{this.settings.ScopeName}-Build-Deployment-Env-Role",
                         ManagedPolicies = Helpers.FromAwsManagedPolicies(
                             //"CloudWatchLogsFullAccess", 
                             //"AWSCodeDeployRoleForECSLimited",
