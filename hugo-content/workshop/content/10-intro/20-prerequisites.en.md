@@ -8,7 +8,7 @@ weight = 20
 
 > To successfully execute any module of this workshop, following **common** requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide. 
 > 
-> If you are taking this lab within the scope of an *Amazon event*, in many cases a *remote VM with all necessary prerequisites will be made available* for workshop participants.
+> If you are taking this lab within the scope of an *Amazon event*, in many cases a *remote VM with all necessary prerequisites will be made available* for workshop participants, so *you may skip this chapter* altogether. (Mac users, to access remote Windows VM, please ensure you have [Remote Desktop Client](https://apps.apple.com/us/app/microsoft-remote-desktop-10/id1295203466) installed).
 
 Note to *non-Windows users*: since most modules are based on .NET Core version of the application, Mac and Linux users should have no trouble executing most modules. Mac users should be able to use either [Visual Studio for Mac](https://docs.microsoft.com/en-us/visualstudio/mac/installation?view=vsmac-2019), or [Jetbrains Rider](https://www.jetbrains.com/rider/download/#section=mac) for an IDE. Linux users should use [Jetbrains Rider](https://www.jetbrains.com/rider/download/#section=linux) IDE. Also, some of the links below target [Chocolatey](https://chocolatey.org/) - Windows package manager, Mac and Linux users could simply switch to Homebrew or yum/apt/etc package managers respectively.
 

@@ -28,13 +28,6 @@
 	"content": " ASP.NET Application The foundation of every module here is an ASP.NET Core Unicorn Store web application that has an MVC/Razor UI and MVC Controllers implementing business logic and data access layers. Unicorn Store application is based on an established ASP.NET Music Store sample and thus should be fairly familiar to many participants.\nData Access components of the application are written using code-first style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.\nCI/CD Pipeline and Deployment Environment Infra As Code All workshop modules feature AWS CI/CD pipeline infrastructure and deployment environment infrastructure as expressed as AWS CDK based C# code, thus enabling an easy building and deployment of the application in AWS cloud.\n"
 },
 {
-	"uri": "/en/20-cdk.html",
-	"title": "AWS .NET CDK",
-	"tags": [],
-	"description": "",
-	"content": " Welcome to the Infrastructure-as-C#-Code!  This module covers several facets of modern application development, namely using the .NET flavor of the AWS Cloud Development Kit (CDK) for creating cloud-based CI/CD pipeline for building and deploying an ASP.NET application, as well as for creation of an application cloud deployment/hosting environment.\nLevel: 300-400 (not a \u0026ldquo;Hello, World\u0026rdquo;)\n "
-},
-{
 	"uri": "/en/",
 	"title": "ASP.NET Modernization Workshop",
 	"tags": [],
@@ -53,14 +46,7 @@
 	"title": "Prerequisites",
 	"tags": [],
 	"description": "",
-	"content": "  To successfully execute any module of this workshop, following common requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.\nIf you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available for workshop participants.\n Note to non-Windows users: since most modules are based on .NET Core version of the application, Mac and Linux users should have no trouble executing most modules. Mac users should be able to use either Visual Studio for Mac, or Jetbrains Rider for an IDE. Linux users should use Jetbrains Rider IDE. Also, some of the links below target Chocolatey - Windows package manager, Mac and Linux users could simply switch to Homebrew or yum/apt/etc package managers respectively.\n(Although it is possible to use just dotnet CLI for this workshop, for simplicity and efficiency sake we dare to assume that takers of this 300-400 level workshop focusing on software development already know how to install their most basic tools, so that this workshop could skip IDE etc. installation steps boilerplate.)\nSoftware Required for Most Modules  .NET Core Framework 2.2. Visual Studio 2019 Community Edition or any other IDE capable of building and running Visual Studio solutions. An RDBMS like MySQL, PostgreSQL or MS SQL Server LocalDB, along with a corresponding management console, will be required for most modules. AWS account to run the lab in the AWS could. AWS CLI to interact with AWS services from your system. Node.js and AWS CDK for building infrastructure-as-code projects that are part of the solution. Git for pushing lab code to the cloud CI/CD pipeline for deployment.  The list above provides good baseline for your environment, but some modules will have additional requirements specified in the introduction section of each module.\n"
-},
-{
-	"uri": "/en/30-containerization.html",
-	"title": "ECS Containerization (Coming Soon)",
-	"tags": [],
-	"description": "",
-	"content": "TODO: Existing/Legacy Containerization lab flow needs to be imported here and refactored.\n"
+	"content": "  To successfully execute any module of this workshop, following common requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.\nIf you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available for workshop participants, so you may skip this chapter altogether. (Mac users, to access remote Windows VM, please ensure you have Remote Desktop Client installed).\n Note to non-Windows users: since most modules are based on .NET Core version of the application, Mac and Linux users should have no trouble executing most modules. Mac users should be able to use either Visual Studio for Mac, or Jetbrains Rider for an IDE. Linux users should use Jetbrains Rider IDE. Also, some of the links below target Chocolatey - Windows package manager, Mac and Linux users could simply switch to Homebrew or yum/apt/etc package managers respectively.\n(Although it is possible to use just dotnet CLI for this workshop, for simplicity and efficiency sake we dare to assume that takers of this 300-400 level workshop focusing on software development already know how to install their most basic tools, so that this workshop could skip IDE etc. installation steps boilerplate.)\nSoftware Required for Most Modules  .NET Core Framework 2.2. Visual Studio 2019 Community Edition or any other IDE capable of building and running Visual Studio solutions. An RDBMS like MySQL, PostgreSQL or MS SQL Server LocalDB, along with a corresponding management console, will be required for most modules. AWS account to run the lab in the AWS could. AWS CLI to interact with AWS services from your system. Node.js and AWS CDK for building infrastructure-as-code projects that are part of the solution. Git for pushing lab code to the cloud CI/CD pipeline for deployment.  The list above provides good baseline for your environment, but some modules will have additional requirements specified in the introduction section of each module.\n"
 },
 {
 	"uri": "/en/20-cdk/30-running-app-locally.html",
@@ -180,6 +166,13 @@
 	"tags": [],
 	"description": "",
 	"content": " Some manual clean up steps are required to delete resources created in the course of this module. You may need to follow these steps if you used your personal or corporate AWS Account.\nYou will also need to use these steps if you are taking this lab at an AWS event and you simply want to reset your cloud resources and restart the module from the beginning.\n When using your personal or corporate AWS Account, leaving resources created by this lab will result in recurring monthly charges for used resources.\nCommands below may remove most of the resources (no guarantees though) created in the course of this module.\n Delete Infrastructure \u0026ldquo;Stacks\u0026rdquo; Created by CDK Projects To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the \u0026ldquo;CicdInfraAsCode\u0026rdquo; project. Here run cdk destroy to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.\nAs an alternative, you may run\naws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack Since hosting environment stack was run as part of the CI/CD pipeline, deleting it is easily done with deleting the corresponding CloudFormation stack:\naws cloudformation delete-stack --stack-name UnicornSuperstoreStack Although both commands return instantaneously, the process of deleting resources up to 10 minutes, give or take. To see the progress, please browse to CloudFormation -\u0026gt; Stacks in AWS Console. There you should see DELETE_IN_PROGRESS status next to \u0026ldquo;UnicornSuperstoreStack\u0026rdquo; and \u0026ldquo;Unicorn-Store-CI-CD-PipelineStack\u0026rdquo; items. Refresh the page periodically using the round arrow icon.\nDelete KMS Key This section may become unnecessary after project is upgraded to CDK 1.13.\nBrowse to AWS Key Management Service at AWS Console, and enter \u0026ldquo;codepipeline-cicdinfraascodestackbuildpipelineb5eb558e\u0026rdquo; in the search box. Click the key entry and copy the Key ID guid value to the clipboard.\nNow remove the key alias and schedule the key for deletion\naws kms delete-alias --alias-name alias/codepipeline-cicdinfraascodestackbuildpipelineb5eb558e aws kms schedule-key-deletion --key-id \u0026lt;PASTE Key ID VALUE HERE\u0026gt; --pending-window-in-days 7 Delete ECR Docker Image Repository aws ecr delete-repository --repository-name unicorn-store-app --force"
+},
+{
+	"uri": "/en/20-cdk.html",
+	"title": "20-cdks",
+	"tags": [],
+	"description": "",
+	"content": ""
 },
 {
 	"uri": "/en/categories.html",

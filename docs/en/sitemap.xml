@@ -23,11 +23,6 @@
   </url>
   
   <url>
-    <loc>/en/20-cdk.html</loc>
-    <lastmod>2019-10-10T16:56:01-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/en/</loc>
     <lastmod>2019-10-10T10:57:53-04:00</lastmod>
     <xhtml:link
@@ -50,11 +45,6 @@
   <url>
     <loc>/en/10-intro/20-prerequisites.html</loc>
     <lastmod>2019-10-11T17:39:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/en/30-containerization.html</loc>
-    <lastmod>2019-10-10T16:56:29-04:00</lastmod>
   </url>
   
   <url>
@@ -140,6 +130,11 @@
   <url>
     <loc>/en/20-cdk/99-cleanup.html</loc>
     <lastmod>2019-10-15T11:53:46-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/20-cdk.html</loc>
+    <lastmod>2019-10-16T16:05:30-04:00</lastmod>
   </url>
   
   <url>
