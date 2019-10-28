@@ -7,12 +7,12 @@ pre = "<b>1. </b>"
 +++
 -->
 
-You may *skip this page* and move on to the next step and you are *using Amazon-supplied VM image* (AMI) at an Amazon event, with all tools installed and pre-configured.
+You may *skip this page* and move on to the next step if you are *using Amazon-supplied VM image* (AMI) at an Amazon event, with all tools installed and pre-configured.
 
 #### Pre-Requisites
 
 * Either MS SQL Server ([LocalDB](https://chocolatey.org/packages/sqllocaldb) version is perfectly suitable), or PostgreSQL, per [Common Prerequisites](../10-intro/20-prerequisites.html).
-* [MySQL](https://chocolatey.org/packages/mysql) is required as the goal of the module is to add MySQL support to the app. [MySQL Workbench](https://chocolatey.org/packages/mysql.workbench), a MySQL management UI console, is recommended.
+* [MySQL](https://chocolatey.org/packages/mysql) is required, as the goal of the module is to add MySQL support to the app. [MySQL Workbench](https://chocolatey.org/packages/mysql.workbench), a MySQL management UI console, is recommended.
 
 > For Windows Users Only:
 
@@ -46,7 +46,7 @@ UnicornStore.sln
 
 You may skip this section if you plan to use MS SQL Server as a RDBMS for the application.
 
-If you choose PostgreSQL as application's RDBMS, additional changes in application settings will need to be made so that application could connect to a database other than local SQL Server with integrated authentication.
+If you choose PostgreSQL as application's RDBMS, additional changes in application settings are needed for the application to connect to a database other than local SQL Server with integrated authentication.
 
 | Notes | Secret Manger |
 | ----- | ------------- |

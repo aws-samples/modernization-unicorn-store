@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>AWS .NET CDK on ASP.NET Modernization Workshop</title>
+    <title>AWS .NET CDK Lab on ASP.NET Modernization Workshop</title>
     <link>/en/20-cdk.html</link>
-    <description>Recent content in AWS .NET CDK on ASP.NET Modernization Workshop</description>
+    <description>Recent content in AWS .NET CDK Lab on ASP.NET Modernization Workshop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Thu, 10 Oct 2019 16:56:01 -0400</lastBuildDate>
@@ -18,8 +18,9 @@
       
       <guid>/en/20-cdk/10-overview.html</guid>
       <description>Welcome to the .NET AWS CDK module of the workshop!
-Workshop Goals The goal of this lab is to guide participants through adding support for MySQL database to both ASP.NET application codebase, and to the existing infra-as-code C# CDK projects defining cloud CI/CD pipeline and cloud application deployment environment.
-This workshop skips the &amp;ldquo;Hello, World&amp;rdquo; CDK project creation, and instead focuses on somewhat more in-depth capabilities of the CDK, showing higher-fidelity code samples implementing closer-to-real-life scenarios.</description>
+How to Run This Site Locally Copy commands below from https://tinyurl.com/dotnet-cdk-lab. Git should be installed as a pre-requisite.
+git clone https://github.com/vgribok/modernization-unicorn-store.git cd modernization-unicorn-store git checkout cdk-module ./docs/en/index.html Workshop Goals The goal of this lab is to guide participants through:
+ Running an existing .NET CDK project locally to bootstrap application&amp;rsquo;s CI/CD pipeline infrastructure in AWS. Adding support for MySQL database to both ASP.</description>
     </item>
     
     <item>
@@ -28,8 +29,8 @@ This workshop skips the &amp;ldquo;Hello, World&amp;rdquo; CDK project creation,
       <pubDate>Sun, 13 Oct 2019 14:29:41 -0400</pubDate>
       
       <guid>/en/20-cdk/20-setting-up.html</guid>
-      <description>You may skip this page and move on to the next step and you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.
-Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.</description>
+      <description>You may skip this page and move on to the next step if you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.
+Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required, as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.</description>
     </item>
     
     <item>
@@ -38,7 +39,7 @@ Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or
       <pubDate>Sun, 13 Oct 2019 21:19:51 -0400</pubDate>
       
       <guid>/en/20-cdk/30-running-app-locally.html</guid>
-      <description>Starting Unicorn Store Web Application     Notes      Once you have prepared your development environment, the only thing remains is to ensure that UnicornStore.csproj is selected as a startup project, switch hosting from &amp;ldquo;IIS Express&amp;rdquo; to Console, as shown on the screenshot on the left, and start the application in the debug mode.    After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.</description>
+      <description>Starting Unicorn Store Web Application     Notes      Once you have prepared your development environment, what remains is to ensure that UnicornStore.csproj is selected as a startup project, to switch hosting from &amp;ldquo;IIS Express&amp;rdquo; to Console, as shown on the screenshot on the left, and start the application in the debug mode.    After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.</description>
     </item>
     
     <item>
@@ -47,8 +48,8 @@ Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or
       <pubDate>Mon, 14 Oct 2019 11:11:14 -0400</pubDate>
       
       <guid>/en/20-cdk/40-creating-ci-cd-pipeline.html</guid>
-      <description>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&amp;rsquo;s spend a few moments to create the CI/CD pipeline in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&amp;rsquo;ll spend some time looking into the structure of project and getting familiar with CDK concepts.
-    Notes      Again, please select either Posgres or SQL Server configuration from Solution&amp;rsquo;s Build Configuration drop-down in Visual Studio&amp;hellip;    &amp;hellip;and mark &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a startup project.</description>
+      <description>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&amp;rsquo;s spend a few moments and create the CI/CD pipeline in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&amp;rsquo;ll spend some time looking into the structure of the project and getting familiar with CDK concepts.
+    Notes      Again, please select either Postgres or SQL Server configuration from Solution&amp;rsquo;s Build Configuration drop-down in Visual Studio&amp;hellip;    &amp;hellip;and mark &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a startup project.</description>
     </item>
     
     <item>

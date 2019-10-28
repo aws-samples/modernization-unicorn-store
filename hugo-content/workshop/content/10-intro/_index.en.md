@@ -8,4 +8,4 @@ chapter = true
 +++
 -->
 
-Before you dive head first into running the labs, please spend few minutes perusing this section to find out what this content is and isn't, what type of professional will benefit from using it, what is required for running lab modules of this workshop and how to be productive and have fun.
+Before you dive head first into running the labs, please spend few minutes perusing this section to find out what this content is and isn't, what type of professional will benefit from using it, what is required for running lab modules of this workshop, and how to be productive and have fun.
