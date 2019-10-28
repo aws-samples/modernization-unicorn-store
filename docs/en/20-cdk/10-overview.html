@@ -197,7 +197,7 @@
  
   
     
-    <li data-nav-id="/en/20-cdk.html" title="AWS .NET CDK" class="dd-item 
+    <li data-nav-id="/en/20-cdk.html" title="AWS .NET CDK Lab" class="dd-item 
         parent
         
         
@@ -670,7 +670,7 @@
           
           
           
-          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK</a> > CDK Module Overview
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK Lab</a> > CDK Module Overview
           
           
           
@@ -688,6 +688,7 @@
 <ul>
 <li>
 <ul>
+<li><a href="#how-to-run-this-site-locally">How to Run This Site Locally</a></li>
 <li><a href="#workshop-goals">Workshop Goals</a></li>
 <li><a href="#ckd-demystified">CKD Demystified</a></li>
 </ul></li>
@@ -713,17 +714,31 @@
 
 <p>Welcome to the <code>.NET AWS CDK</code> module of the workshop!</p>
 
+<h3 id="how-to-run-this-site-locally">How to Run This Site Locally</h3>
+
+<p>Copy commands below from <a href="https://tinyurl.com/dotnet-cdk-lab" target="_blank">https://tinyurl.com/dotnet-cdk-lab</a>. Git should be installed as a pre-requisite.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/vgribok/modernization-unicorn-store.git
+cd modernization-unicorn-store
+git checkout cdk-module
+./docs/en/index.html</code></pre></div>
 <h3 id="workshop-goals">Workshop Goals</h3>
 
-<p>The goal of this lab is to guide participants through adding support for MySQL database to both ASP.NET application codebase, and to the existing infra-as-code C# CDK projects defining cloud CI/CD pipeline and cloud application deployment environment.</p>
+<p>The goal of this lab is to guide participants through:</p>
 
-<p>This workshop skips the &ldquo;<a href="https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html" target="_blank">Hello, World</a>&rdquo; CDK project creation, and instead focuses on somewhat more in-depth capabilities of the CDK, showing higher-fidelity code samples implementing closer-to-real-life scenarios. This means that the lab will start with a couple of existing, but still pretty small CDK projects, and the lab flow focuses on modifying these projects.</p>
+<ol>
+<li>Running an existing .NET CDK project locally to bootstrap application&rsquo;s CI/CD pipeline infrastructure in AWS.</li>
+<li>Adding support for MySQL database to both ASP.NET application codebase, as well as to the existing infra-as-code C# CDK projects (one defining cloud CI/CD pipeline and another defining cloud application deployment environment).</li>
+<li>Creating app hosting cloud infrastructure in AWS by running hosting infra .NET CDK project from within the CI/CD pipeline.</li>
+<li>Stepping in debugger through the code of two .NET CDK projects to explore how a CDK project that is a couple notches more complex than a &ldquo;<a href="https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html" target="_blank">Hello, World</a>&rdquo; looks like.<br /></li>
+</ol>
 
-<p>The aim is to help you learn how to take your cloud-unaware ASP.NET Core application and use <code>C#</code> to write code defining parts of:</p>
+<p>This workshop <em>skips the part showing basics of creating a new CDK project</em> and adding a few basic CDK Constructs, and instead focuses on somewhat more in-depth capabilities of the CDK, by providing higher-fidelity code samples implementing closer-to-real-life scenarios. This means that the lab will start with a couple of existing, but still pretty small CDK projects, and the lab flow focuses on modifying these existing projects rather creating new ones.</p>
+
+<p>The aim of the lab is to help you learn how to take your cloud-unaware ASP.NET Core application and use <code>C#</code> to write code defining:</p>
 
 <ol>
 <li><strong>CI/CD pipeline</strong> infrastructure in AWS cloud that builds and deploys the application.</li>
-<li>AWS cloud <strong>application deployment infrastructure</strong>, including an application hosting components and a database: Amazon Elastic Container Service (<code>ECS</code> Fargate) and Amazon Relational Database Service (<code>RDS</code>) hosting a selection of popular relational databases like Aurora MySQL (HA), Aurora Postgres (HA), and SQL Server.</li>
+<li>AWS cloud <strong>application deployment infrastructure</strong>, including an application hosting components and a database: Amazon Elastic Container Service (<code>ECS</code> Fargate) and Amazon Relational Database Service (<code>RDS</code>), respectively. RDS hosts a selection of popular relational databases like Aurora MySQL (HA), Aurora Postgres (HA), and SQL Server.</li>
 </ol>
 
 <blockquote>
@@ -733,7 +748,7 @@
 <h3 id="ckd-demystified">CKD Demystified</h3>
 
 <blockquote>
-<p><a href="https://docs.aws.amazon.com/cdk/latest/guide/home.html" target="_blank">AWS Cloud Development Kit</a> is higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference  that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing <em>order of magnitude less code</em> than with CloudFormation.</p>
+<p><a href="https://docs.aws.amazon.com/cdk/latest/guide/home.html" target="_blank">AWS Cloud Development Kit</a> is a set of higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference  that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing <em>order of magnitude less code</em> than with CloudFormation.</p>
 </blockquote>
 
 <p>CDK consists of a CLI and a set of libraries available for most popular programming languages. In the case of .NET CDK, the libraries are added via <a href="https://www.nuget.org/packages/Amazon.CDK/" target="_blank">NuGet</a>.</p>
@@ -1172,7 +1187,7 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/20-cdk.html" title="AWS .NET CDK"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk.html" title="AWS .NET CDK Lab"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="../../en/20-cdk/20-setting-up.html" title="Setting Up Dev Environment" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>

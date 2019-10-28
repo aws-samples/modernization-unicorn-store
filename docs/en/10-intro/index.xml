@@ -18,8 +18,7 @@
       
       <guid>/en/10-intro/05-target-audience.html</guid>
       <description>Anyone comfortable with Visual Studio or Jetbrains Rider is going to have easy time with this workshop. Proficiency with C# is quite important and familiarity with Amazon Web Services is beneficial too.
-This is level 300-400 (intermediate to advanced) workshop, so please do not assume &amp;ldquo;Hello, World&amp;rdquo; simplicity.
-.NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don&amp;rsquo;t have to be seasoned engineer though to learn and enjoy from this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.</description>
+.NET developers, especially those writing web applications, are those who will benefit most from using this workshop. You don&amp;rsquo;t have to be seasoned engineer though to learn from and enjoy this content: even an intermediate or an ambitious beginner should have no trouble working through the most labs.</description>
     </item>
     
     <item>
@@ -28,8 +27,8 @@ This is level 300-400 (intermediate to advanced) workshop, so please do not assu
       <pubDate>Fri, 11 Oct 2019 17:38:34 -0400</pubDate>
       
       <guid>/en/10-intro/10-overview.html</guid>
-      <description>ASP.NET Application The foundation of every module here is an ASP.NET Core Unicorn Store web application that has an MVC/Razor UI and MVC Controllers implementing business logic and data access layers. Unicorn Store application is based on an established ASP.NET Music Store sample and thus should be fairly familiar to many participants.
-Data Access components of the application are written using code-first style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.</description>
+      <description>ASP.NET Application The foundation of every module here is an ASP.NET Core Unicorn Store web application. It is based on a well-worn ASP.NET Music Store sample app and thus should be fairly familiar to many participants.
+Unicorn Store is has design that should make most .NET developers very comfortable. It has MVC/Razor UI and MVC Controllers implementing business logic. Data Access components of the application employ Entity Framework Core and are written using code-first style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.</description>
     </item>
     
     <item>
@@ -39,7 +38,7 @@ Data Access components of the application are written using code-first style, en
       
       <guid>/en/10-intro/20-prerequisites.html</guid>
       <description>To successfully execute any module of this workshop, following common requirements need to be fulfilled, in addition to any module-specific requirements outlined in each module guide.
-If you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available for workshop participants, so you may skip this chapter altogether. (Mac users, to access remote Windows VM, please ensure you have Remote Desktop Client installed).</description>
+If you are taking this lab within the scope of an Amazon event, in many cases a remote VM with all necessary prerequisites will be made available to workshop participants, so you may skip this chapter altogether. (Mac users, to access remote Windows VM, please ensure you have Remote Desktop Client installed).</description>
     </item>
     
     <item>

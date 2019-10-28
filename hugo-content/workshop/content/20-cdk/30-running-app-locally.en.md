@@ -11,12 +11,12 @@ pre = "<b>2. </b>"
 
 |     | Notes |
 | --- | ----- |
-| ![App self-hosting](./images/app-self-host.png?width=900) | Once you have [prepared your development environment](./20-setting-up.html), the only thing remains is to ensure that `UnicornStore.csproj` is selected as a startup project, switch hosting from "IIS Express" to Console, as shown on the screenshot on the left, and *start the application* in the debug mode. |
+| ![App self-hosting](./images/app-self-host.png?width=900) | Once you have [prepared your development environment](./20-setting-up.html), what remains is to ensure that `UnicornStore.csproj` is selected as a startup project, to switch hosting from "IIS Express" to Console, as shown on the screenshot on the left, and *start the application* in the debug mode. |
 | ![UnicornStor app open in browser](./images/unicorn-store-app-in-browser.png?width=900) | After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.NET application. |
 
 #### Exploring and Testing Unicorn Store Web Application Functionality
 
-Unicorn Store is an emulation of an e-commerce web site implementing simplified product catalog, shopping cart and checkout flow.
+Unicorn Store is an emulation of an e-commerce web site implementing simplified product catalog, shopping cart and a checkout flow.
 
 After you have started the application, you should see the home page shown on the screenshot above. At the bottom of the screen you should see RDBMS type and database server address information.
 

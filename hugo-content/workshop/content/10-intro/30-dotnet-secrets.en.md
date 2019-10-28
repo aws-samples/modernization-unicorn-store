@@ -11,7 +11,7 @@ weight = 30
 
 This lab makes an extensive use of .NET Core Secret Manager on your development workstation to save database passwords and similar types of sensitive application configuration data that varies from one developer's workstation to another. Please note that despite the name **.NET Core Secret Manager is not secure!** It does not encrypt or password-protect your sensitive data. .NET Secrets are just plain text JSON files stored in a well-known directory. All they do is:
 
-1. Allow saving applications settings data outside of project root, eliminating the risk of committing your sensitive appsettings data inadvertently, and 
-2. Provide one more layer in appsettings.json hierarchy.
+1. Allow saving applications settings data outside of the project root, eliminating the risk of committing your sensitive appsettings data inadvertently, and 
+2. Provide one more layer in the appsettings.json override hierarchy.
 
-One can think of *.NET Core Secret Manager as just a way to alter appsettings.json at development time, without modifying actual appsettings.json or launchsettings.json*, or without having to save setting values as environment variables.
+One can think of *.NET Core Secret Manager as just a way to alter appsettings.json at development time, without modifying actual appsettings.json or launchsettings.json*, i.e. without the risk of committing sensitive setting values into a source code repository.

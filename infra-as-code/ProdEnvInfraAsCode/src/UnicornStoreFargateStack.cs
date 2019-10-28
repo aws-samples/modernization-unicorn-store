@@ -55,7 +55,6 @@ namespace ProdEnvInfraAsCode
                     DatabaseConstructOutput dbConstructOutput 
                     )
         {
-
             var imageRepository = Repository.FromRepositoryName(this, "ExistingEcrRepository", settings.DockerImageRepository);
 
             var ecsService = new ApplicationLoadBalancedFargateService(this, $"{settings.ScopeName}FargateService",
