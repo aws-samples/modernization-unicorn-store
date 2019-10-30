@@ -123,6 +123,11 @@
   </url>
   
   <url>
+    <loc>/en/20-cdk/80-verifying-cicd-project-changes.html</loc>
+    <lastmod>2019-10-30T14:13:48-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/en/20-cdk/81-explore-cdk-stack-source.html</loc>
     <lastmod>2019-10-16T16:05:30-04:00</lastmod>
   </url>

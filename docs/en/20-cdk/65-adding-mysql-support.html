@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -701,6 +720,16 @@
 <p>This chapter will guide you through the process of adding support for <a href="https://www.mysql.com/" target="_blank">MySQL</a> to the Unicorn Store application and to infra-as-code projects. <code>MySQL</code> is an open source, cross-platform, relational database that can be run in a cloud, on premises, or locally on developer workstation free of charge.</p>
 
 <p>This set of steps builds on the existing, multi-database-friendly architecture of the Unicorn Store application, which already supports MS SQL Server and open-source PostgreSQL, while requiring only modest changes to the code of executable projects in the Solution.</p>
+
+<blockquote>
+<p>Although the amount of work to add C# code enabling MySQL support is fairly modest, if you&rsquo;d rather not do that, feel free to fast-forward by following these steps:</p>
+
+<ol>
+<li>Check out <code>cdk-module-completed</code> Git branch, that has all required changes.</li>
+<li>Use AWS online Console to modify &ldquo;Source&rdquo; stage of the pipeline, by editing the Action and changing the value of the &ldquo;Branch Name&rdquo; field from &ldquo;cdk-module&rdquo; to &ldquo;<code>cdk-module-completed</code>&rdquo;.</li>
+<li>Go to the <a href="./80-verifying-cicd-project-changes.html">Testing CI/CD Project Changes</a> chapter to see how to deliver changes via the CI/CD pipeline.</li>
+</ol>
+</blockquote>
 
 
 <footer class=" footline" >
@@ -966,6 +995,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

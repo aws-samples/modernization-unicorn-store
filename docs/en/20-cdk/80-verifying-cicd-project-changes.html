@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 <link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
 
-  <title>CDK Module Overview :: ASP.NET Modernization Workshop</title>
+  <title>Testing CI/CD Changes :: ASP.NET Modernization Workshop</title>
 
   
   <link href="../../css/nucleus.css" rel="stylesheet">
@@ -45,7 +45,7 @@
   
 </head>
 
-<body class="" data-url="/en/20-cdk/10-overview.html">
+<body class="" data-url="/en/20-cdk/80-verifying-cicd-project-changes.html">
   <nav id="sidebar" class="">
 
 
@@ -222,7 +222,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/10-overview.html" title="CDK Module Overview" class="dd-item active">
+      <li data-nav-id="/en/20-cdk/10-overview.html" title="CDK Module Overview" class="dd-item ">
         <a href="../../en/20-cdk/10-overview.html">
         CDK Module Overview
         
@@ -507,7 +507,7 @@
  
   
     
-      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item active">
         <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
         <b>7.8 </b>Testing CI/CD Project Changes
         
@@ -608,7 +608,7 @@
                   
                     
                     
-                      <option id="en" value="/en/20-cdk/10-overview.html" selected>English</option>
+                      <option id="en" value="/en/20-cdk/80-verifying-cicd-project-changes.html" selected>English</option>
                     
                   
               
@@ -659,7 +659,7 @@
           
           
           <div id="top-github-link">
-            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/10-overview.en.md"
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/80-verifying-cicd-project-changes.en.md"
               target="blank">
               <i class="fas fa-code-branch"></i>
               <span id="top-github-link-text">Edit this page</span>
@@ -689,7 +689,7 @@
           
           
           
-          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK Lab</a> > CDK Module Overview
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK Lab</a> > Testing CI/CD Changes
           
           
           
@@ -701,19 +701,7 @@
           
           <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#how-to-run-this-site-locally">How to Run This Site Locally</a></li>
-<li><a href="#workshop-goals">Workshop Goals</a></li>
-<li><a href="#ckd-demystified">CKD Demystified</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
+
     </div>
 </div>
 
@@ -724,55 +712,77 @@
 
       
         <div id="body-inner">
-          <h1>CDK Module Overview</h1>
+          <h1>Testing CI/CD Changes</h1>
           
           
 
 
-
-
-<p>Welcome to the <code>.NET AWS CDK</code> module of the workshop!</p>
-
-<h3 id="how-to-run-this-site-locally">How to Run This Site Locally</h3>
-
-<p>Copy commands below from <a href="https://tinyurl.com/dotnet-cdk-lab" target="_blank">https://tinyurl.com/dotnet-cdk-lab</a>. Git should be installed as a pre-requisite.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/vgribok/modernization-unicorn-store.git
-cd modernization-unicorn-store
-git checkout cdk-module
-./docs/en/index.html</code></pre></div>
-<h3 id="workshop-goals">Workshop Goals</h3>
-
-<p>The goal of this lab is to guide participants through:</p>
-
 <ol>
-<li>Running an existing .NET CDK project locally to bootstrap application&rsquo;s CI/CD pipeline infrastructure in AWS.</li>
-<li>Adding support for MySQL database to both ASP.NET application codebase, as well as to the existing infra-as-code C# CDK projects (one defining cloud CI/CD pipeline and another defining cloud application deployment environment).</li>
-<li>Creating app hosting cloud infrastructure in AWS by running hosting infra .NET CDK project from within the CI/CD pipeline.</li>
-<li>Stepping in debugger through the code of two .NET CDK projects to explore how a CDK project that is a couple notches more complex than a &ldquo;<a href="https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html" target="_blank">Hello, World</a>&rdquo; looks like.<br /></li>
-</ol>
+<li>Run the CicdInfraAsCode project from the IDE to ensure there are no exceptions thrown.</li>
+<li>Open Command Prompt window and <em>cd</em> to the root of the &ldquo;CicdInfraAsCode&rdquo; project.</li>
 
-<p>This workshop <em>skips the part showing basics of creating a new CDK project</em> and adding a few basic CDK Constructs, and instead focuses on somewhat more in-depth capabilities of the CDK, by providing higher-fidelity code samples implementing closer-to-real-life scenarios. This means that the lab will start with a couple of existing, but still pretty small CDK projects, and the lab flow focuses on modifying these existing projects rather creating new ones.</p>
+<li><p>Run <code>cdk diff</code> - command that compares currently-provisioned AWS infrastructure (of the CI/CD pipeline in this case) and created earlier by the infra-as-code &ldquo;stack&rdquo;, with the infrastructure modified by the changes to the project codebase. You should see output looking like</p>
 
-<p>The aim of the lab is to help you learn how to take your cloud-unaware ASP.NET Core application and use <code>C#</code> to write code defining:</p>
+<pre><code>Synthesized to &quot;cdk.out&quot;.
+Stack Unicorn-Store-CI-CD-PipelineStack
+The Unicorn-Store-CI-CD-PipelineStack stack uses assets, which are currently not accounted for in the diff output! See https://github.com/aws/aws-cdk/issues/395
+Resources
+[~] AWS::CodeBuild::Project CodeBuildProject CodeBuildProject4B91CF3F
+└─ [~] Environment
+ └─ [~] .EnvironmentVariables:
+     └─ @@ -54,7 +54,7 @@
+        [ ] {
+        [ ]   &quot;Name&quot;: &quot;DbEngine&quot;,
+        [ ]   &quot;Type&quot;: &quot;PLAINTEXT&quot;,
+        [-]   &quot;Value&quot;: &quot;Postgres&quot;
+        [+]   &quot;Value&quot;: &quot;MySQL&quot;
+        [ ] },
+        [ ] {
+        [ ]   &quot;Name&quot;: &quot;BuildConfig&quot;,
+        @@ -64,6 +64,6 @@
+        [ ]   {
+        [ ]     &quot;Name&quot;: &quot;ImageTag&quot;,
+        [ ]     &quot;Type&quot;: &quot;PLAINTEXT&quot;,
+        [-]     &quot;Value&quot;: &quot;Postgres&quot;
+        [+]     &quot;Value&quot;: &quot;MySQL&quot;
+        [ ]   }
+        [ ] ]
+[~] AWS::CodeBuild::Project DeploymentEnvCreationProject DeploymentEnvCreationProject70D82E6D
+└─ [~] Environment
+ └─ [~] .EnvironmentVariables:
+     └─ @@ -2,7 +2,7 @@
+        [ ] {
+        [ ]   &quot;Name&quot;: &quot;DbEngine&quot;,
+        [ ]   &quot;Type&quot;: &quot;PLAINTEXT&quot;,
+        [-]   &quot;Value&quot;: &quot;Postgres&quot;
+        [+]   &quot;Value&quot;: &quot;MySQL&quot;
+        [ ] },
+</code></pre>
 
-<ol>
-<li><strong>CI/CD pipeline</strong> infrastructure in AWS cloud that builds and deploys the application.</li>
-<li>AWS cloud <strong>application deployment infrastructure</strong>, including an application hosting components and a database: Amazon Elastic Container Service (<code>ECS</code> Fargate) and Amazon Relational Database Service (<code>RDS</code>), respectively. RDS hosts a selection of popular relational databases like Aurora MySQL (HA), Aurora Postgres (HA), and SQL Server.</li>
+<p>Please note parts reflecting the RDBMS type change in the output above:</p>
+
+<pre><code>        [-]   &quot;Value&quot;: &quot;Postgres&quot;
+        [+]   &quot;Value&quot;: &quot;MySQL&quot;
+</code></pre>
+
+<blockquote>
+<p><code>cdk diff</code> is a very, very useful command, allowing developers to build-out an infrastructure base line, and then make changes to the infra-as-code project code and run &ldquo;cdk diff&rdquo; to see what will be changed in the cloud infrastructure if they run &ldquo;cdk deploy&rdquo;. That provides <em>fast and non-destructive way of understanding what changes in the the infra-as-code project will be made by corresponding changes in the CDK project</em>.</p>
+</blockquote></li>
+
+<li><p>Run &ldquo;<code>cdk deploy --require-approval never</code>&rdquo; and it should complete in a minute or two without errors, updating the CI/CD pipeline infrastructure in AWS with MySQL configured as the database engine.</p></li>
+
+<li><p>Now we need to <em>trigger the pipeline</em> by committing and pushing code changes to the AWS CodeCommit. For that please run following commands <em>from the root directory of the Solution</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git add .
+git commit -m <span style="color:#e6db74">&#34;Added MySQL support&#34;</span>
+git push aws</code></pre></div>
+<p>In a few moments you should see the <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">CI/CD pipeline</a> running.</p></li>
 </ol>
 
 <blockquote>
-<p>If you find yourself struggling with the lab or running into unexpected errors, you may skip ahead by checking out <code>cdk-module-completed</code> Git branch, where all changes required for adding MySQL support are already implemented.</p>
+<p>Since hosting environment &ldquo;stack&rdquo; will now need to replace PostgreSQL database with MySQL database, it will again take roughly 15 minutes to complete the transition. Please keep monitoring the state of <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">the pipeline</a>, and once it finishes, please verify everything is well by using <a href="./63-verify-ci-cd-completion.html#verifying-the-ci-cd-pipeline-run-has-completed">these steps</a>.</p>
+
+<p>Another important point: switching from Postgres to MySQL does not transfer data from Postgres to MySQL. All <em>data stored in the Postgres database will be lost</em>, and an <em>empty MySQL database will be crated</em>.</p>
 </blockquote>
-
-<h3 id="ckd-demystified">CKD Demystified</h3>
-
-<blockquote>
-<p><a href="https://docs.aws.amazon.com/cdk/latest/guide/home.html" target="_blank">AWS Cloud Development Kit</a> is a set of higher-level abstraction components built on top of the Amazon CloudFormation - an indispensible previous-generation infrastructure-as-code service, with the major difference  that CDK lets programmers use most of their favorite programming languages, like C#, to generate CloudFormation templates while writing <em>order of magnitude less code</em> than with CloudFormation.</p>
-</blockquote>
-
-<p>CDK consists of a CLI and a set of libraries available for most popular programming languages. In the case of .NET CDK, the libraries are added via <a href="https://www.nuget.org/packages/Amazon.CDK/" target="_blank">NuGet</a>.</p>
-
-<p>A .NET CDK project is a Console app, generating AWS CloudFormation template. CDK CLI is a convenience tool making it possible to bypass direct contact with lower-level CloudFormation templates and related commands of AWS CLI.</p>
 
 
 <footer class=" footline" >
@@ -907,26 +917,6 @@ git checkout cdk-module
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -1166,6 +1156,26 @@ git checkout cdk-module
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -1222,10 +1232,10 @@ git checkout cdk-module
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/20-cdk.html" title="AWS .NET CDK Lab"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk/79-mysql-ci-cd-stack.html" title="MySQL in CI/CD CDK Project"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/20-cdk/20-setting-up.html" title="Setting Up Dev Environment" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

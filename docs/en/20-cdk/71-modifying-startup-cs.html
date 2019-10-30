@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -700,15 +719,18 @@
 
 <ol>
 <li>Please open &ldquo;Startup.cs&rdquo; file of the &ldquo;UnicornStore&rdquo; project in Visual Studio.</li>
-<li>Add <code>using MySql.Data.MySqlClient;</code> line to top part of the file.</li>
 
-<li><p>Find <code>ConfigureDatabaseEngine()</code> method and replace the <code>#if POSTGRES</code> line in it with</p>
+<li><p>Add following line to the top part of the file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> MySql.Data.MySqlClient;
+</code></pre></div></li>
+
+<li><p>Find <code>ConfigureDatabaseEngine()</code> method and replace the &ldquo;<code>#if POSTGRES</code>&rdquo; line in it with</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">#if MYSQL
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.HookupMySQL(services);
 <span style="color:#75715e">#elif POSTGRES
 </span></code></pre></div></li>
 
-<li><p>Now, to implement missing &ldquo;HookupMySQL()&rdquo; function, find the <code>HookupPostgres()</code> method and replace the <code>#if POSTGRES</code> line right above it with</p>
+<li><p>Now, to implement missing &ldquo;HookupMySQL()&rdquo; function, find the <code>HookupPostgres()</code> method and replace the &ldquo;<code>#if POSTGRES</code>&rdquo; line right above the function with</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">#if MYSQL
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> HookupMySQL(IServiceCollection services)
     {
@@ -726,8 +748,8 @@
 <p>&ldquo;HookupMySQL()&rdquo; method does two things:</p>
 
 <ul>
-<li>Adds compile-time output reporting MySQL being the RDBMS type the project is compiled for.</li>
-<li>Registers MySQL database engine services with .NET Core IoC container (<code>IServiceCollection</code>), specifically ir registers stock <code>MySqlConnectionStringBuilder</code> from the MySQL library added via NuGet, and proprietary <code>MySqlDbContextOptionsConfigurator</code> that we are about to implement on the next step. <code>HookupDatabase()</code> is a reusable method, which among a few others was written for this workshop with aim to achieve <a href="https://aws.amazon.com/solutions/databasemigrations/database-freedom/" target="_blank">Database Freedom</a>, i.e. break original application&rsquo;s dependency on SQL Server and make it compatible with wide array of open source database engines, which also makes the application compatible with <a href="https://aws.amazon.com/rds/" target="_blank">Amazon RDS</a> and <a href="https://aws.amazon.com/aurora/" target="_blank">Aurora</a> services.</li>
+<li>Adds compile-time output, producing a message that MySQL is the RDBMS type the project is compiled for.</li>
+<li>Registers MySQL database engine services with .NET Core IoC container (<code>IServiceCollection</code>), specifically it registers stock <code>MySqlConnectionStringBuilder</code> from the MySQL library added via NuGet, and proprietary <code>MySqlDbContextOptionsConfigurator</code> that we are about to implement on the next step. <code>HookupDatabase()</code> is a reusable method, which among a few others was written for this workshop with the aim of achieving <a href="https://aws.amazon.com/solutions/databasemigrations/database-freedom/" target="_blank">Database Freedom</a>, i.e. to break original application&rsquo;s dependency on SQL Server and make it compatible with wide array of open source database engines, which also makes the application compatible with <a href="https://aws.amazon.com/rds/" target="_blank">Amazon RDS</a> and <a href="https://aws.amazon.com/aurora/" target="_blank">Aurora</a> services.</li>
 </ul>
 
 
@@ -1042,6 +1064,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

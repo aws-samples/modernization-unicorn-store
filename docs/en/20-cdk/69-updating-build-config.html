@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -698,7 +717,7 @@
           
 
 
-<p>Before anything else, we need to update solution-to-project Build Configuration mapping.</p>
+<p>Now we need to update solution-to-project Build Configuration mapping.</p>
 
 <table>
 <thead>
@@ -716,7 +735,7 @@
 </tbody>
 </table>
 
-<p>Then select &ldquo;DebugMySQL from the &ldquo;Active solution configuration dropdown and change executable project configuration mapping from &ldquo;DebugProject&rdquo; to &ldquo;DebugMySQL&rdquo;:</p>
+<p>Then select &ldquo;DebugMySQL from the &ldquo;Active solution configuration dropdown and change all executable project configuration mappings from &ldquo;DebugPostgress&rdquo; to &ldquo;DebugMySQL&rdquo;:</p>
 
 <table>
 <thead>
@@ -736,7 +755,7 @@
 </tbody>
 </table>
 
-<p>Please do the same for the <code>ReleaseMySQL</code> solution configuration: map executable project context configuration to &ldquo;ReleaseMySQL&rdquo;</p>
+<p>Please do the same for the <code>ReleaseMySQL</code> solution configuration: map executable project context configurations to &ldquo;ReleaseMySQL&rdquo;</p>
 
 <blockquote>
 <p>FYI, each project that has &ldquo;XxxxxMySQL&rdquo; configuration, has <code>MYSQL</code> conditional compilation constant defined for the project:
@@ -744,7 +763,7 @@
 
 <p>(Same is true for &ldquo;XxxxxPostgres&rdquo; and &ldquo;XxxxxSqlServer&rdquo;: they have <code>POSTGRES</code> and <code>SQLSERVER</code> respective build constants defined.)</p>
 
-<p>The process of creating &ldquo;DebugMySQL&rdquo; and &ldquo;ReleaseMySQL&rdquo; project build configurations is tedious and not very relevant for this module, so <em>these two project build configurations are provided out of the box</em>, rather than guiding lab participants here to create them manually.</p>
+<p>The process of creating &ldquo;DebugMySQL&rdquo; and &ldquo;ReleaseMySQL&rdquo; project build configurations is tedious and not very relevant to this module&rsquo;s goals, so <em>these two project build configurations are provided out of the box</em>, rather than guiding lab participants here to create them manually.</p>
 </blockquote>
 
 <p>Finally, please ensure <em><code>DebugMySQL</code> solution configuration is selected</em> in the &ldquo;Solution Configurations&rdquo; dropdown.</p>
@@ -1045,6 +1064,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

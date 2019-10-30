@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -714,7 +733,7 @@
 
 
 
-<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK project, adding MySQL support to it. Feel free to go to the next chapter and come back here later to ensure the pipeline is alright.</p>
+<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to go to move on to the next chapter and come back here later to ensure the pipeline is alright.</p>
 
 <h4 id="verifying-the-ci-cd-pipeline-run-has-completed">Verifying the CI/CD Pipeline Run Has Completed</h4>
 
@@ -725,13 +744,13 @@
 
 <h4 id="verifying-the-unicorn-store-app-running-on-aws">Verifying the Unicorn Store App Running on AWS</h4>
 
-<p>To verify that nothing is broken, please add a few unicorns to the basket, and click the &ldquo;Checkout &gt;&gt;&rdquo; button at the top of the shopping cart page. You will be prompted to <em>log in</em>. Although site administrator username username has not changed and remains &ldquo;Administrator@test.com&rdquo;, password is was not specified explicitly in the hosting environment infrastructure project configuration or anywhere else for that matter. Instead, password was stored using Amazon <a href="https://aws.amazon.com/secrets-manager/" target="_blank">Secrets Manager</a> service.</p>
+<p>To verify that nothing is broken, please add a few unicorns to the basket, and click the &ldquo;Checkout &gt;&gt;&rdquo; button at the top of the shopping cart page. You will be prompted to <em>log in</em>. Although site administrator username has not changed and remains &ldquo;Administrator@test.com&rdquo;, the password was not specified explicitly in the hosting environment infrastructure project configuration settings, or anywhere else for that matter. Instead, site admin password was auto-generated during the hosting infrastructure build-out and stored using Amazon <a href="https://aws.amazon.com/secrets-manager/" target="_blank">Secrets Manager</a> service.</p>
 
 <p>To retrieve site admin password from AWS Secrets Manager, please run this command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws secretsmanager get-secret-value --secret-id UnicornSuperstoreDefaultSiteAdminPassword | jq -r .SecretString</code></pre></div>
 <p>Copy the output of the command to the clipboard and use it as password to log in to the site.</p>
 
-<p>To complete checkout flow, please enter shipping address, and for payment simply enter &ldquo;FREE&rdquo; in the &ldquo;Promo Code&rdquo; field and click &ldquo;Submit Order&rdquo; - if all went as planned, you should see the &ldquo;Checkout Complete&rdquo; message.</p>
+<p>To complete checkout flow, please enter any shipping address, and for payment simply enter &ldquo;FREE&rdquo; in the &ldquo;Promo Code&rdquo; field and click &ldquo;Submit Order&rdquo; - if all went as planned, you should see the &ldquo;Checkout Complete&rdquo; message.</p>
 
 
 <footer class=" footline" >
@@ -981,6 +1000,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

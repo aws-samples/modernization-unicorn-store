@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item active">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -682,7 +701,17 @@
           
           <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#cool-cdk-feature-worth-noting-packaging-runtime-dependencies">Cool CDK Feature Worth Noting: Packaging Runtime Dependencies</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -698,18 +727,20 @@
           
 
 
+
+
 <p>Now it&rsquo;s perfect time to take a look at how a CDK &ldquo;stack&rdquo; written in C# looks like.</p>
 
-<p>For best experience, please <em>mark &ldquo;ProdEnvInfraAsCode&rdquo; as a Startup Project</em>, open &ldquo;Program.cs&rdquo; in the IDE editor, put the break on the line with the `new UnicornStoreFargateStack(&hellip;)&rdquo; and start debugging.</p>
+<p>For best experience, please <em>mark &ldquo;ProdEnvInfraAsCode&rdquo; as a Startup Project</em>, open its &ldquo;Program.cs&rdquo; in the IDE editor, put a break on the line with the `new UnicornStoreFargateStack(&hellip;)&rdquo; and start debugging.</p>
 
 <p>First you will skip over the straightforward-sounding <code>LoadConfiguration()</code> method that reads in &ldquo;appSettings.json&rdquo; etc. and passes loaded data to the <code>UnicornStoreFargateStack(...)</code> constructor in the <code>settings</code> variable.</p>
 
-<p>Next, with the debugger, step into the &ldquo;UnicornStoreFargateStack(&hellip;)&rdquo; constructor. That&rsquo;s where the highest-level flow creating <a href="./50-project-structure.html#architectural-diagram-of-the-application-hosting-environment">Unicorn Store application hosting environment</a> in its entirety, is defined.</p>
+<p>Next, with the debugger, step into the &ldquo;UnicornStoreFargateStack(&hellip;)&rdquo; constructor. That&rsquo;s where the highest-level flow creating <a href="./50-project-structure.html#architectural-diagram-of-the-application-hosting-environment">Unicorn Store application hosting environment</a> in its entirety is defined.</p>
 
 <blockquote>
-<p>Please use the debugger to step inside every method you can in this project - it will only take five minutes or so to do that, but it will provide more insight info what CDK is all about than most of the &ldquo;Hello, World&rdquo; type of examples. This project is still pretty small in terms of code line count, but it provisions really sophisticated hosting environment.</p>
+<p>Please use the debugger to step inside every method you can in this project - it will only take five minutes or so to do that, but it will provide more insight into what CDK is all about than most of the &ldquo;Hello, World&rdquo; type of examples. This project is still pretty small in terms of code line count, but it provisions really sophisticated hosting environment.</p>
 
-<p>The exercises of stepping through this project using debugger may be the most valuable activity of the entire Workshop.</p>
+<p>The exercise of stepping through this project using debugger may be the most valuable activity of the entire Workshop.</p>
 </blockquote>
 
 <p>For those not inclined to step-debug through the code, here&rsquo;s the screenshot of the main logic orchestrating application hosting environment creation at the highest level.</p>
@@ -717,6 +748,19 @@
 <p><img src="./images/hosting-env-stack-source.png" alt="CDK Stack in C# for the app Hosting Environment" /></p>
 
 <p>If you have experience with CloudFormation, you likely will appreciate ability to use imperative and object-oriented features of a real programming language, which may provision different resources depending on the execution path dictated by configuration settings.</p>
+
+<h3 id="cool-cdk-feature-worth-noting-packaging-runtime-dependencies">Cool CDK Feature Worth Noting: Packaging Runtime Dependencies</h3>
+
+<p>For many infra-as-code use cases, a CloudFormation template defining the infrastructure is not the only thing required. Very often additional run-time components are necessary. Lambda functions is likely a most common run-time dependency for a &ldquo;stack&rdquo;. In our case, the final stage of the CI/CD pipeline employs a Lambda function, (which in reality is a small Node.js project) that runs to recycle the application and re-load it from the image containing latest changes. Lambda code, however, does not get embedded into the generated CloudFormation template - it lives outside and instead is referenced by the it.</p>
+
+<p>The above means that we have a choice of keeping the Lambda function in a separate source code repository if we want to, but it makes much more sense to keep it within the CDK project. But how will one make generated CloudFormation template reference the Node.js artifact? If you used other infra-as-code tools, you may have run into a situation where you had to make your infra-as-code project aware of its own Git location to let is reference additional runtime dependency components from the same repo. To avoid this awkward self-referencing, CDK allows packaging of several types of artifacts right from the project source itself.</p>
+
+<p>In this project, the <code>CreateLambdaForRestartingEcsApp()</code> method has this line:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">Code = Code.FromAsset(<span style="color:#e6db74">&#34;assets/lambda/ecs-container-recycle&#34;</span>)
+</code></pre></div>
+<p>The magic it performs allows keeping stack-specific lambda code right here in the same Git repository, and references this lambda in the way that avoids awkward self-referencing of the Git repo.</p>
+
+<p>Lambdas is not the only type of external dependencies that can be embedded into the CDK project to package runtime artifacts and reference them from generated CloudFormation templates.</p>
 
 
 <footer class=" footline" >
@@ -1091,6 +1135,22 @@
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -1150,7 +1210,7 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="../../en/20-cdk/79-mysql-ci-cd-stack.html" title="MySQL in CI/CD CDK Project"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../../en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="../../en/20-cdk/95-thank-you.html" title="Thank You!" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>

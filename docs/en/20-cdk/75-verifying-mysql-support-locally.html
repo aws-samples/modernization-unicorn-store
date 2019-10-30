@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -701,7 +720,7 @@
 <ol>
 <li>Please be sure that &ldquo;DebugMySQL&rdquo; solution configuration is active.</li>
 <li>Build &ldquo;UnicornStore&rdquo; project - it should build without errors.</li>
-<li>Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &ldquo;appSettings.json&rdquo; or any other file in the solution root, which might lead to inadvertent committing credentials information to the version control system. To do this, we&rsquo;ll use .NET Secret Manager. Please right-click &ldquo;UnicornStore&rdquo; project and select <code>Manage User Secrets</code> from the context menu. That will open &ldquo;secrets.json&rdquo; file in the IDE editor.</li>
+<li>Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &ldquo;appSettings.json&rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. To do this, we&rsquo;ll use .NET Secret Manager. Please right-click &ldquo;UnicornStore&rdquo; project and select <code>Manage User Secrets</code> from the context menu. That will open &ldquo;secrets.json&rdquo; file in the IDE editor.</li>
 
 <li><p>Create or update <code>UnicornDbConnectionStringBuilder</code> entry in the &ldquo;secrets.json&rdquo; as follows</p>
 
@@ -1070,6 +1089,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -735,7 +754,7 @@
 </tbody>
 </table>
 
-<p>The first of executable CDK projects is <code>CicdInfraAsCode</code> - the project we ran at the <a href="./40-creating-ci-cd-pipeline.html">previous step</a> of the lab. &ldquo;CicdInfraAsCode&rdquo; is a C# Console project, generating CloudFormation templates from C# code, to build out AWS CodePipeline CI/CD infrastructure.</p>
+<p>The first of executable CDK projects is <code>CicdInfraAsCode</code> - the project we ran at the <a href="./40-creating-ci-cd-pipeline.html">previous step</a> of the lab. &ldquo;CicdInfraAsCode&rdquo; is a C# Console project, generating CloudFormation templates from C# code for building out AWS CodePipeline CI/CD infrastructure.</p>
 
 <blockquote>
 <p>The &ldquo;CicdInfraAsCode&rdquo; project contains a small <em>Node.js sub-project</em> in the &ldquo;/assets/lambda/ecs-container-recycle&rdquo; directory, which defines serverless AWS Lambda function used at the final stage of the CI/CD pipeline to recycle Linux containers, after new container image is built and made available to the application hosted by Amazon ECS.</p>
@@ -746,10 +765,6 @@
 <h3 id="unicorn-store-asp-net-core-application-overview">Unicorn Store ASP.NET Core Application Overview</h3>
 
 <p>A descendant from a well-known ASP.NET <a href="https://github.com/aspnet/AspNetCore/tree/v2.2.7/src/MusicStore" target="_blank">Music Store sample</a>, Unicorn Store is created to be a fairly typical ASP.NET Core 2.x MVC/Razor &amp; Entity Framework Core application, combining UI, business logic and data access tiers in a single application, which is arguably a very typical design for most ASP.NET applications pre-dating microservices, <a href="https://www.12factor.net/" target="_blank">12-factor</a>/cloud-native applications, and as such, suitable for modernization-focused labs.</p>
-
-<blockquote>
-<p>Something worth noting: <em>Unicorn Store application project has no dependencies on any AWS components</em>. The goal of the sample project is to represent an application that has <em>only open-source dependencies</em> and thus <em>can run anywhere</em>, from local developer workstation, to a proprietary datacenter, to any cloud service provider.</p>
-</blockquote>
 
 <p>Unicorn Store data access tier is designed using <em>code-first</em> style, which uses C# code to define entity relationships and consequently database structure. This approach enables relatively easy swapping of database engines without drastically affecting the codebase. This module starts with the application codebase already retrofitted with pluggable RDBMS architecture and supporting SQL Server and PostgreSQL database engines out of the box.</p>
 
@@ -785,9 +800,9 @@
 
 <p><img src="./images/CodePipeline-in-AWS-console.png" alt="Unicorn Store CI/CD Pipeline in AWS CodePipeline Console" /></p>
 
-<p>The Build stage of the pipeline contains two <em>parallel</em> sub-stages: a) building application and packaging its artifacts as a <a href="https://www.docker.com/resources/what-container" target="_blank">Docker</a> container image, and b) compiling and running second CDK project, the &ldquo;ProdEnvInfraAsCode&rdquo;, which builds out deployment infrastructure for hosting Unicorn Store app.</p>
+<p>The Build stage of the pipeline contains two <em>parallel</em> sub-stages: a) building application and packaging its artifacts as a <a href="https://www.docker.com/resources/what-container" target="_blank">Docker</a> container image, and b) compiling and running second CDK project, the &ldquo;ProdEnvInfraAsCode&rdquo;, which builds out deployment infrastructure for hosting Unicorn Store app. Having hosting infrastructure built as part of app&rsquo;s CI/CD pipeline may not be suitable for putting an application in production, but it could be quite useful for deploying application to a test environment. One can easily imagine a pipeline where the test environment containing large, pricey components is short-lived: provisioned, used only for the duration of an integration suite run, and then torn down to avoid an unnecessary spend.</p>
 
-<p>The pipeline is not overly complicated and does not yet contain any quality gates, like testing, but it can serve as a springboard for an evolving CI/CD pipeline project.</p>
+<p>The pipeline created by the CicdInfraAsCode is not overly complicated and does not yet contain any quality gates, like testing, but it can serve as a springboard for an evolving real-world CI/CD pipeline project.</p>
 
 <p>The project contains a <code>Node.js sub-project</code> in the &ldquo;/src/assets/lambda/ecs-container-recycle&rdquo;, which implements a <em>serverless AWS Lambda function</em> that is invoked by the final stage of the CI/CD pipeline to <em>restart the</em> ECS-hosted Unicorn Store <em>application</em> to load newly-minted application build.</p>
 
@@ -1015,6 +1030,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
