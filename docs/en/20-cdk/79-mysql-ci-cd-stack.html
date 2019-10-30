@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -707,72 +726,14 @@
 <li>Open &ldquo;<code>UnicornStoreCiCdStackProps.cs</code>&rdquo; file in the IDE editor.</li>
 <li>Find the <code>DbEngineType</code> enum and add <code>MySQL</code> entry to it.</li>
 
-<li><p>Find the <code>DbEngine</code> property and replace the <code>#if POSTGRES</code> line with</p>
+<li><p>Find the <code>DbEngine</code> property and replace the &ldquo;<code>#if POSTGRES</code>&rdquo; line with</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">#if MYSQL
 </span><span style="color:#75715e"></span>        DbEngineType.MySQL;
 <span style="color:#75715e">#elif POSTGRES
 </span></code></pre></div></li>
-
-<li><p>Run the project to ensure there are no exceptions thrown.</p></li>
-
-<li><p>Open Command Prompt window and <em>cd</em> to the root of the &ldquo;CicdInfraAsCode&rdquo; project.</p></li>
-
-<li><p>Run <code>cdk diff</code> - command that compares currently existing the infrastructure (of the CI/CD pipeline in this case) created by the infra-as-code &ldquo;stack&rdquo; earlier, with the update infrastructure. You should see output looking like</p>
-
-<pre><code>Synthesized to &quot;cdk.out&quot;.
-Stack Unicorn-Store-CI-CD-PipelineStack
-The Unicorn-Store-CI-CD-PipelineStack stack uses assets, which are currently not accounted for in the diff output! See https://github.com/aws/aws-cdk/issues/395
-Resources
-[~] AWS::CodeBuild::Project CodeBuildProject CodeBuildProject4B91CF3F
-└─ [~] Environment
- └─ [~] .EnvironmentVariables:
-     └─ @@ -54,7 +54,7 @@
-        [ ] {
-        [ ]   &quot;Name&quot;: &quot;DbEngine&quot;,
-        [ ]   &quot;Type&quot;: &quot;PLAINTEXT&quot;,
-        [-]   &quot;Value&quot;: &quot;Postgres&quot;
-        [+]   &quot;Value&quot;: &quot;MySQL&quot;
-        [ ] },
-        [ ] {
-        [ ]   &quot;Name&quot;: &quot;BuildConfig&quot;,
-        @@ -64,6 +64,6 @@
-        [ ]   {
-        [ ]     &quot;Name&quot;: &quot;ImageTag&quot;,
-        [ ]     &quot;Type&quot;: &quot;PLAINTEXT&quot;,
-        [-]     &quot;Value&quot;: &quot;Postgres&quot;
-        [+]     &quot;Value&quot;: &quot;MySQL&quot;
-        [ ]   }
-        [ ] ]
-[~] AWS::CodeBuild::Project DeploymentEnvCreationProject DeploymentEnvCreationProject70D82E6D
-└─ [~] Environment
- └─ [~] .EnvironmentVariables:
-     └─ @@ -2,7 +2,7 @@
-        [ ] {
-        [ ]   &quot;Name&quot;: &quot;DbEngine&quot;,
-        [ ]   &quot;Type&quot;: &quot;PLAINTEXT&quot;,
-        [-]   &quot;Value&quot;: &quot;Postgres&quot;
-        [+]   &quot;Value&quot;: &quot;MySQL&quot;
-        [ ] },
-</code></pre>
-
-<p>Please note parts reflecting the RDBMS type change in the output above:</p>
-
-<pre><code>        [-]   &quot;Value&quot;: &quot;Postgres&quot;
-        [+]   &quot;Value&quot;: &quot;MySQL&quot;
-</code></pre>
-
-<blockquote>
-<p><code>cdk diff</code> is a very, very useful tool, allowing developers to build-out an infrastructure base line, and then make changes to the infra-as-code project code and run &ldquo;cdk diff&rdquo; to see what will be changed in the cloud infrastructure if they run &ldquo;cdk deploy&rdquo;. That provides <em>fast and non-destructive way of understanding what changes in the the infra-as-code project will be made by corresponding changes in the CDK project</em>.</p>
-</blockquote></li>
-
-<li><p>Run <code>cdk deploy --require-approval never</code> and it should complete in a minute or two without errors, updating the CI/CD pipeline infrastructure in AWS with MySQL configured and the database engine.</p></li>
-
-<li><p>Now we need to trigger the pipeline by committing and pushing code changes to the AWS CodeCommit. For that please run <code>git commit</code> followed by <code>git push aws</code> and in a minute or so you should see the <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">CI/CD pipeline</a> executing.</p></li>
 </ol>
 
-<blockquote>
-<p>Since hosting environment &ldquo;stack&rdquo; will now need to replace PostgreSQL database with MySQL database, it will again take roughly 15 minutes to complete the transition. Please keep monitoring the state of <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">the pipeline</a>, and once it finishes, please verify everything is well by using <a href="./63-verify-ci-cd-completion.html#verifying-the-ci-cd-pipeline-run-has-completed">these steps</a>.</p>
-</blockquote>
+<p>This is it, that&rsquo;s all the changes we needed to make to the CI/CD CDK project to add MySQL database support.</p>
 
 
 <footer class=" footline" >
@@ -1194,6 +1155,22 @@ Resources
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -1209,7 +1186,7 @@ Resources
 			<a class="nav nav-prev" href="../../en/20-cdk/77-mysql-hosting-env-stack.html" title="Adding MySQL Support to the Hosting Env CDK Project"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../../en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../../en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

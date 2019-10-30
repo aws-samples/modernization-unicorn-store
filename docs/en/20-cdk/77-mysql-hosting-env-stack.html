@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -723,17 +742,17 @@
 <p>Amazon RDS and Amazon Aurora are SQL Server, MySQL and PostgreSQL-compatible, managed, &ldquo;serverless&rdquo; services, capable of replacing self-managed RDBMS deployments running on unmanaged VMs or in containers. (AWS Aurora does not support SQL Server - only AWS RDS does).</p>
 </blockquote>
 
-<p>Please starting by marking &ldquo;ProdEnvInfraAsCode&rdquo; project inside the &ldquo;infra-as-code&rdquo; Visual Studio folder as a &ldquo;<em>Startup Project</em>&rdquo;.</p>
+<p>Please start by marking &ldquo;ProdEnvInfraAsCode&rdquo; project inside the &ldquo;infra-as-code&rdquo; Visual Studio folder as a &ldquo;<em>Startup Project</em>&rdquo;.</p>
 
 <h4 id="updating-unicornstoredeploymentenvstackprops-cs">Updating UnicornStoreDeploymentEnvStackProps.cs</h4>
 
-<p>&ldquo;UnicornStoreDeploymentEnvStackProps.cs&rdquo; file holds configuration properties used by the CDK infra-as-code &ldquo;stack&rdquo;. We need make a few modest changes here.</p>
+<p>&ldquo;UnicornStoreDeploymentEnvStackProps.cs&rdquo; file holds configuration properties used by the hosting environment CDK infra-as-code &ldquo;stack&rdquo;. We need to make a few changes here.</p>
 
 <ol>
 <li>Open the &ldquo;UnicornStoreDeploymentEnvStackProps.cs&rdquo; file in the IDE editor.</li>
 <li>Find the <code>DbEngineType</code> enum and add <code>MySQL</code> entry to the enum.</li>
 
-<li><p>Find the <code>DbEngine</code> property and replace the <code>#if POSTGRES</code> line with</p>
+<li><p>Find the <code>DbEngine</code> property and replace the &ldquo;<code>#if POSTGRES</code>&rdquo; line with</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">#if MYSQL
 </span><span style="color:#75715e"></span>        DbEngineType.MySQL;
 <span style="color:#75715e">#elif POSTGRES
@@ -777,13 +796,13 @@
 }
 </code></pre></div></li>
 
-<li><p>This class supplies four settings for a handful of AWS RDS infrastructure settings:</p>
+<li><p>This class above supplies four settings for a handful of AWS RDS infrastructure settings:</p>
 
 <ul>
 <li><code>DatabaseInstanceEngine.MYSQL</code> for the database instance engine, i.e. for when RDS service runs in a single-instance mode, as opposed to the cluster mode.</li>
 <li><code>DatabaseClusterEngine.AURORA_MYSQL</code> for the database cluster engine, i.e. when RDS service runs in a cluster mode, and not in the single-instance mode.</li>
-<li>&ldquo;<code>default.aurora-mysql5.7</code>&rdquo; as a name of settings set known as a Parameter Group. Parameter Groups are maintained by AWS and are organized in a handful of pre-defined, named parameter sets made available to infrastructure builders. Here we select a most common, default set of parameters for the RDS MySQL.</li>
-<li>&ldquo;<code>UserID</code>&rdquo; here is the name of the property defining database user/login name in the Connection String Builder subclass for a specific database. Here it means that for MySQL, Connection String Builder property carrying database username is called &ldquo;UserID&rdquo;.</li>
+<li>&ldquo;<code>default.aurora-mysql5.7</code>&rdquo; as a name of setting set known as a <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html" target="_blank">Parameter Group</a>. Parameter Groups are maintained by AWS and are organized in a handful of pre-defined, named parameter sets made available to infrastructure builders. Here we select a most common, default set of parameters for the RDS MySQL.</li>
+<li>&ldquo;<code>UserID</code>&rdquo; here is the name of the property defining database user/login name in the Connection String Builder subclass for a specific database engine type. Here it means that for MySQL, Connection String Builder property carrying database username is called &ldquo;UserID&rdquo;.</li>
 </ul></li>
 </ol>
 
@@ -793,7 +812,7 @@
 
 <h4 id="verifying-prodenvinfraascode-project">Verifying ProdEnvInfraAsCode Project</h4>
 
-<p>Run the &ldquo;ProdEnvInfraAsCode&rdquo; project an ensure it did not throw any exceptions.</p>
+<p>Run the &ldquo;ProdEnvInfraAsCode&rdquo; project an ensure it did not throw any exceptions. The output is the CloudFormation template that can be used to provision Unicorn Store application hosting infrastructure.</p>
 
 
 <footer class=" footline" >
@@ -1155,6 +1174,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

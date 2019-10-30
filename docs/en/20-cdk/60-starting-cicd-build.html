@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -710,9 +729,9 @@
 
 
 
-<p>At this point the CI/CD pipeline cloud infrastructure, the build out of which was <a href="./40-creating-ci-cd-pipeline.en.md#launching-ci-cd-pipeline-infrastructure-creation">launched</a> two chapters back, should now be completed.</p>
+<p>At this point the CI/CD pipeline cloud infrastructure, the build-out of which was <a href="./40-creating-ci-cd-pipeline.en.md#launching-ci-cd-pipeline-infrastructure-creation">launched</a> two chapters back, should be completed.</p>
 
-<p>First, please check the command prompt console where you ran <code>cdk deploy</code> for the &ldquo;CicdInfraAsCode&rdquo; project, to make there were errors. You should see something like the following at the tail of the output after command has finished:</p>
+<p>First, please check the command prompt console where you ran <code>cdk deploy</code> for the &ldquo;CicdInfraAsCode&rdquo; project, to make there were no errors. You should see something like the following at the tail of the output after command has finished:</p>
 
 <pre><code> 30/30 | 1:10:43 PM | CREATE_COMPLETE      | AWS::CloudFormation::Stack  | Unicorn-Store-CI-CD-PipelineStack
 
@@ -724,7 +743,7 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
 
 <p>Next, navigate to the <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">CodePipeline</a> in the AWS Console and observe &ldquo;Unicorn-Store-CI-CD-Pipeline&rdquo; in the list, showing the &ldquo;Failed&rdquo; status next to it. The pipeline is in the failed state because the source code of the Unicorn Store solution has not yet been pushed to the CodeCommit Git repository.</p>
 
-<p>Please click on the &ldquo;Unicorn-Store-CI-CD-Pipeline&rdquo; link to see the never-run pipeline:
+<p>Please click on the &ldquo;Unicorn-Store-CI-CD-Pipeline&rdquo; link to see the brand-new pipeline:
 <img src="./images/pipeline-failed-no-source.png" alt="CodePipeline in Failed state without source code" /></p>
 
 <h3 id="starting-the-pipeline-pushing-source-code-to-codecommit">Starting the Pipeline: Pushing Source Code to CodeCommit</h3>
@@ -732,7 +751,7 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
 <p>To trigger the build and deployment pipeline, all we need to do is to push the Unicorn Store to the CodeCommit Git repository just created.</p>
 
 <blockquote>
-<p>Following step - adding Git &ldquo;remote&rdquo; (alias) pointing to the CodeCommit repository, can be skipped if you are taking this lab at an AWS event, as the &ldquo;aws&rdquo; Git remote is already on your dev VM.</p>
+<p>Following step: adding Git &ldquo;remote&rdquo; (alias) pointing to the CodeCommit repository, can be skipped if you are taking this lab at an AWS event, as the &ldquo;aws&rdquo; Git remote is already created on your dev VM.</p>
 </blockquote>
 
 <p>Windows users, please use <code>Powershell</code> in <em>Administrator mode</em> for running commands that follow.</p>
@@ -746,12 +765,12 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
 <li><p>Push the code to the CodeCommit repository:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git push aws cdk-module</code></pre></div></li>
 
-<li><p>Observe CodePipeline Build in-progress by waiting half a minute or so and  then going to the <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">CodePipeline</a> page in the AWS Console:
+<li><p>Wait a few moments, and then go to the AWS <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">Console CodePipeline</a> page to observe CodePipeline build in-progress :
 <img src="./images/pipeline-in-progress.png" alt="CodePipeline" /></p></li>
 </ol>
 
 <blockquote>
-<p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs cas run to completion in <em>under one minute</em>.</p>
+<p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in <em>under one minute</em> if no changes we introduced into the CDK-based infrastructure code.</p>
 </blockquote>
 
 
@@ -986,6 +1005,22 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 

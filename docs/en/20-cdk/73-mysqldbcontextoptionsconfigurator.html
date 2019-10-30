@@ -507,9 +507,28 @@
  
   
     
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
         <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
-        <b>7.8 </b>Explore CDK Stack Source Code
+        <b>7.9 </b>Explore CDK Stack Source Code
         
         </a>
     </li>
@@ -698,12 +717,12 @@
           
 
 
-<p>Each database engine supported by the Unicorn Store application needs a <code>DbContextOptionsConfigurator</code> subclass. &ldquo;DbContextOptionsConfigurator&rdquo; facilitates deferred and dynamic update of stored database connection information in case when connection string information stored in the &ldquo;appsettings.json&rdquo; file changes while the application is running.</p>
+<p>Each database engine supported by the Unicorn Store application needs a <code>DbContextOptionsConfigurator</code> subclass. &ldquo;DbContextOptionsConfigurator&rdquo; facilitates deferred and dynamic updating of stored database connection settings in case when connection string information stored in the &ldquo;appsettings.json&rdquo; file changes while the application is running.</p>
 
 <blockquote>
-<p>Unlike common practice shown in countless .NET Core samples, loading connection string once when <code>Configure()</code> method is called goes against the design goals of the <code>IConfiguration</code>-based settings handling, as doing so circumvents dynamic settings reloading capabilities of &ldquo;IConfiguration&rdquo;.</p>
+<p>&ldquo;DbContextOptionsConfigurator&rdquo; rectifies common anti-pattern that is unfortunately used in many ASP.NET Core sample apps, which load and cache database connection string settings only once per app lifetime during the <code>Configure()</code> method execution, going against the design goals of the <code>IConfiguration</code>-based settings handling that enable dynamic app settings reloading without requiring restarting of the app.</p>
 
-<p>To work-around this somewhat deeply ingrained anti-pattern, a small set of classes was created to enable deferred loading and dynamic re-loading database connection information from the &ldquo;appsettings.json&rdquo;, without having to restart the application.</p>
+<p>To work-around this somewhat deeply ingrained anti-pattern, a small set of classes was created for this workshop, &ldquo;DbContextOptionsConfigurator&rdquo; being the main class.</p>
 </blockquote>
 
 <ol>
@@ -742,7 +761,7 @@
 <p>As you have probably noticed, the only consequential line of code in the snippet above is</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">optionsBuilder.UseMySql(<span style="color:#66d9ef">this</span>.dbConnectionStringBuilder.ConnectionString);
 </code></pre></div>
-<p>This line is the one usually called from the &ldquo;Startup.cs&rdquo;. Here the only thing we do differently is we defer calling <code>UseMySql()</code> to when &ldquo;IConfiguration&rdquo; becomes injectable, like you do it when you need &ldquo;IConfiguration&rdquo; in your MVC controller.</p>
+<p>This line is the one usually called from the &ldquo;Startup.cs&rdquo;. Here the only thing we do differently is we defer calling <code>UseMySql()</code> to after &ldquo;IConfiguration&rdquo; become injectable, like you do it when you need &ldquo;IConfiguration&rdquo; in your MVC controller.</p>
 
 <blockquote>
 <p>Injecting &ldquo;IConfiguration&rdquo;, as it&rsquo;s done in a typical MVC controller example, is the right way to use configuration settings. Manually loading connection string data, as often done in &ldquo;Startup.cs&rdquo;, <em>breaks dynamic settings reload support</em>. Mixing two mutually-exclusive approaches makes no practical sense, so we took this opportunity to make configuration settings data usage consistent across the entire ASP.NET application. Feel free to improve this logic and create a PR.</p>
@@ -1076,6 +1095,22 @@
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
