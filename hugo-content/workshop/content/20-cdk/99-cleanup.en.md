@@ -16,7 +16,7 @@ You will also need to use these steps if you are taking this lab at an AWS event
 
 ### Delete Infrastructure "Stacks" Created by CDK Projects
 
-To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the "CicdInfraAsCode" project. Here run `cdk destroy` to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.
+To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the "CicdInfraAsCode" project. Here run `cdk destroy` command to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.
 
 As an alternative, you may run 
 ```bash
@@ -33,12 +33,15 @@ Although both commands return instantaneously, the process of deleting resources
 
 This section may become unnecessary after project is upgraded to CDK 1.13.
 
-Browse to AWS [Key Management Service](https://console.aws.amazon.com/kms/home) at AWS Console, and enter "codepipeline-cicdinfraascodestackbuildpipelineb5eb558e" in the search box. Click the key entry and copy the Key ID guid value to the clipboard.
+Browse to AWS [Key Management Service](https://console.aws.amazon.com/kms/home) at AWS Console, and enter "codepipeline-cicdinfraascodestackbuildpipelineb5eb558e" in the search box. Click the key entry and copy the Key ID guid value to the clipboard and paste it into the Notepad or another text editor.
 
 Now remove the key alias and schedule the key for deletion
 ```bash
 aws kms delete-alias --alias-name alias/codepipeline-cicdinfraascodestackbuildpipelineb5eb558e
+```
 
+To delete the key itself, use the command below and paste the Key ID from the Notepad replacing the value in the placeholder:
+```bash
 aws kms schedule-key-deletion --key-id <PASTE Key ID VALUE HERE> --pending-window-in-days 7
 ```
 
@@ -47,4 +50,3 @@ aws kms schedule-key-deletion --key-id <PASTE Key ID VALUE HERE> --pending-windo
 ```bash
 aws ecr delete-repository --repository-name unicorn-store-app --force
 ```
-

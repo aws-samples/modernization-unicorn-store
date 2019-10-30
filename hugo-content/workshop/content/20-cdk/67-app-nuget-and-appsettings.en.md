@@ -18,7 +18,7 @@ pre = "<b>7.1 </b>"
 Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0
 ```
 
-#### Adding Default Connection String String to "appSettings.json"
+#### Adding Default Connection String to "appSettings.json"
 
 Open "appSettings.json" file of the "UnicornStore" project and add following entry to the "`ConnectionStrings`" section.
 ```json
