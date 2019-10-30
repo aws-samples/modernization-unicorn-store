@@ -10,4 +10,4 @@ This site comprises a set of workshop modules created to showcase how an ASP.NET
 Please use either `navigation arrows` on each sides of the page, or the Table of Contents on the left, to move around and find material that is most useful for you.
 
 ## Disclaimer
-Using AWS resources may result in resource usage and other `charges` if you are using your personal or corporate AWS accounts.
+> Using AWS resources may result in resource usage and other `charges` if you are using your personal or corporate AWS accounts. Please be sure to clean up AWS resources after completing modules of this Workshop.

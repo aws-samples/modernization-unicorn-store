@@ -9,7 +9,7 @@ pre = "<b>7.5 </b>"
 -->
 1. Please be sure that "DebugMySQL" solution configuration is active.
 1. Build "UnicornStore" project - it should build without errors.
-1. Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying "appSettings.json" or any other file in the solution root, which might lead to inadvertent committing credentials information to the version control system. To do this, we'll use .NET Secret Manager. Please right-click "UnicornStore" project and select `Manage User Secrets` from the context menu. That will open "secrets.json" file in the IDE editor.
+1. Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying "appSettings.json" or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. To do this, we'll use .NET Secret Manager. Please right-click "UnicornStore" project and select `Manage User Secrets` from the context menu. That will open "secrets.json" file in the IDE editor.
 1. Create or update `UnicornDbConnectionStringBuilder` entry in the "secrets.json" as follows
 ```
 {
