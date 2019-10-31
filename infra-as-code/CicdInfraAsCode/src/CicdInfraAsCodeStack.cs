@@ -167,8 +167,8 @@ namespace CicdInfraAsCode
                         BuildCommands = new []
                         {
                             "echo Building CDK CI/CD project",
-                            "cd ./infra-as-code/ProdEnvInfraAsCode",
-                            "dotnet build ./src/ProdEnvInfraAsCode.csproj -c ${BuildConfig}${DbEngine}",
+                            "cd ./infra-as-code/ProdEnvInfraAsCode/src",
+                            "dotnet build ProdEnvInfraAsCode.csproj -c ${BuildConfig}${DbEngine}",
                             "cdk diff || true",
                             "cdk deploy --require-approval never"
                         }
