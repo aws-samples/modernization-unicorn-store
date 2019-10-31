@@ -9,7 +9,7 @@ Welcome to the `.NET AWS CDK` module of the workshop!
 
 ### How to Run This Site Locally
 
-Copy commands below from [https://tinyurl.com/dotnet-cdk-lab](https://tinyurl.com/dotnet-cdk-lab). Git should be installed as a pre-requisite.
+Please use PowerShell or bash (GitBash) to run commands below. They will open this web site locally on your computer.
 
 ```bash
 git clone https://github.com/vgribok/modernization-unicorn-store.git
