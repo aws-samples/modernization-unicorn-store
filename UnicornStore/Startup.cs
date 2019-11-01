@@ -126,7 +126,7 @@ namespace UnicornStore
 #warning Using PostgreSQL for a database
 #endif
             this.HookupDatabase<NpgsqlConnectionStringBuilder, NpgsqlDbContextOptionsConfigurator>(services, "Postgres");
-            healthCheckBuilder.AddPostgreSql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
+            healthCheckBuilder.AddNpgSql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 #else
 
