@@ -100,7 +100,7 @@ namespace UnicornStore
         private void ConfigureDatabaseEngine(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if MYSQL
-            this.HookupMySQL(services);
+            this.HookupMySQL(services, healthCheckBuilder);
 #elif POSTGRES
             this.HookupPostgres(services, healthCheckBuilder);
 #else
@@ -109,13 +109,14 @@ namespace UnicornStore
         }
 
 #if MYSQL
-        private void HookupMySQL(IServiceCollection services)
+        private void HookupMySQL(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if Debug || DEBUG
             // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
 #warning Using MySQL for a database
 #endif
             this.HookupDatabase<MySqlConnectionStringBuilder, MySqlDbContextOptionsConfigurator>(services, "MySQL");
+            healthCheckBuilder.AddMySql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 
 #elif POSTGRES
