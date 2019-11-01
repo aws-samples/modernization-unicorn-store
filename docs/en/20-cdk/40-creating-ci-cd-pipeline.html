@@ -741,16 +741,22 @@
 
 <tbody>
 <tr>
-<td><img src="images/solution-build-configurations.png?width=600" alt="VS Build Configurations" /></td>
+<td><img src="images/solution-build-configurations.png?width=300" alt="VS Build Configurations" /></td>
 <td>Again, please select either Postgres or SQL Server configuration from Solution&rsquo;s Build Configuration drop-down in Visual Studio&hellip;</td>
 </tr>
 
 <tr>
-<td><img src="./images/CicdInfraAsCode-csproj-as-startup.png?width=600" alt="CI/CD project as startup" /></td>
-<td>&hellip;and mark &ldquo;CicdInfraAsCode&rdquo; project as a startup project.<br/><br/>Please <code>build &amp; run</code> the project. If all went well you should see a console window with output starting with something like <em>Synthesized to &ldquo;C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ&rdquo;.</em> That path is the location of generated CloudFormation templates. If you are familiar with CloudFormation, please feel free to explore the output of this step.</td>
+<td><img src="./images/CicdInfraAsCode-csproj-as-startup.png?width=300" alt="CI/CD project as startup" /></td>
+<td>&hellip;and mark &ldquo;CicdInfraAsCode&rdquo; project as a startup project.<br/><br/> Then right-click the project and select &ldquo;<code>Manage User Secrets</code>&rdquo;. That will open &ldquo;secrets.json&rdquo; file in the IDE editor. Replace the content of the file with:</td>
 </tr>
 </tbody>
 </table>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;GitBranchToBuild&#34;</span>: <span style="color:#e6db74">&#34;cdk-module&#34;</span>
+}</code></pre></div>
+<p>&hellip; and save the file.</p>
+
+<p>Please <code>build &amp; run</code> the project. If all went well you should see a console window with output starting with something like <em>Synthesized to &ldquo;C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ&rdquo;.</em> That path is the location of generated CloudFormation templates. If you are familiar with CloudFormation, please feel free to explore the output of this step.</p>
 
 <h3 id="launching-ci-cd-pipeline-infrastructure-creation">Launching CI/CD Pipeline Infrastructure Creation</h3>
 
