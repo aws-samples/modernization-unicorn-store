@@ -18,7 +18,7 @@ namespace UnicornStore.Configuration
         {
             base.Configure(optionsBuilder);
 
-            optionsBuilder.UseSqlServer(this.dbConnectionStringBuilder.ConnectionString);
+            optionsBuilder.UseSqlServer(this.ConnectionString);
         }
 
         public override string ServerAddress
