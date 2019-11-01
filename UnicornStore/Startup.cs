@@ -18,12 +18,14 @@ using System.Data.SqlClient;
 using UnicornStore.Configuration;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using LiteX.HealthChecks.PostgreSql;
 
 namespace UnicornStore
 {
     public partial class Startup
     {
         const string dbHealthCheckName = "UnicornDB-check";
+        static readonly string[] dbHealthCheckTags = { "UnicornDB" };
 
         public Startup(IConfiguration configuration)
         {
@@ -112,6 +114,7 @@ namespace UnicornStore
 #warning Using PostgreSQL for a database
 #endif
             this.HookupDatabase<NpgsqlConnectionStringBuilder, NpgsqlDbContextOptionsConfigurator>(services, "Postgres");
+            healthCheckBuilder.AddPostgreSql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 #else
 
@@ -122,7 +125,7 @@ namespace UnicornStore
 #warning Using MS SQL Server for a database
 #endif
             this.HookupDatabase<SqlConnectionStringBuilder, SqlDbContextOptionsConfigurator>(services, "SqlServer");
-            healthCheckBuilder.AddSqlServer(GetConnectionString, name: dbHealthCheckName, tags: new string[] { "UnicornDB" });
+            healthCheckBuilder.AddSqlServer(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 #endif
 
