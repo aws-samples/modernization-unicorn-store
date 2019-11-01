@@ -11,8 +11,16 @@ Before we dive into the code base of the Unicorn Store solution and start hackin
 
 |      | Notes |
 | ---- | ----- |
-| ![VS Build Configurations](images/solution-build-configurations.png?width=600) | Again, please select either Postgres or SQL Server configuration from Solution's Build Configuration drop-down in Visual Studio...  |
-| ![CI/CD project as startup](./images/CicdInfraAsCode-csproj-as-startup.png?width=600) | ...and mark "CicdInfraAsCode" project as a startup project.<br/><br/>Please `build & run` the project. If all went well you should see a console window with output starting with something like *Synthesized to "C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ".* That path is the location of generated CloudFormation templates. If you are familiar with CloudFormation, please feel free to explore the output of this step.  |
+| ![VS Build Configurations](images/solution-build-configurations.png?width=300) | Again, please select either Postgres or SQL Server configuration from Solution's Build Configuration drop-down in Visual Studio...  |
+| ![CI/CD project as startup](./images/CicdInfraAsCode-csproj-as-startup.png?width=300) | ...and mark "CicdInfraAsCode" project as a startup project.<br/><br/> Then right-click the project and select "`Manage User Secrets`". That will open "secrets.json" file in the IDE editor. Replace the content of the file with: |
+```json
+{
+  "GitBranchToBuild": "cdk-module"
+}
+```
+... and save the file.
+
+Please `build & run` the project. If all went well you should see a console window with output starting with something like *Synthesized to "C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ".* That path is the location of generated CloudFormation templates. If you are familiar with CloudFormation, please feel free to explore the output of this step.
 
 ### Launching CI/CD Pipeline Infrastructure Creation
 
