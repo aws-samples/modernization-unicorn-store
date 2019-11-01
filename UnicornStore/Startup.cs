@@ -18,7 +18,6 @@ using System.Data.SqlClient;
 using UnicornStore.Configuration;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using LiteX.HealthChecks.PostgreSql;
 
 namespace UnicornStore
 {
@@ -114,7 +113,7 @@ namespace UnicornStore
 #warning Using PostgreSQL for a database
 #endif
             this.HookupDatabase<NpgsqlConnectionStringBuilder, NpgsqlDbContextOptionsConfigurator>(services, "Postgres");
-            healthCheckBuilder.AddPostgreSql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
+            healthCheckBuilder.AddNpgSql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 #else
 

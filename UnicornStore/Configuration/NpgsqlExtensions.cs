@@ -1,4 +1,4 @@
-﻿using LiteX.HealthChecks.PostgreSql;
+﻿using HealthChecks.NpgSql;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System;
@@ -10,7 +10,7 @@ namespace UnicornStore.Configuration
     {
         private const string DefaultHealthCheckName = "postgresql";
 
-        public static IHealthChecksBuilder AddPostgreSql(
+        public static IHealthChecksBuilder AddNpgSql(
           this IHealthChecksBuilder builder,
           Func<IServiceProvider, string> connectionStringFactory,
           string query = "SELECT 1;",
@@ -21,7 +21,7 @@ namespace UnicornStore.Configuration
             return builder.Add(
                 new HealthCheckRegistration(
                     name ?? DefaultHealthCheckName, 
-                    sp => new PostgreSqlHealthCheck(connectionStringFactory(sp), query), 
+                    sp => new NpgSqlHealthCheck(connectionStringFactory(sp), query), 
                     failureStatus, 
                     tags
                 )
