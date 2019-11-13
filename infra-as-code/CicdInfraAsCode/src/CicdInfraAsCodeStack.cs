@@ -142,7 +142,7 @@ namespace CicdInfraAsCode
                         InstallRuntimes = new Dictionary<string, string>()
                         {
                             { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
-                            { "dotnet", "2.2" }
+                            { "dotnet", "3.0" }
                         },
                         PreBuildCommands = new [] 
                         {
@@ -198,7 +198,6 @@ namespace CicdInfraAsCode
             return new Repository(this, "DockerImageRepository", new RepositoryProps
                 {
                     RepositoryName = this.settings.DockerImageRepository,
-                    RemovalPolicy = RemovalPolicy.DESTROY, // TODO: Remove this line after CDK team fixes https://github.com/aws/aws-cdk/issues/5018
                     LifecycleRules = new []
                     {
                         new LifecycleRule
