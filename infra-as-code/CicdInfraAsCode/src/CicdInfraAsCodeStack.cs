@@ -198,6 +198,7 @@ namespace CicdInfraAsCode
             return new Repository(this, "DockerImageRepository", new RepositoryProps
                 {
                     RepositoryName = this.settings.DockerImageRepository,
+                    RemovalPolicy = RemovalPolicy.DESTROY,
                     LifecycleRules = new []
                     {
                         new LifecycleRule
