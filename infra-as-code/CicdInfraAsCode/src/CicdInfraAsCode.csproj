@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <Configurations>DebugSqlServer;DebugMySQL;DebugPostgres;ReleaseMySQL;ReleasePostgres;ReleaseSqlServer</Configurations>
     <UserSecretsId>9fdabace-e7d2-4418-9961-dbd57e655520</UserSecretsId>
   </PropertyGroup>
@@ -56,16 +56,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.CDK" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.CodePipeline.Actions" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.ECR" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.KMS" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.11.0-devpreview" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
+    <PackageReference Include="Amazon.CDK" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.CodePipeline.Actions" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.ECR" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.KMS" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.16.3-devpreview" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,8 +8,6 @@ using Amazon.CDK.AWS.CodePipeline.Actions;
 using Vcs = Amazon.CDK.AWS.CodeCommit;
 using Amazon.CDK.AWS.CodeBuild;
 using System.Collections.Generic;
-using Amazon.CDK.AWS.S3;
-using Amazon.CDK.AWS.KMS;
 
 namespace CicdInfraAsCode
 {
@@ -42,22 +40,10 @@ namespace CicdInfraAsCode
         {
             Artifact_ sourceCodeArtifact = new Artifact_("Unicorn-Store-Visual-Studio-Solution");
 
-            //Bucket artifactBucket = new Bucket(this, "PipelineArtifactBucket"); // An attempt to create S3 bucket for pipeline artifacts - ran into a runtime bug. TODO: try again later.
-                    //    new BucketProps
-                    //    {
-                    //        EncryptionKey = new Key(this, "PipelineArtifactBucketEncryptionKey", new KeyProps
-                    //        {
-                    //            Description = $"{this.settings.ScopeName} CodePipeline artifact bucket encryption key",
-                    //            RemovalPolicy = RemovalPolicy.DESTROY
-                    //        })
-                    //    }
-                    //);
-
             var buildPipeline = new Pipeline(this, "BuildPipeline",
                 new PipelineProps
                 {
                     PipelineName = this.settings.ScopeName,
-                    //ArtifactBucket = artifactBucket,
                     Stages = new[]
                     {
                         Helpers.StageFromActions("Source", CreateSourceVcsCheckoutAction(gitRepo, sourceCodeArtifact)),
@@ -155,7 +141,7 @@ namespace CicdInfraAsCode
                     {
                         InstallRuntimes = new Dictionary<string, string>()
                         {
-                            { "nodejs", "8" },
+                            { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
                             { "dotnet", "2.2" }
                         },
                         PreBuildCommands = new [] 
@@ -212,9 +198,10 @@ namespace CicdInfraAsCode
             return new Repository(this, "DockerImageRepository", new RepositoryProps
                 {
                     RepositoryName = this.settings.DockerImageRepository,
+                    RemovalPolicy = RemovalPolicy.DESTROY, // TODO: Remove this line after CDK team fixes https://github.com/aws/aws-cdk/issues/5018
                     LifecycleRules = new []
                     {
-                        new Amazon.CDK.AWS.ECR.LifecycleRule
+                        new LifecycleRule
                         {
                             Description = $"Expire untagged images in {this.settings.UntaggedImageExpirationDays} days",
                             TagStatus = TagStatus.UNTAGGED,
@@ -250,7 +237,7 @@ namespace CicdInfraAsCode
                 new FunctionProps
                 {
                     FunctionName = $"Stop-ECS-Cluster-Tasks-From-CodePipeline",
-                    Runtime = Runtime.NODEJS_8_10,
+                    Runtime = Runtime.NODEJS_10_X, // Ensure this matches the "runtime" installed as a part of the buildspec (see CreateAppDeploymentEnvironmentBuildAction() method above)
                     Code = Code.FromAsset("assets/lambda/ecs-container-recycle"),
                     Handler = "index.handler",
 

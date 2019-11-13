@@ -39,7 +39,7 @@ namespace ProdEnvInfraAsCode
 
             ApplicationLoadBalancedFargateService ecsService = this.CreateEcsService(
                 ecsCluster,
-                databasePasswordSecretConstruct.CreateSecret(this, databasePasswordSecretSettings.SecretName), 
+                Secret.FromSecretsManager(databasePasswordSecretConstruct), 
                 dbConstructFactory, 
                 dbConstructOutput
             );
