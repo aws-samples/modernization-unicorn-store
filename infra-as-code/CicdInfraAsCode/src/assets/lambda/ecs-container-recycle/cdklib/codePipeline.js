@@ -23,8 +23,11 @@ async function lambdaWrapper(event, context, userDataAsyncProcessor) {
     // Refer to https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-invoke-lambda-function.html
     // for details re: how to create CodePipeline-aware Lambda function.
 
+    // console.log('CodePipeline event:\n' + JSON.stringify(event)); // Debug output
+
     var pipelineInfo = event["CodePipeline.job"];
-    var userDataString = pipelineInfo.data.actionConfiguration.configuration.UserParameters; 
+    var userDataString = pipelineInfo.data.actionConfiguration.configuration.UserParameters;
+    console.log('Trace: user data: ' + userDataString);
 
     var clusterArn;
     try {
@@ -34,7 +37,7 @@ async function lambdaWrapper(event, context, userDataAsyncProcessor) {
     catch(err) {
         clusterArn = userDataString;
     }
-    
+
     var jobId = pipelineInfo.id;
     var invokeId = context.invokeid;
 
@@ -45,9 +48,15 @@ async function lambdaWrapper(event, context, userDataAsyncProcessor) {
 async function codePipelineLambdaCaller(jobId, pipelineStageUserData, invokeId, userDataAsyncProcessor) {
     var codePipeline = new AWS.CodePipeline();
     try {
+        console.log('Trace: about to start executing main event handling logic');
         await userDataAsyncProcessor(pipelineStageUserData);
+
+        console.log('Trace: reporting success to CodePipeline');
+        var successReportResult = await codePipeline.putJobSuccessResult({ jobId: jobId }).promise();
+        return successReportResult;
     }
     catch(err) {
+        console.log('Trace: Caught error');
         var jobFailReportParams = {
             jobId: jobId,
             failureDetails: {
@@ -56,15 +65,13 @@ async function codePipelineLambdaCaller(jobId, pipelineStageUserData, invokeId, 
                 externalExecutionId: invokeId
             }
         };
+        console.log('Trace: reporting error to CodePipeline');
         var failureReportResult = await codePipeline.putJobFailureResult(jobFailReportParams).promise();
         return failureReportResult;
     }
-
-    var successReportResult = await codePipeline.putJobSuccessResult({jobId: jobId}).promise();
-    return successReportResult;
 }
 
 module.exports =
-{
-    lambdaWrapper
-}
+    {
+        lambdaWrapper
+    }

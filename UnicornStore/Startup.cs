@@ -1,32 +1,32 @@
 using System;
 using System.Globalization;
-using System.Linq;
-using System.Net.Mime;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Hosting;
 using UnicornStore.Components;
 using UnicornStore.Models;
-using UnicornStore.HealthChecks;
 using System.Data.Common;
 using Microsoft.Extensions.Options;
 using Npgsql;
 using System.Data.SqlClient;
 using UnicornStore.Configuration;
+using HealthChecks.UI.Client;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MySql.Data.MySqlClient;
 
 namespace UnicornStore
 {
     public partial class Startup
     {
+        const string dbHealthCheckName = "UnicornDB-check";
+        static readonly string[] dbHealthCheckTags = { "UnicornDB" };
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,7 +38,9 @@ namespace UnicornStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            this.ConfigureDatabaseEngine(services);
+            IHealthChecksBuilder healthCheckBuilder = services.AddHealthChecks();
+            
+            this.ConfigureDatabaseEngine(services, healthCheckBuilder);
             services.AddDbContext<UnicornStoreContext>();
 
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
@@ -61,15 +63,18 @@ namespace UnicornStore
             services.AddLogging();
 
             // Add MVC services to the services container
-            services.AddMvc();
-
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+			
             services.AddOptions();
 
             // Add the Healthchecks
-            services
-                .AddHealthChecks()
-                .AddCheck<UnicornHomePageHealthCheck>("UnicornStore_HealthCheck");
-
+            // https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
+            // AspNetCore.Diagnostics.HealthChecks isn't maintained or supported by Microsoft.
+            healthCheckBuilder
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                ;
+					
             // Add memory cache services
             services.AddMemoryCache();
             services.AddDistributedMemoryCache();
@@ -92,47 +97,56 @@ namespace UnicornStore
             });
         }
 
-        private void ConfigureDatabaseEngine(IServiceCollection services)
+        private void ConfigureDatabaseEngine(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if MYSQL
-            this.HookupMySQL(services);
+            this.HookupMySQL(services, healthCheckBuilder);
 #elif POSTGRES
-            this.HookupPostgres(services);
+            this.HookupPostgres(services, healthCheckBuilder);
 #else
-            this.HookupSqlServer(services);
+            this.HookupSqlServer(services, healthCheckBuilder);
 #endif
         }
 
 #if MYSQL
-        private void HookupMySQL(IServiceCollection services)
+        private void HookupMySQL(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if Debug || DEBUG
             // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
 #warning Using MySQL for a database
 #endif
             this.HookupDatabase<MySqlConnectionStringBuilder, MySqlDbContextOptionsConfigurator>(services, "MySQL");
+            healthCheckBuilder.AddMySql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 
 #elif POSTGRES
-        private void HookupPostgres(IServiceCollection services)
+        private void HookupPostgres(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if Debug || DEBUG
             // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
 #warning Using PostgreSQL for a database
 #endif
             this.HookupDatabase<NpgsqlConnectionStringBuilder, NpgsqlDbContextOptionsConfigurator>(services, "Postgres");
+            healthCheckBuilder.AddNpgSql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 #else
 
-        private void HookupSqlServer(IServiceCollection services)
+        private void HookupSqlServer(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if Debug || DEBUG
             // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
 #warning Using MS SQL Server for a database
 #endif
             this.HookupDatabase<SqlConnectionStringBuilder, SqlDbContextOptionsConfigurator>(services, "SqlServer");
+            healthCheckBuilder.AddSqlServer(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
         }
 #endif
+
+        internal static string GetConnectionString(IServiceProvider di)
+        {
+            var dbOptionConfig = di.GetRequiredService<DbContextOptionsConfigurator>();
+            return dbOptionConfig.ConnectionString;
+        }
 
         /// <summary>
         /// Integrates connection string data from config settings file "ConnectionStrings" section, 
@@ -172,7 +186,7 @@ namespace UnicornStore
             return overrideConnectionInfo.MergeDbConnectionStringBuilders(defaultConnectionString);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // StatusCode pages to gracefully handle status codes 400-599.
             app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
@@ -193,8 +207,16 @@ namespace UnicornStore
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseHealthChecks("/health", ConfigureHealthCheckResponse());
-
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+			
             // force the en-US culture, so that the app behaves the same even on machines with different default culture
             var supportedCultures = new[] { new CultureInfo("en-US") };
 
@@ -216,51 +238,33 @@ namespace UnicornStore
 
             // Add static files to the request pipeline
             app.UseStaticFiles();
+			
+            // Add the endpoint routing matcher middleware to the request pipeline
+            app.UseRouting();			
 
             // Add cookie-based authentication to the request pipeline
             app.UseAuthentication();
 
+            // Add the authorization middleware to the request pipeline
+            app.UseAuthorization();
+
             // Add MVC to the request pipeline
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}",
-                    defaults: new { action = "Index" });
+                endpoints.MapControllers();
+                endpoints.MapAreaControllerRoute(
+                    "admin",
+                    "admin",
+                    "Admin/{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "api",
-                    template: "{controller}/{id?}");
+                    pattern: "{controller=Home}/{id?}");
             });
-        }
-
-        private static HealthCheckOptions ConfigureHealthCheckResponse()
-        {
-            return new HealthCheckOptions
-            {
-                ResponseWriter = async (context, report) =>
-                {
-                    var result = JsonConvert.SerializeObject(
-                        new
-                        {
-                            OverallStatus = report.Status.ToString(),
-                            HealthChecks = report.Entries.Select(e => new
-                            {
-                                name = e.Key,
-                                value = Enum.GetName(typeof(HealthStatus), e.Value.Status),
-                                status = e.Value.Description,
-                                duration = e.Value.Duration
-                            })
-                        });
-                    context.Response.ContentType = MediaTypeNames.Application.Json;
-                    await context.Response.WriteAsync(result);
-                }
-            };
         }
     }
 }
