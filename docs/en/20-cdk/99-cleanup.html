@@ -708,7 +708,6 @@
 <li>
 <ul>
 <li><a href="#delete-infrastructure-stacks-created-by-cdk-projects">Delete Infrastructure &ldquo;Stacks&rdquo; Created by CDK Projects</a></li>
-<li><a href="#delete-kms-key">Delete KMS Key</a></li>
 <li><a href="#delete-ecr-docker-image-repository">Delete ECR Docker Image Repository</a></li>
 </ul></li>
 </ul></li>
@@ -743,7 +742,9 @@
 
 <h3 id="delete-infrastructure-stacks-created-by-cdk-projects">Delete Infrastructure &ldquo;Stacks&rdquo; Created by CDK Projects</h3>
 
-<p>To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the &ldquo;CicdInfraAsCode&rdquo; project. Here run <code>cdk destroy</code> command to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.</p>
+<p>To see how CDK could be leveraged for cleanup, open a Command Prompt window and cd to the root of the &ldquo;CicdInfraAsCode&rdquo; project. Here run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cdk destroy</code></pre></div>
+<p>to effectively delete the CloudFormation stack produced by the project, which in turn destroys AWS resources comprising our CI/CD pipeline.</p>
 
 <p>As an alternative, you may run</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack</code></pre></div>
@@ -751,16 +752,6 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws cloudformation delete-stack --stack-name UnicornSuperstoreStack</code></pre></div>
 <p>Although both commands return instantaneously, the process of deleting resources up to 10 minutes, give or take. To see the progress, please browse to <a href="https://console.aws.amazon.com/cloudformation/home" target="_blank">CloudFormation -&gt; Stacks</a> in AWS Console. There you should see <strong>DELETE_IN_PROGRESS</strong> status next to &ldquo;UnicornSuperstoreStack&rdquo; and &ldquo;Unicorn-Store-CI-CD-PipelineStack&rdquo; items. Refresh the page periodically using the round arrow icon.</p>
 
-<h3 id="delete-kms-key">Delete KMS Key</h3>
-
-<p>This section may become unnecessary after project is upgraded to CDK 1.13.</p>
-
-<p>Browse to AWS <a href="https://console.aws.amazon.com/kms/home" target="_blank">Key Management Service</a> at AWS Console, and enter &ldquo;codepipeline-cicdinfraascodestackbuildpipelineb5eb558e&rdquo; in the search box. Click the key entry and copy the Key ID guid value to the clipboard and paste it into the Notepad or another text editor.</p>
-
-<p>Now remove the key alias and schedule the key for deletion</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws kms delete-alias --alias-name alias/codepipeline-cicdinfraascodestackbuildpipelineb5eb558e</code></pre></div>
-<p>To delete the key itself, use the command below and paste the Key ID from the Notepad replacing the value in the placeholder:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws kms schedule-key-deletion --key-id &lt;PASTE Key ID VALUE HERE&gt; --pending-window-in-days <span style="color:#ae81ff">7</span></code></pre></div>
 <h3 id="delete-ecr-docker-image-repository">Delete ECR Docker Image Repository</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws ecr delete-repository --repository-name unicorn-store-app --force</code></pre></div>
 

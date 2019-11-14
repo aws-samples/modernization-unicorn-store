@@ -22,13 +22,13 @@ aws configure set region us-west-2
 
 #### Install the .NET Core SDK
 
-1. In this step, you install the .NET Core 2 SDK into your environment, which is required to run this sample. Run the below command to install a ***libunwind*** package that the .NET Core 2 SDK needs.
+1. In this step, you install the .NET Core 3 SDK into your environment, which is required to run this sample. Run the below command to install a ***libunwind*** package that the .NET Core 3 SDK needs.
 
 ```
 sudo yum -y install libunwind
 ```
 
-2. Download the .NET Core 2 SDK installer script into your environment by running the following command.
+2. Download the .NET Core 3 SDK installer script into your environment by running the following command.
 
 ```
 curl -O https://dot.net/v1/dotnet-install.sh
@@ -40,13 +40,13 @@ curl -O https://dot.net/v1/dotnet-install.sh
 sudo chmod u=rx dotnet-install.sh
 ```
 
-4. Run the installer script, which downloads and installs the .NET Core 2 SDK, by running the following command.
+4. Run the installer script, which downloads and installs the .NET Core 3 SDK, by running the following command.
 
 ```
 ./dotnet-install.sh -c Current
 ```
 
-5. Add the .NET Core 2 SDK to your PATH. To do this, in the shell profile for the environment (for example, the .bashrc file), add the $HOME/.dotnet subdirectory to the PATH variable for the environment, as follows.
+5. Add the .NET Core 3 SDK to your PATH. To do this, in the shell profile for the environment (for example, the .bashrc file), add the $HOME/.dotnet subdirectory to the PATH variable for the environment, as follows.
 
   * Open the .bashrc file for editing by using the vi command.
 
@@ -66,19 +66,19 @@ vi ~/.bashrc
 
   * Save the file. To do this, press the Esc key (-- INSERT --- will disappear from the end of the display), type :wq (to write to and then quit the file), and then press Enter.
 
-6. Load the .NET Core 2 SDK by sourcing the .bashrc file.
+6. Load the .NET Core 3 SDK by sourcing the .bashrc file.
 
 ```
 . ~/.bashrc
 ```
 
-7. Confirm the .NET Core 2 SDK is loaded by running .NET Core CLI with the --help option.
+7. Confirm the .NET Core 3 SDK is loaded by running .NET Core CLI with the --help option.
 
 ```
 dotnet --help
 ```
 
-8. If successful, the .NET Core 2 SDK version number is displayed, with additional usage information.
+8. If successful, the .NET Core 3 SDK version number is displayed, with additional usage information.
 
 #### Clone the source repository for this workshop
 
