@@ -156,11 +156,12 @@ namespace CicdInfraAsCode
                             "apt-get update",
                             "apt-get -y install apt-transport-https",
                             "apt-get update",
-                            "apt-get -y install dotnet-sdk-3.0"
+                            "apt-get -y install dotnet-sdk-3.0",
+                            "dotnet --version"
                         },
                         BuildCommands = new []
                         {
-                            "echo Building CDK CI/CD project",
+                            "echo Building CDK CI/CD project using configuration: ${BuildConfig}${DbEngine}",
                             "cd ./infra-as-code/ProdEnvInfraAsCode/src",
                             "dotnet build ProdEnvInfraAsCode.csproj -c ${BuildConfig}${DbEngine}",
                             "cdk diff || true",
