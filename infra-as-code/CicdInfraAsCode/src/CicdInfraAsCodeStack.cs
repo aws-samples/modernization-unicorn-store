@@ -206,7 +206,7 @@ namespace CicdInfraAsCode
             return new Repository(this, "DockerImageRepository", new RepositoryProps
                 {
                     RepositoryName = this.settings.DockerImageRepository,
-                    RemovalPolicy = RemovalPolicy.DESTROY,
+                    // RemovalPolicy = RemovalPolicy.DESTROY, // Destroy can only destroy empty repos. Ones with images will cause stack deletion to fail, requiring more manual cleanup.
                     LifecycleRules = new []
                     {
                         new LifecycleRule
