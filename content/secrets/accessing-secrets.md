@@ -1,6 +1,6 @@
 # Accessing Secrets
 
-Now that you've set up the secret for local development, you may be wondering how can you access a secret in your .NET Core code. The [ASP.NET Core Configuration API](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/index?view=aspnetcore-2.2/) provides access to Secret Manager secrets.
+Now that you've set up the secret for local development, you may be wondering how can you access a secret in your .NET Core code. The [ASP.NET Core Configuration API](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/index?view=aspnetcore-3.0) provides access to Secret Manager secrets.
 
 In ASP.NET 2.0 or later, the user secrets configuration source is automatically added in development mode when the project calls [CreateDefaultBuilder](https://docs.microsoft.com/dotnet/api/microsoft.aspnetcore.webhost.createdefaultbuilder) to initialize a new instance of the host with preconfigured defaults. Below is a snippet from our [Program.cs](https://github.com/aws-samples/modernization-unicorn-store/blob/master/UnicornStore/Program.cs) file.
 
@@ -16,7 +16,7 @@ You may have noticed in the above snippet of code that we are constructing our d
 
 The Configuration API is a very powerful feature of .NET Core and can handle multiple configuration sources. When an ASP.NET Core application starts, it loads your configuration providers in the order they are configured. If a configuration source is loaded and the key already exists, it overwrites the previous value meaning the last key loaded wins.
 
-In ***Program.cs*** there is a method called ***CreateDefaultBuilder*** which is behind the configuration provider setup. Looking at the Microsoft.AspNetCore [WebHost.cs](https://github.com/aspnet/MetaPackages/blob/rel/2.0.0/src/Microsoft.AspNetCore/WebHost.cs) class, we can see that the order of providers are configured as follows:
+In ***Program.cs*** there is a method called ***CreateDefaultBuilder*** which is behind the configuration provider setup. Looking at the [CreateDefaultBuilder](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.host.createdefaultbuilder?view=dotnet-plat-ext-3.0) method, we can see that the order of providers are configured as follows:
 
 1. Files (appsettings.json, appsettings.{Environment}.json, where {Environment} is the app's current hosting environment)
 2. User secrets (Secret Manager) (in the Development environment only)
