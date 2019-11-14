@@ -142,13 +142,21 @@ namespace CicdInfraAsCode
                         InstallRuntimes = new Dictionary<string, string>()
                         {
                             { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
-                            { "dotnet", "3.0" }
+                            { "dotnet", "2.2" } // TODO: replace after AWS CodeBuild gets native .NET Core 3.0 build image
                         },
                         PreBuildCommands = new [] 
                         {
                             "aws --version",
                             "npm install -g aws-cdk${CdkVersion}",
-                            "cdk --version"
+                            "cdk --version",
+
+                            // Install .NET Core 3 SDK. TODO: remove this section after dotnet 3.0 runtime becomes available on AWS Linux CodeBuild images
+                            "wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb",
+                            "dpkg -i packages-microsoft-prod.deb",
+                            "apt-get update",
+                            "apt-get -y install apt-transport-https",
+                            "apt-get update",
+                            "apt-get -y install dotnet-sdk-3.0"
                         },
                         BuildCommands = new []
                         {
