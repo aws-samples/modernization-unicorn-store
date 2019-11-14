@@ -71,7 +71,6 @@ async function codePipelineLambdaCaller(jobId, pipelineStageUserData, invokeId, 
     }
 }
 
-module.exports =
-    {
-        lambdaWrapper
-    }
+module.exports = {
+    lambdaWrapper
+}

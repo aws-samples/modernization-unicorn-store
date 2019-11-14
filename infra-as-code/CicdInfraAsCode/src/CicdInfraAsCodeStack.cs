@@ -244,10 +244,10 @@ namespace CicdInfraAsCode
             return new Function(this, "EcsAppRestartWithNewImage",
                 new FunctionProps
                 {
-                    FunctionName = $"Stop-ECS-Cluster-Tasks-From-CodePipeline",
+                    FunctionName = $"Refresh-ECS-Cluster-From-CodePipeline",
                     Runtime = Runtime.NODEJS_10_X, // Ensure this matches the "runtime" installed as a part of the buildspec (see CreateAppDeploymentEnvironmentBuildAction() method above)
                     Code = Code.FromAsset("assets/lambda/ecs-container-recycle"),
-                    Handler = "index.handler",
+                    Handler = "index.handler", // Points to the NodeJs sub-project's "index.js" file, and the "handler()" function in it: "exports.handler = async (event, context) => {..."
 
                     InitialPolicy = Helpers.FromPolicyProps(
                         new PolicyStatementProps
@@ -257,7 +257,7 @@ namespace CicdInfraAsCode
                         },
                         new PolicyStatementProps
                         {   // Allow stopping ECS Tasks
-                            Actions = new[] { "ecs:ListTasks", "ecs:StopTask", "ecs:DescribeTasks" },
+                            Actions = new[] { "ecs:ListServices", "ecs:UpdateService" },
                             Resources = new[] { "*" }
                         }
                     )
