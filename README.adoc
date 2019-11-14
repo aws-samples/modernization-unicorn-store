@@ -16,10 +16,10 @@ To get started you will need:
 
 - https://docs.docker.com/install/[Docker] installed on your local machine.
 - https://docs.docker.com/compose/install/[Docker Compose]
-- https://dotnet.microsoft.com/download[.NET Core 2.2]
+- https://dotnet.microsoft.com/download[.NET Core 3]
 - An IDE for building .NET Core applications such as https://visualstudio.microsoft.com/[Visual Studio]
 
-Once you have the prerequisites installed on your local development machine you should be able to run the Unicorn Store locally either in your IDE or in a local container. Take the time to read https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.2[mutiple environments in ASP.NET Core] and https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=macos[safe storage of app secrets in development in ASP.NET Core] before starting so you understand the various different configuration options.
+Once you have the prerequisites installed on your local development machine you should be able to run the Unicorn Store locally either in your IDE or in a local container. Take the time to read https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-3.0[mutiple environments in ASP.NET Core] and https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.0&tabs=windows[safe storage of app secrets in development in ASP.NET Core] before starting so you understand the various different configuration options.
 
 == Introduction
 
