@@ -1,0 +1,20 @@
+{
+  "name": "ecs-container-recycle",
+  "version": "1.0.0",
+  "description": "Makes ECS Cluster use latest version of the image by stopping tasks of the old version and launching tasks of the new version",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "AWS",
+    "CDK",
+    "ECS",
+    "Lambda"
+  ],
+  "author": "Vlad H",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "latest"
+  }
+}

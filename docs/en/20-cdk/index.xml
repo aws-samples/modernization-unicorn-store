@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWS .NET CDK Lab on ASP.NET Modernization Workshop</title>
+    <link>/en/20-cdk.html</link>
+    <description>Recent content in AWS .NET CDK Lab on ASP.NET Modernization Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 10 Oct 2019 16:56:01 -0400</lastBuildDate>
+    
+	<atom:link href="/en/20-cdk/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CDK Module Overview</title>
+      <link>/en/20-cdk/10-overview.html</link>
+      <pubDate>Sat, 12 Oct 2019 18:06:59 -0400</pubDate>
+      
+      <guid>/en/20-cdk/10-overview.html</guid>
+      <description>Welcome to the .NET AWS CDK module of the workshop!
+How to Run This Site Locally Please use PowerShell or bash (GitBash) to run commands below. They will open this web site locally on your computer.
+git clone https://github.com/vgribok/modernization-unicorn-store.git cd modernization-unicorn-store git checkout cdk-module ./docs/en/index.html Workshop Goals The goal of this lab is to guide participants through:
+ Running an existing .NET CDK project locally to bootstrap application&amp;rsquo;s CI/CD pipeline infrastructure in AWS.</description>
+    </item>
+    
+    <item>
+      <title>Setting Up Dev Environment</title>
+      <link>/en/20-cdk/20-setting-up.html</link>
+      <pubDate>Sun, 13 Oct 2019 14:29:41 -0400</pubDate>
+      
+      <guid>/en/20-cdk/20-setting-up.html</guid>
+      <description>You may skip this page and move on to the next step if you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.
+Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required, as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.</description>
+    </item>
+    
+    <item>
+      <title>Running App Locally</title>
+      <link>/en/20-cdk/30-running-app-locally.html</link>
+      <pubDate>Sun, 13 Oct 2019 21:19:51 -0400</pubDate>
+      
+      <guid>/en/20-cdk/30-running-app-locally.html</guid>
+      <description>Starting Unicorn Store Web Application     Notes      Once you have prepared your development environment, what remains is to ensure that UnicornStore.csproj is selected as a startup project, to switch hosting from &amp;ldquo;IIS Express&amp;rdquo; to Console, as shown on the screenshot on the left, and start the application in the debug mode.    After debugging session has started, a command console window will open first with application console output in it, along with a web browser window, showing the home page of the Unicorn Store ASP.</description>
+    </item>
+    
+    <item>
+      <title>Creating AWS CI/CD Pipeline</title>
+      <link>/en/20-cdk/40-creating-ci-cd-pipeline.html</link>
+      <pubDate>Mon, 14 Oct 2019 11:11:14 -0400</pubDate>
+      
+      <guid>/en/20-cdk/40-creating-ci-cd-pipeline.html</guid>
+      <description>Before we dive into the code base of the Unicorn Store solution and start hacking it, let&amp;rsquo;s spend a few moments and create the CI/CD pipeline infrastructure in AWS, as creating it takes a few minutes to complete, and while that is in progress, we&amp;rsquo;ll spend some time looking into the structure of the project and getting familiar with CDK concepts.
+    Notes      Again, please select either Postgres or SQL Server configuration from Solution&amp;rsquo;s Build Configuration drop-down in Visual Studio&amp;hellip;    &amp;hellip;and mark &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a startup project.</description>
+    </item>
+    
+    <item>
+      <title>Project Structure</title>
+      <link>/en/20-cdk/50-project-structure.html</link>
+      <pubDate>Mon, 14 Oct 2019 14:11:33 -0400</pubDate>
+      
+      <guid>/en/20-cdk/50-project-structure.html</guid>
+      <description>Let&amp;rsquo;s use the few minutes that it takes for the application CI/CD pipeline infrastructure to build, to get familiar with the structure of the project.
+    Notes      Solution contains one ASP.NET Core application project named UnicornStore, and three CDK-related projects: CdkLib - a C# class library project, containing reusable components shared between two executable CDK projects.    The first of executable CDK projects is CicdInfraAsCode - the project we ran at the previous step of the lab.</description>
+    </item>
+    
+    <item>
+      <title>Starting Pipeline Build</title>
+      <link>/en/20-cdk/60-starting-cicd-build.html</link>
+      <pubDate>Tue, 15 Oct 2019 11:34:12 -0400</pubDate>
+      
+      <guid>/en/20-cdk/60-starting-cicd-build.html</guid>
+      <description>At this point the CI/CD pipeline cloud infrastructure, the build-out of which was launched two chapters back, should be completed.
+First, please check the command prompt console where you ran cdk deploy for the &amp;ldquo;CicdInfraAsCode&amp;rdquo; project, to make there were no errors. You should see something like the following at the tail of the output after command has finished:
+ 30/30 | 1:10:43 PM | CREATE_COMPLETE | AWS::CloudFormation::Stack | Unicorn-Store-CI-CD-PipelineStack ✅ Unicorn-Store-CI-CD-PipelineStack Stack ARN: arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-PipelineStack/eee6e58c-6808-48a2-9885-c719f44dd8b6  Next, navigate to the CodePipeline in the AWS Console and observe &amp;ldquo;Unicorn-Store-CI-CD-Pipeline&amp;rdquo; in the list, showing the &amp;ldquo;Failed&amp;rdquo; status next to it.</description>
+    </item>
+    
+    <item>
+      <title>Verify Pipeline Run Completion</title>
+      <link>/en/20-cdk/63-verify-ci-cd-completion.html</link>
+      <pubDate>Tue, 15 Oct 2019 17:48:00 -0400</pubDate>
+      
+      <guid>/en/20-cdk/63-verify-ci-cd-completion.html</guid>
+      <description>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to go to move on to the next chapter and come back here later to ensure the pipeline is alright.
+Verifying the CI/CD Pipeline Run Has Completed Whenever the pipeline has finished, feel free to browse to the AWS Load Balancer page in the AWS Console, select a load balancer named &amp;ldquo;unicorn-store&amp;rdquo; and click the &amp;ldquo;copy to clipboard&amp;rdquo; icon next to the &amp;ldquo;DNS Name&amp;rdquo; field.</description>
+    </item>
+    
+    <item>
+      <title>MySQL Support</title>
+      <link>/en/20-cdk/65-adding-mysql-support.html</link>
+      <pubDate>Tue, 15 Oct 2019 15:42:30 -0400</pubDate>
+      
+      <guid>/en/20-cdk/65-adding-mysql-support.html</guid>
+      <description>This chapter will guide you through the process of adding support for MySQL to the Unicorn Store application and to infra-as-code projects. MySQL is an open source, cross-platform, relational database that can be run in a cloud, on premises, or locally on developer workstation free of charge.
+This set of steps builds on the existing, multi-database-friendly architecture of the Unicorn Store application, which already supports MS SQL Server and open-source PostgreSQL, while requiring only modest changes to the code of executable projects in the Solution.</description>
+    </item>
+    
+    <item>
+      <title>App: NuGet and AppSettings</title>
+      <link>/en/20-cdk/67-app-nuget-and-appsettings.html</link>
+      <pubDate>Tue, 15 Oct 2019 16:13:30 -0400</pubDate>
+      
+      <guid>/en/20-cdk/67-app-nuget-and-appsettings.html</guid>
+      <description>This chapter assumes that MySQL is installed locally.
+ Adding MySQL Library to the Application via NuGet  Please start with marking &amp;ldquo;UnicornStore&amp;rdquo; project as a Startup Project in Visual Studio. Open &amp;ldquo;Package Manager Console&amp;rdquo; by selecting it from the &amp;ldquo;View | Other Windows&amp;rdquo; menu. Install Pomelo.EntityFrameworkCore.MySql version 2.2 package by running following command in Visual Studio &amp;ldquo;Package Manager Console&amp;rdquo;:
+Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0  Adding Default Connection String to &amp;ldquo;appSettings.</description>
+    </item>
+    
+    <item>
+      <title>Updating Build Config</title>
+      <link>/en/20-cdk/69-updating-build-config.html</link>
+      <pubDate>Tue, 15 Oct 2019 17:22:29 -0400</pubDate>
+      
+      <guid>/en/20-cdk/69-updating-build-config.html</guid>
+      <description>Now we need to update solution-to-project Build Configuration mapping.
+    Notes      Please start with bringing up Solution Configuration Manager.    Then select &amp;ldquo;DebugMySQL from the &amp;ldquo;Active solution configuration dropdown and change all executable project configuration mappings from &amp;ldquo;DebugPostgress&amp;rdquo; to &amp;ldquo;DebugMySQL&amp;rdquo;:
+           Changeto =&amp;gt;     Please do the same for the ReleaseMySQL solution configuration: map executable project context configurations to &amp;ldquo;ReleaseMySQL&amp;rdquo;</description>
+    </item>
+    
+    <item>
+      <title>Modifying Startup.cs</title>
+      <link>/en/20-cdk/71-modifying-startup-cs.html</link>
+      <pubDate>Tue, 15 Oct 2019 17:13:32 -0400</pubDate>
+      
+      <guid>/en/20-cdk/71-modifying-startup-cs.html</guid>
+      <description>Please open &amp;ldquo;Startup.cs&amp;rdquo; file of the &amp;ldquo;UnicornStore&amp;rdquo; project in Visual Studio. Add following line to the top part of the file:
+using MySql.Data.MySqlClient;  Find ConfigureDatabaseEngine() method and replace the &amp;ldquo;#if POSTGRES&amp;rdquo; line in it with
+#if MYSQL  this.HookupMySQL(services); #elif POSTGRES  Now, to implement missing &amp;ldquo;HookupMySQL()&amp;rdquo; function, find the HookupPostgres() method and replace the &amp;ldquo;#if POSTGRES&amp;rdquo; line right above the function with
+#if MYSQL  private void HookupMySQL(IServiceCollection services) { #if Debug || DEBUG  // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up #warning Using MySQL for a database #endif  this.</description>
+    </item>
+    
+    <item>
+      <title>MySQL Options Configurator</title>
+      <link>/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html</link>
+      <pubDate>Tue, 15 Oct 2019 23:10:12 -0400</pubDate>
+      
+      <guid>/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html</guid>
+      <description>Each database engine supported by the Unicorn Store application needs a DbContextOptionsConfigurator subclass. &amp;ldquo;DbContextOptionsConfigurator&amp;rdquo; facilitates deferred and dynamic updating of stored database connection settings in case when connection string information stored in the &amp;ldquo;appsettings.json&amp;rdquo; file changes while the application is running.
+ &amp;ldquo;DbContextOptionsConfigurator&amp;rdquo; rectifies common anti-pattern that is unfortunately used in many ASP.NET Core sample apps, which load and cache database connection string settings only once per app lifetime during the Configure() method execution, going against the design goals of the IConfiguration-based settings handling that enable dynamic app settings reloading without requiring restarting of the app.</description>
+    </item>
+    
+    <item>
+      <title>Verifying MySQL Support</title>
+      <link>/en/20-cdk/75-verifying-mysql-support-locally.html</link>
+      <pubDate>Tue, 15 Oct 2019 23:47:33 -0400</pubDate>
+      
+      <guid>/en/20-cdk/75-verifying-mysql-support-locally.html</guid>
+      <description>Please be sure that &amp;ldquo;DebugMySQL&amp;rdquo; solution configuration is active. Build &amp;ldquo;UnicornStore&amp;rdquo; project - it should build without errors. Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &amp;ldquo;appSettings.json&amp;rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. To do this, we&amp;rsquo;ll use .NET Secret Manager.</description>
+    </item>
+    
+    <item>
+      <title>Adding MySQL Support to the Hosting Env CDK Project</title>
+      <link>/en/20-cdk/77-mysql-hosting-env-stack.html</link>
+      <pubDate>Wed, 16 Oct 2019 00:15:05 -0400</pubDate>
+      
+      <guid>/en/20-cdk/77-mysql-hosting-env-stack.html</guid>
+      <description>Next couple of sections will guide you through adding MySQL support to the ProdEnvInfraAsCode project that defines application cloud hosting environment using infrastructure-as-code approach.
+MySQL database underpinning Unicorn Store application is going to run in AWS cloud and is implemented either by Amazon RDS for MySQL or by Amazon Aurora service, depending whether the infrastructure is configured to run in a single-instance or in the cluster mode.
+Amazon RDS and Amazon Aurora are SQL Server, MySQL and PostgreSQL-compatible, managed, &amp;ldquo;serverless&amp;rdquo; services, capable of replacing self-managed RDBMS deployments running on unmanaged VMs or in containers.</description>
+    </item>
+    
+    <item>
+      <title>MySQL in CI/CD CDK Project</title>
+      <link>/en/20-cdk/79-mysql-ci-cd-stack.html</link>
+      <pubDate>Wed, 16 Oct 2019 01:18:54 -0400</pubDate>
+      
+      <guid>/en/20-cdk/79-mysql-ci-cd-stack.html</guid>
+      <description>Here we&amp;rsquo;ll add MySQL support to the CI/CD CDK project.
+  Please start with marking &amp;ldquo;CicdInfraAsCode&amp;rdquo; project as a &amp;ldquo;Startup Project&amp;rdquo; in Visual Studio. Open &amp;ldquo;UnicornStoreCiCdStackProps.cs&amp;rdquo; file in the IDE editor. Find the DbEngineType enum and add MySQL entry to it. Find the DbEngine property and replace the &amp;ldquo;#if POSTGRES&amp;rdquo; line with
+#if MYSQL  DbEngineType.MySQL; #elif POSTGRES   This is it, that&amp;rsquo;s all the changes we needed to make to the CI/CD CDK project to add MySQL database support.</description>
+    </item>
+    
+    <item>
+      <title>Testing CI/CD Changes</title>
+      <link>/en/20-cdk/80-verifying-cicd-project-changes.html</link>
+      <pubDate>Wed, 30 Oct 2019 14:13:48 -0400</pubDate>
+      
+      <guid>/en/20-cdk/80-verifying-cicd-project-changes.html</guid>
+      <description>Run the CicdInfraAsCode project from the IDE to ensure there are no exceptions thrown. Open Command Prompt window and cd to the root of the &amp;ldquo;CicdInfraAsCode&amp;rdquo; project. Run cdk diff - command that compares currently-provisioned AWS infrastructure (of the CI/CD pipeline in this case) and created earlier by the infra-as-code &amp;ldquo;stack&amp;rdquo;, with the infrastructure modified by the changes to the project codebase. You should see output looking like
+Synthesized to &amp;quot;cdk.</description>
+    </item>
+    
+    <item>
+      <title>Explore CDK Stack Source</title>
+      <link>/en/20-cdk/81-explore-cdk-stack-source.html</link>
+      <pubDate>Wed, 16 Oct 2019 16:05:30 -0400</pubDate>
+      
+      <guid>/en/20-cdk/81-explore-cdk-stack-source.html</guid>
+      <description>Now it&amp;rsquo;s perfect time to take a look at how a CDK &amp;ldquo;stack&amp;rdquo; written in C# looks like.
+For best experience, please mark &amp;ldquo;ProdEnvInfraAsCode&amp;rdquo; as a Startup Project, open its &amp;ldquo;Program.cs&amp;rdquo; in the IDE editor, put a break on the line with the `new UnicornStoreFargateStack(&amp;hellip;)&amp;rdquo; and start debugging.
+First you will skip over the straightforward-sounding LoadConfiguration() method that reads in &amp;ldquo;appSettings.json&amp;rdquo; etc. and passes loaded data to the UnicornStoreFargateStack(...) constructor in the settings variable.</description>
+    </item>
+    
+    <item>
+      <title>Thank You!</title>
+      <link>/en/20-cdk/95-thank-you.html</link>
+      <pubDate>Wed, 16 Oct 2019 01:51:19 -0400</pubDate>
+      
+      <guid>/en/20-cdk/95-thank-you.html</guid>
+      <description>This concludes the CDK module of the workshop. Thank you very much for your participation! We hope you have learned something new and useful today, and would not mind to let us know what we could improve.
+We encourage participants to explore the codebase of all CDK projects in this lab further to better understand the ins and outs of how to start building your own AWS infrastructure using all great features of C#.</description>
+    </item>
+    
+    <item>
+      <title>Cleanup</title>
+      <link>/en/20-cdk/99-cleanup.html</link>
+      <pubDate>Tue, 15 Oct 2019 11:53:46 -0400</pubDate>
+      
+      <guid>/en/20-cdk/99-cleanup.html</guid>
+      <description>Some manual clean up steps are required to delete resources created in the course of this module. You may need to follow these steps if you used your personal or corporate AWS Account.
+You will also need to use these steps if you are taking this lab at an AWS event and you simply want to reset your cloud resources and restart the module from the beginning.
+ When using your personal or corporate AWS Account, leaving resources created by this lab will result in recurring monthly charges for used resources.</description>
+    </item>
+    
+  </channel>
+</rss>

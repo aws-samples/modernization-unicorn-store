@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+	  <UserSecretsId>30986389-130c-49cc-bbe4-45cca9dec756</UserSecretsId>
+	  <Configurations>DebugSqlServer;DebugMySQL;DebugPostgres;ReleaseMySQL;ReleasePostgres;ReleaseSqlServer</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMySQL|AnyCPU'">
+    <DefineConstants>TRACE;MYSQL;DEBUG</DefineConstants>
+    <OutputPath>bin/local/Debug</OutputPath>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
+    <DefineConstants>TRACE;POSTGRES;DEBUG</DefineConstants>
+    <OutputPath>bin/local/Debug</OutputPath>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleasePostgres|AnyCPU'">
+    <DefineConstants>TRACE;POSTGRES</DefineConstants>
+    <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMySQL|AnyCPU'">
+    <DefineConstants>TRACE;MYSQL</DefineConstants>
+    <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseSqlServer|AnyCPU'">
+    <OutputPath>bin/local/Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSqlServer|AnyCPU'">
+    <OutputPath>bin/local/Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.CDK" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.EC2" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.ECS.Patterns" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.RDS" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SecretsManager" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SNS" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions" Version="1.16.3-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.SQS" Version="1.16.3-devpreview" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CdkLib\CdkLib.csproj" />
+  </ItemGroup>
+
+</Project>

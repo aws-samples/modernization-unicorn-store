@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<html lang="en" class="js csstransforms3d">
+<head>
+  <meta charset="utf-8">
+  <meta property="og:title" content="ASP.NET Modernization Workshop" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="generator" content="Hugo 0.58.3" />
+  <meta name="description" content="Brings containerization, database freedom, CI/CD-pipeline and infra-as-code to Unicorn Store ASP.NET Core web application">
+<meta name="author" content="Carmen Puccio, Vlad Hrybok">
+
+  <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
+<link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
+
+  <title>MySQL Options Configurator :: ASP.NET Modernization Workshop</title>
+
+  
+  <link href="../../css/nucleus.css" rel="stylesheet">
+  <link href="../../css/fontawesome-all.min.css" rel="stylesheet">
+  <link href="../../css/hybrid.css" rel="stylesheet">
+  <link href="../../css/featherlight.min.css" rel="stylesheet">
+  <link href="../../css/perfect-scrollbar.min.css" rel="stylesheet">
+  <link href="../../css/auto-complete.css" rel="stylesheet">
+  <link href="../../css/atom-one-dark-reasonable.css" rel="stylesheet">
+  <link href="../../css/theme.css" rel="stylesheet">
+  <link href="../../css/hugo-theme.css" rel="stylesheet">
+  
+  <link href="../../css/theme-aws.css" rel="stylesheet">
+  
+
+  <script src="../../js/jquery-3.3.1.min.js"></script>
+
+  <style>
+    :root #header + #content > #left > #rlblock_left{
+        display:none !important;
+    }
+    
+      :not(pre) > code + span.copy-to-clipboard {
+          display: none;
+      }
+    
+  </style>
+  
+</head>
+
+<body class="" data-url="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html">
+  <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <div>
+    <a href="../../" title="Go home">
+        <img style="vertical-align:middle" src="../../images/logo.png" height="70px" />
+    </a>
+</div>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js"></script>
+<script type="text/javascript" src="../../js/auto-complete.js"></script>
+<script type="text/javascript">
+    
+        var baseurl = "\/en";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/en/10-intro.html" title="What and Why" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../en/10-intro.html">
+          Before You Begin
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/05-target-audience.html" title="Who this Workshop is For" class="dd-item ">
+        <a href="../../en/10-intro/05-target-audience.html">
+        Who this Workshop is For
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/10-overview.html" title="What&#39;s Inside" class="dd-item ">
+        <a href="../../en/10-intro/10-overview.html">
+        What&#39;s Inside
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/20-prerequisites.html" title="Prerequisites" class="dd-item ">
+        <a href="../../en/10-intro/20-prerequisites.html">
+        Prerequisites
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/30-dotnet-secrets.html" title=".NET Core Secret Manager" class="dd-item ">
+        <a href="../../en/10-intro/30-dotnet-secrets.html">
+        .NET Core Secret Manager Note
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/en/20-cdk.html" title="AWS .NET CDK Lab" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="../../en/20-cdk.html">
+          AWS .NET CDK CI/CD Infra as Code
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/10-overview.html" title="CDK Module Overview" class="dd-item ">
+        <a href="../../en/20-cdk/10-overview.html">
+        CDK Module Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/20-setting-up.html" title="Setting Up Dev Environment" class="dd-item ">
+        <a href="../../en/20-cdk/20-setting-up.html">
+        <b>1. </b>Setting Up Dev Environment
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/30-running-app-locally.html" title="Running App Locally" class="dd-item ">
+        <a href="../../en/20-cdk/30-running-app-locally.html">
+        <b>2. </b>Running Unicorn Store App Locally
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline" class="dd-item ">
+        <a href="../../en/20-cdk/40-creating-ci-cd-pipeline.html">
+        <b>3. </b>Creating Cloud CI/CD Pipeline
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/50-project-structure.html" title="Project Structure" class="dd-item ">
+        <a href="../../en/20-cdk/50-project-structure.html">
+        <b>4. </b>Project Structure
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" class="dd-item ">
+        <a href="../../en/20-cdk/60-starting-cicd-build.html">
+        <b>5. </b>Starting Pipeline Build
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/63-verify-ci-cd-completion.html" title="Verify Pipeline Run Completion" class="dd-item ">
+        <a href="../../en/20-cdk/63-verify-ci-cd-completion.html">
+        <b>6. </b>Verify Pipeline Run Completion
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/65-adding-mysql-support.html" title="MySQL Support" class="dd-item ">
+        <a href="../../en/20-cdk/65-adding-mysql-support.html">
+        <b>7. </b>Adding MySQL Database Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/67-app-nuget-and-appsettings.html" title="App: NuGet and AppSettings" class="dd-item ">
+        <a href="../../en/20-cdk/67-app-nuget-and-appsettings.html">
+        <b>7.1 </b>App: NuGet and AppSettings
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/69-updating-build-config.html" title="Updating Build Config" class="dd-item ">
+        <a href="../../en/20-cdk/69-updating-build-config.html">
+        <b>7.2 </b>Updating Build Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/71-modifying-startup-cs.html" title="Modifying Startup.cs" class="dd-item ">
+        <a href="../../en/20-cdk/71-modifying-startup-cs.html">
+        <b>7.3 </b>Modifying Startup.cs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" title="MySQL Options Configurator" class="dd-item active">
+        <a href="../../en/20-cdk/73-mysqldbcontextoptionsconfigurator.html">
+        <b>7.4 </b>MySQL Options Configurator
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/75-verifying-mysql-support-locally.html" title="Verifying MySQL Support" class="dd-item ">
+        <a href="../../en/20-cdk/75-verifying-mysql-support-locally.html">
+        <b>7.5 </b>Verifying MySQL Support Locally
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/77-mysql-hosting-env-stack.html" title="Adding MySQL Support to the Hosting Env CDK Project" class="dd-item ">
+        <a href="../../en/20-cdk/77-mysql-hosting-env-stack.html">
+        <b>7.6 </b>MySQL in Hosting Env CDK Proj
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/79-mysql-ci-cd-stack.html" title="MySQL in CI/CD CDK Project" class="dd-item ">
+        <a href="../../en/20-cdk/79-mysql-ci-cd-stack.html">
+        <b>7.7 </b>MySQL in CI/CD CDK Project
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
+        <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
+        <b>7.9 </b>Explore CDK Stack Source Code
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/95-thank-you.html" title="Thank You!" class="dd-item ">
+        <a href="../../en/20-cdk/95-thank-you.html">
+        <b>8. </b>Thank You!
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/99-cleanup.html" title="Cleanup" class="dd-item ">
+        <a href="../../en/20-cdk/99-cleanup.html">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" selected>English</option>
+                    
+                  
+              
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+
+    <h5 class="copyright">&copy; 2019 Amazon Web Services, Inc. or its Affiliates. All rights reserved.<h5>
+
+</left>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+  <section id="body">
+    <div id="overlay"></div>
+    <div class="padding highlightable">
+      
+      <div>
+        <div id="top-bar">
+          
+          
+          
+          
+          <div id="top-github-link">
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/73-MySqlDbContextOptionsConfigurator.en.md"
+              target="blank">
+              <i class="fas fa-code-branch"></i>
+              <span id="top-github-link-text">Edit this page</span>
+            </a>
+          </div>
+          
+          
+          
+          <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                <i class="fa fa-bars"></i>
+              </a>
+            </span>
+            
+            <span id="toc-menu"><i class="fa fa-list-alt"></i></span>
+            
+            <span class="links">
+              
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK Lab</a> > MySQL Options Configurator
+          
+          
+          
+          
+          
+          
+            </span>
+          </div>
+          
+          <div class="progress">
+    <div class="wrapper">
+
+    </div>
+</div>
+
+          
+        </div>
+      </div>
+      
+
+      
+        <div id="body-inner">
+          <h1>MySQL Options Configurator</h1>
+          
+          
+
+
+<p>Each database engine supported by the Unicorn Store application needs a <code>DbContextOptionsConfigurator</code> subclass. &ldquo;DbContextOptionsConfigurator&rdquo; facilitates deferred and dynamic updating of stored database connection settings in case when connection string information stored in the &ldquo;appsettings.json&rdquo; file changes while the application is running.</p>
+
+<blockquote>
+<p>&ldquo;DbContextOptionsConfigurator&rdquo; rectifies common anti-pattern that is unfortunately used in many ASP.NET Core sample apps, which load and cache database connection string settings only once per app lifetime during the <code>Configure()</code> method execution, going against the design goals of the <code>IConfiguration</code>-based settings handling that enable dynamic app settings reloading without requiring restarting of the app.</p>
+
+<p>To work-around this somewhat deeply ingrained anti-pattern, a small set of classes was created for this workshop, &ldquo;DbContextOptionsConfigurator&rdquo; being the main class.</p>
+</blockquote>
+
+<ol>
+<li>In the IDE, please expand the &ldquo;UnicornStore&rdquo; project tree, right-click the <code>Configuration</code> folder, and select &ldquo;Add | Class&rdquo; from the context menu.</li>
+<li>For class name, enter <code>MySqlDbContextOptionsConfigurator.cs</code> and hit Enter.</li>
+
+<li><p>Replace generated stock content of the file with</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> Microsoft.EntityFrameworkCore;
+<span style="color:#66d9ef">using</span> Microsoft.Extensions.Logging;
+<span style="color:#66d9ef">using</span> System.Data.Common;
+
+<span style="color:#66d9ef">namespace</span> UnicornStore.Configuration
+{
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MySqlDbContextOptionsConfigurator</span> : DbContextOptionsConfigurator
+{
+    <span style="color:#66d9ef">public</span> MySqlDbContextOptionsConfigurator(
+        DbConnectionStringBuilder dbConnectionStringBuilder,
+        ILogger&lt;MySqlDbContextOptionsConfigurator&gt; logger
+        ) : <span style="color:#66d9ef">base</span>(dbConnectionStringBuilder, logger)
+    {
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">string</span> DbEngine =&gt; <span style="color:#e6db74">&#34;MySQL&#34;</span>;
+
+    <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> Configure(DbContextOptionsBuilder optionsBuilder)
+    {
+        <span style="color:#66d9ef">base</span>.Configure(optionsBuilder);
+
+        optionsBuilder.UseMySql(<span style="color:#66d9ef">this</span>.dbConnectionStringBuilder.ConnectionString);
+    }
+}
+}
+</code></pre></div></li>
+</ol>
+
+<p>As you have probably noticed, the only consequential line of code in the snippet above is</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">optionsBuilder.UseMySql(<span style="color:#66d9ef">this</span>.dbConnectionStringBuilder.ConnectionString);
+</code></pre></div>
+<p>This line is the one usually called from the &ldquo;Startup.cs&rdquo;. Here the only thing we do differently is we defer calling <code>UseMySql()</code> to after &ldquo;IConfiguration&rdquo; become injectable, like you do it when you need &ldquo;IConfiguration&rdquo; in your MVC controller.</p>
+
+<blockquote>
+<p>Injecting &ldquo;IConfiguration&rdquo;, as it&rsquo;s done in a typical MVC controller example, is the right way to use configuration settings. Manually loading connection string data, as often done in &ldquo;Startup.cs&rdquo;, <em>breaks dynamic settings reload support</em>. Mixing two mutually-exclusive approaches makes no practical sense, so we took this opportunity to make configuration settings data usage consistent across the entire ASP.NET application. Feel free to improve this logic and create a PR.</p>
+</blockquote>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../en/20-cdk/71-modifying-startup-cs.html" title="Modifying Startup.cs"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../en/20-cdk/75-verifying-mysql-support-locally.html" title="Verifying MySQL Support" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js"></script>
+    <script src="../../js/perfect-scrollbar.min.js"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../../js/jquery.sticky.js"></script>
+    <script src="../../js/featherlight.min.js"></script>
+    <script src="../../js/html5shiv-printshiv.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js"></script>
+    <script src="../../js/learn.js"></script>
+    <script src="../../js/hugo-learn.js"></script>
+
+    <link href="../../mermaid/mermaid.css" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>
+

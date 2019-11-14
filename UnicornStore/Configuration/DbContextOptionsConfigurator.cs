@@ -65,5 +65,7 @@ namespace UnicornStore.Configuration
             $"{this.dbConnectionStringBuilder["Server"]}:{this.dbConnectionStringBuilder["Port"]}";
 
         public abstract string DbEngine { get; }
+
+        public string ConnectionString => this.dbConnectionStringBuilder.ConnectionString;
     }
 }
