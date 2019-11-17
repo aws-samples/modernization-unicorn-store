@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,9 @@ namespace UnicornStore.Models
         }
     }
 
-    public class UnicornStoreContext : IdentityDbContext<ApplicationUser>
+    public class UnicornStoreContext : 
+        IdentityDbContext<ApplicationUser>,
+        IDataProtectionKeyContext
     {
         private readonly DbContextOptionsConfigurator dbContextOptionsConfigurator;
 
@@ -33,6 +36,8 @@ namespace UnicornStore.Models
 
             base.OnConfiguring(optionsBuilder);
         }
+
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
 
         public DbSet<Blessing> Blessings { get; set; }
         public DbSet<Unicorn> Unicorns { get; set; }

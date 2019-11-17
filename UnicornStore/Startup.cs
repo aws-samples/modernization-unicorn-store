@@ -18,6 +18,8 @@ using System.Data.SqlClient;
 using UnicornStore.Configuration;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using MySql.Data.MySqlClient;
 
 namespace UnicornStore
@@ -68,7 +70,13 @@ namespace UnicornStore
 			
             services.AddOptions();
 
-            // Add the Healthchecks
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+            // Add the Health checks
             // https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
             // AspNetCore.Diagnostics.HealthChecks isn't maintained or supported by Microsoft.
             healthCheckBuilder
@@ -78,6 +86,9 @@ namespace UnicornStore
             // Add memory cache services
             services.AddMemoryCache();
             services.AddDistributedMemoryCache();
+
+            services.AddDataProtection()
+                .PersistKeysToDbContext<UnicornStoreContext>(); // Not very efficient, consider using Redis for this.
 
             // Add session related services.
             services.AddSession();
@@ -188,6 +199,8 @@ namespace UnicornStore
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders();
+
             // StatusCode pages to gracefully handle status codes 400-599.
             app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
 

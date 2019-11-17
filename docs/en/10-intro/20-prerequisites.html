@@ -742,16 +742,21 @@
 <h3 id="software-required-for-most-modules">Software Required for Most Modules</h3>
 
 <ul>
-<li><a href="https://dotnet.microsoft.com/download" target="_blank">.NET Core Framework 2.2</a>.</li>
+<li><a href="https://dotnet.microsoft.com/download" target="_blank">.NET Core Framework 3.0</a>.</li>
 <li><a href="https://visualstudio.microsoft.com/downloads/" target="_blank">Visual Studio 2019 Community Edition</a> or any other IDE capable of building and running Visual Studio solutions.</li>
 <li>An RDBMS like <a href="https://chocolatey.org/packages/mysql" target="_blank">MySQL</a>, <a href="https://chocolatey.org/packages/postgresql" target="_blank">PostgreSQL</a> or MS <a href="https://chocolatey.org/packages/sqllocaldb" target="_blank">SQL Server LocalDB</a>, along with a corresponding management console, will be required for most modules.</li>
 <li><a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/" target="_blank">AWS account</a> to run the lab in the AWS cloud.</li>
 <li><a href="https://aws.amazon.com/cli/" target="_blank">AWS CLI</a> to interact with AWS services from your system.</li>
-<li><a href="https://nodejs.org/en/download/" target="_blank">Node.js</a> and <a href="https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html" target="_blank">AWS CDK</a> for building infrastructure-as-code projects that are part of the solution.</li>
 <li><a href="https://chocolatey.org/packages/git" target="_blank">Git</a> for pushing lab code to the cloud CI/CD pipeline for deployment.</li>
+<li><a href="https://nodejs.org/en/download/" target="_blank">Node.js</a> and <a href="https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html" target="_blank">AWS CDK</a> for building infrastructure-as-code projects that are part of the solution, as well as for bootstrapping CI/CD pipeline infra into AWS cloud.
+<br /></li>
 </ul>
 
-<p>The list above provides good baseline for required development environment. Some modules, however, will have additional requirements specified in the introduction section of each module.</p>
+<blockquote>
+<p>Please note that AWS SDK release cycle is very short as the team iterates on the service very aggressively, which results in rapid introduction of sometimes breaking changes that may not always follow <a href="https://semver.org/" target="_blank">SemVer</a> guidelines. It&rsquo;s worth treating CDK minor version as major to minimize confusion. To get the <strong>AWS CDK version</strong> to install, check the content of the &ldquo;./infra-as-code/CicdInfraAsCode/src/appsettings.json&rdquo; file, from the Git repo root, and look for the value of the <code>CdkVersion</code> property.</p>
+</blockquote>
+
+<p>The list above provides good <em>baseline</em> for required development environment. Some modules, however, will have additional requirements specified in the introduction section of each module.</p>
 
 
 <footer class=" footline" >

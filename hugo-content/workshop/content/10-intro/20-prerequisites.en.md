@@ -16,12 +16,15 @@ Note to *non-Windows users*: since most modules are based on .NET Core version o
 
 ### Software Required for Most Modules
 
-* [.NET Core Framework 2.2](https://dotnet.microsoft.com/download).
+* [.NET Core Framework 3.0](https://dotnet.microsoft.com/download).
 * [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/downloads/) or any other IDE capable of building and running Visual Studio solutions.
 * An RDBMS like [MySQL](https://chocolatey.org/packages/mysql), [PostgreSQL](https://chocolatey.org/packages/postgresql) or MS [SQL Server LocalDB](https://chocolatey.org/packages/sqllocaldb), along with a corresponding management console, will be required for most modules.
 * [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) to run the lab in the AWS cloud.
 * [AWS CLI](https://aws.amazon.com/cli/) to interact with AWS services from your system.
-* [Node.js](https://nodejs.org/en/download/) and [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) for building infrastructure-as-code projects that are part of the solution.
 * [Git](https://chocolatey.org/packages/git) for pushing lab code to the cloud CI/CD pipeline for deployment.
+* [Node.js](https://nodejs.org/en/download/) and [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) for building infrastructure-as-code projects that are part of the solution, as well as for bootstrapping CI/CD pipeline infra into AWS cloud.
+  
+  > Please note that AWS SDK release cycle is very short as the team iterates on the service very aggressively, which results in rapid introduction of sometimes breaking changes that may not always follow [SemVer](https://semver.org/) guidelines. It's worth treating CDK minor version as major to minimize confusion. To get the **AWS CDK version** to install, check the content of the "./infra-as-code/CicdInfraAsCode/src/appsettings.json" file, from the Git repo root, and look for the value of the `CdkVersion` property.
 
-The list above provides good baseline for required development environment. Some modules, however, will have additional requirements specified in the introduction section of each module.
+
+The list above provides good *baseline* for required development environment. Some modules, however, will have additional requirements specified in the introduction section of each module.

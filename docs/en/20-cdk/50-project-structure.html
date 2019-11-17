@@ -707,7 +707,11 @@
 <ul>
 <li>
 <ul>
-<li><a href="#unicorn-store-asp-net-core-application-overview">Unicorn Store ASP.NET Core Application Overview</a></li>
+<li><a href="#unicorn-store-asp-net-core-application-overview">Unicorn Store ASP.NET Core Application Overview</a>
+<ul>
+<li><a href="#application-project">Application Project</a></li>
+<li><a href="#application-s-dockerfile">Application&rsquo;s Dockerfile</a></li>
+</ul></li>
 <li><a href="#cdk-projects-overview">CDK Projects Overview</a>
 <ul>
 <li><a href="#cdklib">CdkLib</a></li>
@@ -764,11 +768,17 @@
 
 <h3 id="unicorn-store-asp-net-core-application-overview">Unicorn Store ASP.NET Core Application Overview</h3>
 
+<h4 id="application-project">Application Project</h4>
+
 <p>A descendant from a well-known ASP.NET <a href="https://github.com/aspnet/AspNetCore/tree/v2.2.7/src/MusicStore" target="_blank">Music Store sample</a>, Unicorn Store is created to be a fairly typical ASP.NET Core 2.x MVC/Razor &amp; Entity Framework Core application, combining UI, business logic and data access tiers in a single application, which is arguably a very typical design for most ASP.NET applications pre-dating microservices, <a href="https://www.12factor.net/" target="_blank">12-factor</a>/cloud-native applications, and as such, suitable for modernization-focused labs.</p>
 
 <p>Unicorn Store data access tier is designed using <em>code-first</em> style, which uses C# code to define entity relationships and consequently database structure. This approach enables relatively easy swapping of database engines without drastically affecting the codebase. This module starts with the application codebase already retrofitted with pluggable RDBMS architecture and supporting SQL Server and PostgreSQL database engines out of the box.</p>
 
 <p>This lab&rsquo;s focus is on adding support for MySQL database, which is a pretty simple task enabled by most of database engine configuration code abstracted away and already implemented. This relative simplicity will let us focus on the CDK-related tasks in later chapters.</p>
+
+<h4 id="application-s-dockerfile">Application&rsquo;s Dockerfile</h4>
+
+<p>Located in the solution&rsquo;s root folder, and accessible from Visual Studio &ldquo;Solution Items&rdquo; folder, the <em>Dockerfile</em> defines how application is built and prepared for being published as a Docker container image. The Dockerfile is used by the AWS CodeBuild step of the application&rsquo;s CI/CD pipeline defined in the <code>CreateDockerImageBuildAction()</code> method in the CicdInfraAsCode.csproj.</p>
 
 <h3 id="cdk-projects-overview">CDK Projects Overview</h3>
 
@@ -809,7 +819,7 @@
 <p>The size of the Node.js code-base is fairly modest, and the code is split between the &ldquo;cdklib&rdquo; directory, where reusable and potentially boilerplate code is sequestered, and the &ldquo;index.js&rdquo; file, where the man logic of the function is implemented.</p>
 
 <blockquote>
-<p>At this point, please spend 5-10 minutes browsing through the UnicornStore solution and to familiar with where major parts of the codebase located.</p>
+<p>At this point, please spend 5-10 minutes browsing through the UnicornStore solution to get familiar with where major parts of the codebase located.</p>
 </blockquote>
 
 <p>Now that we&rsquo;ve taken the tour of the project, let&rsquo;s move to the next chapter to see whether our CI/CD infrastructure has finished building.</p>

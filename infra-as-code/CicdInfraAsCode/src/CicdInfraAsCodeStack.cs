@@ -142,7 +142,6 @@ namespace CicdInfraAsCode
                         InstallRuntimes = new Dictionary<string, string>()
                         {
                             { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
-                            { "dotnet", "2.2" } // TODO: replace after AWS CodeBuild gets native .NET Core 3.0 build image
                         },
                         PreBuildCommands = new [] 
                         {
@@ -151,12 +150,16 @@ namespace CicdInfraAsCode
                             "cdk --version",
 
                             // Install .NET Core 3 SDK. TODO: remove this section after dotnet 3.0 runtime becomes available on AWS Linux CodeBuild images
-                            "wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb",
+                            "wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb",
                             "dpkg -i packages-microsoft-prod.deb",
+
                             "apt-get update",
                             "apt-get -y install apt-transport-https",
                             "apt-get update",
-                            "apt-get -y install dotnet-sdk-3.0"
+                            "apt-get -y install dotnet-sdk-3.0",
+
+                            "dotnet --info",
+                            "dotnet --version"
                         },
                         BuildCommands = new []
                         {
@@ -244,10 +247,10 @@ namespace CicdInfraAsCode
             return new Function(this, "EcsAppRestartWithNewImage",
                 new FunctionProps
                 {
-                    FunctionName = $"Stop-ECS-Cluster-Tasks-From-CodePipeline",
+                    FunctionName = $"Refresh-ECS-Cluster-From-CodePipeline",
                     Runtime = Runtime.NODEJS_10_X, // Ensure this matches the "runtime" installed as a part of the buildspec (see CreateAppDeploymentEnvironmentBuildAction() method above)
                     Code = Code.FromAsset("assets/lambda/ecs-container-recycle"),
-                    Handler = "index.handler",
+                    Handler = "index.handler", // Points to the NodeJs sub-project's "index.js" file, and the "handler()" function in it: "exports.handler = async (event, context) => {..."
 
                     InitialPolicy = Helpers.FromPolicyProps(
                         new PolicyStatementProps
@@ -257,7 +260,7 @@ namespace CicdInfraAsCode
                         },
                         new PolicyStatementProps
                         {   // Allow stopping ECS Tasks
-                            Actions = new[] { "ecs:ListTasks", "ecs:StopTask", "ecs:DescribeTasks" },
+                            Actions = new[] { "ecs:ListServices", "ecs:UpdateService" },
                             Resources = new[] { "*" }
                         }
                     )

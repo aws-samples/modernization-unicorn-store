@@ -47,5 +47,8 @@ git push aws cdk-module
 1. Wait a few moments, and then go to the AWS [Console CodePipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) page to observe CodePipeline build in-progress :
 ![CodePipeline](./images/pipeline-in-progress.png)
 
-> First run of the pipeline is likely to take approximately `15 minutes`, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in *under one minute* if no changes we introduced into the CDK-based infrastructure code.
+First run of the pipeline is likely to take approximately `15 minutes`, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in *under one minute* if no changes we introduced into the CDK-based infrastructure code.
 
+> Clicking **"Details" links** of each Build stage action, will show the real-time stdout/console output of the application build and hosting infrastructure build, respectively. 
+
+The Details of the Docker image build action output shows how application is being built, and if it fails to build for whatever reason and results in the red action status, the output will provide most definitive information about causes of the issues. The same is true for the hosting/deployment infra Build step action. Even when everything builds fine, _please review the Build step action outputs_ - that will provide a lot of insight of how both how application is build & deployed, and how CI/CD pipeline CDK project's Buildspec definitions translate into actual executable commands. **The usefulness of the lab module may hinge on whether you take time to review Build actions' output** and connect this insight with what you learn from examining CI/CD project code.
