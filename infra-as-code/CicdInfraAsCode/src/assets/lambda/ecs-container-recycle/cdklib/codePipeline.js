@@ -56,11 +56,13 @@ async function codePipelineLambdaCaller(jobId, pipelineStageUserData, invokeId, 
         return successReportResult;
     }
     catch(err) {
-        console.log('Trace: Caught error');
+        var errorJson = JSON.stringify(err);
+        console.log('Trace: Caught error:\n' + errorJson);
+
         var jobFailReportParams = {
             jobId: jobId,
             failureDetails: {
-                message: JSON.stringify(err),
+                message: errorJson,
                 type: 'JobFailed',
                 externalExecutionId: invokeId
             }
@@ -71,7 +73,6 @@ async function codePipelineLambdaCaller(jobId, pipelineStageUserData, invokeId, 
     }
 }
 
-module.exports =
-    {
-        lambdaWrapper
-    }
+module.exports = {
+    lambdaWrapper
+}
