@@ -142,7 +142,6 @@ namespace CicdInfraAsCode
                         InstallRuntimes = new Dictionary<string, string>()
                         {
                             { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
-                            { "dotnet", "2.2" } // TODO: replace after AWS CodeBuild gets native .NET Core 3.0 build image
                         },
                         PreBuildCommands = new [] 
                         {
@@ -157,10 +156,7 @@ namespace CicdInfraAsCode
                             "apt-get update",
                             "apt-get -y install apt-transport-https",
                             "apt-get update",
-                            "apt-get -y install dotnet-sdk-2.2",
-                            "apt-get update",
                             "apt-get -y install dotnet-sdk-3.0",
-                            "dotnet new globaljson --sdk-version 3.0.100",
 
                             "dotnet --info",
                             "dotnet --version"
