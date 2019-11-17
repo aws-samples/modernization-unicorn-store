@@ -19,6 +19,7 @@ using UnicornStore.Configuration;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace UnicornStore
 {
@@ -68,7 +69,13 @@ namespace UnicornStore
 			
             services.AddOptions();
 
-            // Add the Healthchecks
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+            // Add the Health checks
             // https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
             // AspNetCore.Diagnostics.HealthChecks isn't maintained or supported by Microsoft.
             healthCheckBuilder
@@ -178,6 +185,8 @@ namespace UnicornStore
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders();
+
             // StatusCode pages to gracefully handle status codes 400-599.
             app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
 
