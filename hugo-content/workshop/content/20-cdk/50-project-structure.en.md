@@ -20,11 +20,17 @@ Second executable CDK project is `ProdEnvInfraAsCode` - an C# Console project, g
 
 ### Unicorn Store ASP.NET Core Application Overview
 
+#### Application Project
+
 A descendant from a well-known ASP.NET [Music Store sample](https://github.com/aspnet/AspNetCore/tree/v2.2.7/src/MusicStore), Unicorn Store is created to be a fairly typical ASP.NET Core 2.x MVC/Razor & Entity Framework Core application, combining UI, business logic and data access tiers in a single application, which is arguably a very typical design for most ASP.NET applications pre-dating microservices, [12-factor](https://www.12factor.net/)/cloud-native applications, and as such, suitable for modernization-focused labs.
 
 Unicorn Store data access tier is designed using *code-first* style, which uses C# code to define entity relationships and consequently database structure. This approach enables relatively easy swapping of database engines without drastically affecting the codebase. This module starts with the application codebase already retrofitted with pluggable RDBMS architecture and supporting SQL Server and PostgreSQL database engines out of the box.
 
 This lab's focus is on adding support for MySQL database, which is a pretty simple task enabled by most of database engine configuration code abstracted away and already implemented. This relative simplicity will let us focus on the CDK-related tasks in later chapters.
+
+#### Application's Dockerfile
+
+Located in the solution's root folder, and accessible from Visual Studio "Solution Items" folder, the *Dockerfile* defines how application is built and prepared for being published as a Docker container image. The Dockerfile is used by the AWS CodeBuild step of the application's CI/CD pipeline defined in the `CreateDockerImageBuildAction()` method in the CicdInfraAsCode.csproj.
 
 ### CDK Projects Overview
 
@@ -62,6 +68,6 @@ The project contains a `Node.js sub-project` in the "/src/assets/lambda/ecs-cont
 
 The size of the Node.js code-base is fairly modest, and the code is split between the "cdklib" directory, where reusable and potentially boilerplate code is sequestered, and the "index.js" file, where the man logic of the function is implemented.
 
-> At this point, please spend 5-10 minutes browsing through the UnicornStore solution and to familiar with where major parts of the codebase located.
+> At this point, please spend 5-10 minutes browsing through the UnicornStore solution to get familiar with where major parts of the codebase located.
 
 Now that we've taken the tour of the project, let's move to the next chapter to see whether our CI/CD infrastructure has finished building.
