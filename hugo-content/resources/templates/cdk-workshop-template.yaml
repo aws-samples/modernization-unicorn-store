@@ -102,22 +102,32 @@ Parameters:
 
 Mappings:
   RegionMap:
-    us-east-1:
-      AmiId: ami-071da0da3b3d18189
+    ca-central-1: # Canada
+      AmiId: ami-06f31906bc9f427c9
+      AZ1: ca-central-1a
+      AZ2: ca-central-1b
+      AZ3: ca-central-1a
+    us-east-1: # US Virginia
+      AmiId: ami-0fa9f6315b4db6981
       AZ1: us-east-1a
       AZ2: us-east-1b
       AZ3: us-east-1c
-    us-west-2:
+    eu-west-2: # London
+      AmiId: ami-077fbf59cc8feb499
+      AZ1: eu-west-2a
+      AZ2: eu-west-2b
+      AZ3: eu-west-2c
+    us-west-2: # US Oregon
       AmiId: ami-097d76842c2058896
       AZ1: us-west-2a
       AZ2: us-west-2b
       AZ3: us-west-2c
-    eu-west-1:
-      AmiId: ami-02a5eda3489607229
+    eu-west-1: # Ireland
+      AmiId: ami-0e562729afd816fd3 
       AZ1: eu-west-1a
       AZ2: eu-west-1b
       AZ3: eu-west-1c
-    eu-west-3:
+    eu-west-3: # Paris
       AmiId: ami-0253dd3fe19189889
       AZ1: eu-west-3a
       AZ2: eu-west-3b
