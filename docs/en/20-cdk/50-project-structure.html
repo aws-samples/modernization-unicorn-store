@@ -808,7 +808,8 @@
 
 <p>At high level, the CI/CD pipeline infrastructure includes Amazon <a href="https://aws.amazon.com/codepipeline/" target="_blank">CodePipeline</a>, <a href="https://aws.amazon.com/codecommit/" target="_blank">CodeCommit</a> - a Git repository service, <a href="https://aws.amazon.com/codebuild/" target="_blank">CodeBuild</a>, <a href="https://aws.amazon.com/ecr/" target="_blank">Elastic Container Registry (ECR)</a>, and <a href="https://aws.amazon.com/lambda/" target="_blank">Lambda</a> services.</p>
 
-<p><img src="./images/CodePipeline-in-AWS-console.png" alt="Unicorn Store CI/CD Pipeline in AWS CodePipeline Console" /></p>
+<p>Here&rsquo;s the example of how CI/CD pipeline will look like at the end of the workshop:
+<img src="./images/CodePipeline-in-AWS-console.png" alt="Unicorn Store CI/CD Pipeline in AWS CodePipeline Console" /></p>
 
 <p>The Build stage of the pipeline contains two <em>parallel</em> sub-stages: a) building application and packaging its artifacts as a <a href="https://www.docker.com/resources/what-container" target="_blank">Docker</a> container image, and b) compiling and running second CDK project, the &ldquo;ProdEnvInfraAsCode&rdquo;, which builds out deployment infrastructure for hosting Unicorn Store app. Having hosting infrastructure built as part of app&rsquo;s CI/CD pipeline may not be suitable for putting an application in production, but it could be quite useful for deploying application to a test environment. One can easily imagine a pipeline where the test environment containing large, pricey components is short-lived: provisioned, used only for the duration of an integration suite run, and then torn down to avoid an unnecessary spend.</p>
 

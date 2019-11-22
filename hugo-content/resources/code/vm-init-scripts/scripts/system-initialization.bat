@@ -8,8 +8,11 @@ cd C:\Projects
 git clone https://github.com/vgribok/modernization-unicorn-store.git
 cd modernization-unicorn-store
 git checkout cdk-module
-dotnet build UnicornStore.sln -c DebugSqlServer
+dotnet build UnicornStore.sln -c DebugPostgres
 echo checked out latest project
+
+cd C:\Users\Administrator\InitScripts\VSCELicense
+powershell -File Execute-On-Start.ps1
 
 cd C:\Users\Administrator\
 if not exist StartupArea (
