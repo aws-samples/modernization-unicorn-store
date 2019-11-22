@@ -6,6 +6,12 @@ weight = 999
 +++
 -->
 
+## Cleaning Up At an AWS Event
+
+If you are taking the workshop as part of an AWS event and ran it on the AWS Windows VM, please run "`c:\finish-lab`" shortcut, and after it completes, shut down the VM. Feel free to ignore the rest of the page.
+
+## Cleaning Up After Running The Workshop On Your System
+
 Some manual clean up steps are required to delete resources created in the course of this module. You may need to follow these steps if you *used your personal or corporate AWS Account*. 
 
 You will also need to use these steps if you are taking this lab at an AWS event and you simply want to reset your cloud resources and *restart the module from the [beginning](./10-overview.html)*.
