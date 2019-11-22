@@ -13,6 +13,7 @@ You may *skip this page* and move on to the next step if you are *using Amazon-s
 
 * Either MS SQL Server ([LocalDB](https://chocolatey.org/packages/sqllocaldb) version is perfectly suitable), or PostgreSQL, per [Common Prerequisites](../10-intro/20-prerequisites.html).
 * [MySQL](https://chocolatey.org/packages/mysql) is required, as the goal of the module is to add MySQL support to the app. [MySQL Workbench](https://chocolatey.org/packages/mysql.workbench), a MySQL management UI console, is recommended.
+* AWS CLI needs to be [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) to point to the desired AWS Region.
 
 > For Windows Users Only:
 

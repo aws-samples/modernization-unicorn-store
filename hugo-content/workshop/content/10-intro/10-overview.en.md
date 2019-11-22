@@ -10,7 +10,7 @@ weight = 10
 
 The foundation of every module here is an ASP.NET *Core* Unicorn Store web application. It is based on a well-worn [ASP.NET Music Store sample app](https://docs.microsoft.com/en-us/aspnet/mvc/overview/older-versions/mvc-music-store/mvc-music-store-part-1) and thus should be fairly familiar to many participants.
 
-Unicorn Store is has design that should make most .NET developers very comfortable. It has MVC/Razor UI and MVC Controllers implementing business logic. Data Access components of the application employ Entity Framework Core and are written using *code-first* style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.
+Unicorn Store has design that should make most .NET developers very comfortable. It has MVC/Razor UI and MVC Controllers implementing business logic. Data Access components of the application employ Entity Framework Core and are written using *code-first* style, enabling easy switching of the DAL from using SQL Server to other RDBMS, including open-source databases like MySQL and PostgreSQL.
 
 #### CI/CD Pipeline and Deployment Environment Infra As Code
 
