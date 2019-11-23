@@ -103,42 +103,37 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1: # US Virginia
-      AmiId: ami-0d637f72c6fb7d30e
+      AmiId: ami-01b19c7b3797ae493
       AZ1: us-east-1a
       AZ2: us-east-1b
       AZ3: us-east-1c
     us-west-2: # US Oregon
-      AmiId: ami-0bea2a7a940c817de
+      AmiId: ami-045a01d687b82e08f
       AZ1: us-west-2a
       AZ2: us-west-2b
       AZ3: us-west-2c
     ca-central-1: # Canada
-      AmiId: ami-01d83296e3e0181cb
+      AmiId: ami-01fb578082b54e27b
       AZ1: ca-central-1a
       AZ2: ca-central-1b
       AZ3: ca-central-1a
     eu-west-1: # Ireland
-      AmiId: ami-0c7395ba13cbac6b8 
+      AmiId: ami-0bb030eacf2338369 
       AZ1: eu-west-1a
       AZ2: eu-west-1b
       AZ3: eu-west-1c
     eu-west-2: # London
-      AmiId: ami-0fb5e89fce29e5b78
+      AmiId: ami-0d7d2252e4efe2cd6
       AZ1: eu-west-2a
       AZ2: eu-west-2b
       AZ3: eu-west-2c
     eu-west-3: # Paris
-      AmiId: ami-0fb2ebc17a303e631
+      AmiId: ami-0a38080d7ac804c48
       AZ1: eu-west-3a
       AZ2: eu-west-3b
       AZ3: eu-west-3c
-    eu-north-1: # Stockholm
-      AmiId: ami-097c34f73c80c2679
-      AZ1: eu-north-1a
-      AZ2: eu-north-1b
-      AZ3: eu-north-1c
     eu-central-1: # Frankfurt
-      AmiId: ami-0a9cdb28420fd2e85
+      AmiId: ami-0bd3c38a70012e0eb
       AZ1: eu-central-1a
       AZ2: eu-central-1b
       AZ3: eu-central-1c

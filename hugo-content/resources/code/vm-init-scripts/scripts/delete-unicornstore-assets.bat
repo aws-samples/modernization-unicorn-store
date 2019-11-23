@@ -1,11 +1,16 @@
 @echo off
 echo starting script
 
-aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack
+cd C:\Users\Administrator\StartupArea\WorkingArea
+powershell -Command "aws configure set default.region (gc region.txt)"
+echo aws region set
+
+cd C:\Users\Administrator\InitScripts
+powershell -Command "aws cloudformation delete-stack --stack-name Unicorn-Store-CI-CD-PipelineStack"
 echo store pipeline stack deleted 
 
-aws cloudformation delete-stack --stack-name UnicornSuperstoreStack
+powershell -Command "aws cloudformation delete-stack --stack-name UnicornSuperstoreStack"
 echo store stack deleted
 
-aws ecr delete-repository --repository-name unicorn-store-app --force
+powershell -Command "aws ecr delete-repository --repository-name unicorn-store-app --force"
 echo ecr repo deleted
