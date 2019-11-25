@@ -37,6 +37,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="cdk.out\**" />
+    <EmbeddedResource Remove="cdk.out\**" />
+    <None Remove="cdk.out\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
     <None Remove="assets\lambda\ecs-container-recycle\index.js" />
