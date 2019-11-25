@@ -141,7 +141,7 @@ This set of steps builds on the existing, multi-database-friendly architecture o
       <guid>/en/20-cdk/67-app-nuget-and-appsettings.html</guid>
       <description>This chapter assumes that MySQL is installed locally.
  Adding MySQL Library to the Application via NuGet  Please start with marking &amp;ldquo;UnicornStore&amp;rdquo; project as a Startup Project in Visual Studio. Open &amp;ldquo;Package Manager Console&amp;rdquo; by selecting it from the &amp;ldquo;View | Other Windows&amp;rdquo; menu. Install Pomelo.EntityFrameworkCore.MySql version 2.2 package by running following command in Visual Studio &amp;ldquo;Package Manager Console&amp;rdquo;:
-Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0  Adding Default Connection String to &amp;ldquo;appSettings.</description>
+Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.0.0  Adding Default Connection String to &amp;ldquo;appSettings.</description>
     </item>
     
     <item>
@@ -183,7 +183,7 @@ using MySql.Data.MySqlClient;  Find ConfigureDatabaseEngine() method and replace
       <pubDate>Tue, 15 Oct 2019 23:47:33 -0400</pubDate>
       
       <guid>/en/20-cdk/75-verifying-mysql-support-locally.html</guid>
-      <description>Please be sure that &amp;ldquo;DebugMySQL&amp;rdquo; solution configuration is active. Build &amp;ldquo;UnicornStore&amp;rdquo; project - it should build without errors. Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &amp;ldquo;appSettings.json&amp;rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. To do this, we&amp;rsquo;ll use .NET Secret Manager.</description>
+      <description>Please be sure that &amp;ldquo;DebugMySQL&amp;rdquo; solution configuration is active. Build &amp;ldquo;UnicornStore&amp;rdquo; project - it should build without errors. Now your local MySQL connection information may need to be added to the application settings in a non-destructive way, meaning without modifying &amp;ldquo;appSettings.json&amp;rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. If you are taking this lab at an AWS event using AWS-supplied VM, you will not need to make any changes.</description>
     </item>
     
     <item>
