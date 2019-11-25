@@ -720,25 +720,25 @@
 <ol>
 <li>Please be sure that &ldquo;DebugMySQL&rdquo; solution configuration is active.</li>
 <li>Build &ldquo;UnicornStore&rdquo; project - it should build without errors.</li>
-<li>Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &ldquo;appSettings.json&rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. To do this, we&rsquo;ll use .NET Secret Manager. Please right-click &ldquo;UnicornStore&rdquo; project and select <code>Manage User Secrets</code> from the context menu. That will open &ldquo;secrets.json&rdquo; file in the IDE editor.</li>
 
-<li><p>Create or update <code>UnicornDbConnectionStringBuilder</code> entry in the &ldquo;secrets.json&rdquo; as follows</p>
+<li><p>Now your local MySQL connection information may need to be added to the application settings in a non-destructive way, meaning without modifying &ldquo;appSettings.json&rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system.<br/><br/>
+<em>If you are taking this lab at an AWS event using AWS-supplied VM, you will not need to make any changes.</em> Please read through this paragraph  to understand what is accomplished here but make no changed, and move on the next bullet #5 below.<br/><br/>
+To supply your local MySQL connection settings, we&rsquo;ll use .NET Secret Manager. Please right-click &ldquo;UnicornStore&rdquo; project and select <code>Manage User Secrets</code> from the context menu. That will open &ldquo;secrets.json&rdquo; file in the IDE editor.
+Create or update <code>UnicornDbConnectionStringBuilder</code> entry in the &ldquo;secrets.json&rdquo; as follows</p>
 
-<pre><code>{
+<pre><code>  {
     &quot;UnicornDbConnectionStringBuilder&quot;: {
-        &quot;UserID&quot;: &quot;root&quot;,
-        &quot;Password&quot;: &quot;&lt;PASTE YOUR LOCAL MYSQL PASSWORD HERE&gt;&quot;,
-        &quot;ApplicationName&quot;: &quot;Unicorn Store AWS&quot;
+      &quot;UserID&quot;: &quot;root&quot;,
+      &quot;Password&quot;: &quot;&lt;PASTE YOUR LOCAL MYSQL PASSWORD HERE&gt;&quot;,
+      &quot;ApplicationName&quot;: &quot;Unicorn Store AWS&quot;
     }
     ...
-}
-</code></pre>
+  }
+</code></pre></li>
 
-<ol>
-<li>Please be sure to replace the value of the <code>Password</code> field with your local MySQL password and save the file.</li>
-<li>Run the &ldquo;UnicornStore&rdquo; project. If everything went well, you should see now-familiar Unicorn Store home page in the browser.
-<br /></li>
-</ol></li>
+<li><p>Please be sure to replace the value of the <code>Password</code> field with your local MySQL password and save the file.</p></li>
+
+<li><p>Run the &ldquo;UnicornStore&rdquo; project. If everything went well, you should see now-familiar Unicorn Store home page in the browser.</p></li>
 </ol>
 
 <blockquote>
