@@ -15,7 +15,7 @@ pre = "<b>7.1 </b>"
 1. Open "Package Manager Console" by selecting it from the "View | Other Windows" menu.
 1. Install [Pomelo.EntityFrameworkCore.MySql **version 2.2**](https://www.nuget.org/packages/Pomelo.EntityFrameworkCore.MySql/2.2.0) package by running following command in Visual Studio "Package Manager Console":
 ```bash
-Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0
+Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.0.0
 ```
 
 #### Adding Default Connection String to "appSettings.json"
