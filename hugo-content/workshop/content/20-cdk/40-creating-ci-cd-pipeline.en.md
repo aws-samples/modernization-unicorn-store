@@ -18,7 +18,7 @@ Before we dive into the code base of the Unicorn Store solution and start hackin
   "GitBranchToBuild": "cdk-module"
 }
 ```
-... and save the file.
+... and save the file. If you have checked out some other branch, like `cdk-module-completed`, then please change the property value above to the name of checked out branch. "`GitBranchToBuild`" property defines which git branch will be checked out from the CodeCommit when CodePipeline builds the app image and hosting infrastructure.
 
 Please `build & run` the project. If all went well you should see a console window with output starting with something like *Synthesized to "C:\Users\username\AppData\Local\Temp\cdk.outjLaGkJ".* That path is the location of generated CloudFormation templates. If you are familiar with CloudFormation, please feel free to explore the output of this step.
 
