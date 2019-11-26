@@ -17,7 +17,7 @@ Then paste the URL into a new browser tab, hit Enter and observe Unicorn Applica
 
 #### Verifying the Unicorn Store App Running on AWS
 
-To verify that nothing is broken, please add a few unicorns to the basket, and click the "Checkout >>" button at the top of the shopping cart page. You will be prompted to *log in*. Although site administrator username has not changed and remains "Administrator@test.com", the password was not specified explicitly in the hosting environment infrastructure project configuration settings, or anywhere else for that matter. Instead, site admin password was auto-generated during the hosting infrastructure build-out and stored using Amazon [Secrets Manager](https://aws.amazon.com/secrets-manager/) service. 
+To verify that nothing is broken, please add a few unicorns to the basket, and click the "Checkout >>" button at the top of the shopping cart page. You will be prompted to *log in*. Although site administrator username has not changed and remains "`admin@acme.com`", the password was not specified explicitly in the hosting environment infrastructure project configuration settings, or anywhere else for that matter. Instead, site admin password was auto-generated during the hosting infrastructure build-out and stored using Amazon [Secrets Manager](https://aws.amazon.com/secrets-manager/) service. 
 
 To retrieve site admin password from AWS Secrets Manager, please run this command:
 

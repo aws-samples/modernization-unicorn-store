@@ -735,7 +735,9 @@
 
 
 
-<p>You may <em>skip this page</em> and move on to the next step if you are <em>using Amazon-supplied VM image</em> (AMI) at an Amazon event, with all tools installed and pre-configured.</p>
+<blockquote>
+<p>If you are <em>using Amazon-supplied VM image</em> (AMI) at an Amazon event, with all tools installed and pre-configured for you, we recommend reading through this chapter without making any changes mentioned on this page.</p>
+</blockquote>
 
 <h4 id="pre-requisites">Pre-Requisites</h4>
 
@@ -759,6 +761,8 @@
 <p>In a directory of your choice, please run</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/vgribok/modernization-unicorn-store.git
 git checkout cdk-module</code></pre></div>
+<p>The &ldquo;<code>cdk-module</code>&rdquo; git branch is where the sample app codebase lives.</p>
+
 <h4 id="building-and-running-unicorn-store-application-locally">Building and Running Unicorn Store Application Locally</h4>
 
 <ul>
@@ -811,14 +815,18 @@ UnicornStore.sln</code></pre></div></li>
 
 <p>Application setting named <code>UnicornDbConnectionStringBuilder</code> represents properties from RDBMS-specific subclasses of the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.data.common.dbconnectionstringbuilder?view=netcore-2.2" target="_blank">DbConnectionStringBuilder</a>. Since the plan here is to use PostgreSQL, properties of the &ldquo;UnicornDbConnectionStringBuilder&rdquo; section will represent properties of the <a href="https://www.npgsql.org/doc/api/Npgsql.NpgsqlConnectionStringBuilder.html#properties" target="_blank">NpgsqlConnectionStringBuilder</a> class.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;DefaultAdminUsername&#34;</span>: <span style="color:#e6db74">&#34;Administrator@test.com&#34;</span>,
-  <span style="color:#f92672">&#34;DefaultAdminPassword&#34;</span>: <span style="color:#e6db74">&#34;Secret1*&#34;</span>,
+  <span style="color:#f92672">&#34;DefaultAdminUsername&#34;</span>: <span style="color:#e6db74">&#34;admin@acme.com&#34;</span>,
+  <span style="color:#f92672">&#34;DefaultAdminPassword&#34;</span>: <span style="color:#e6db74">&#34;Passw0rd!&#34;</span>,
 
    <span style="color:#f92672">&#34;UnicornDbConnectionStringBuilder&#34;</span>: {
     <span style="color:#f92672">&#34;Password&#34;</span>: <span style="color:#e6db74">&#34;&lt;YOUR POSTGRES PASSWORD&gt;&#34;</span>,
   }
 }</code></pre></div>
 <p>Please replace the content of the &ldquo;secrets.js&rdquo; file open in the Visual Studio, with the code snippet above, and replace the value of the <code>Password</code> property with your local Postgres password. Don&rsquo;t forget to save the file before moving on to the next section of the lab.</p>
+
+<blockquote>
+<p>The values of &ldquo;<code>DefaultAdminUsername</code>&rdquo; and &ldquo;<code>DefaultAdminPassword</code>&rdquo; properties are used to login to the web application - that&rsquo;s root administrator credentials. Feel free to put any username/password you find easy to remember when you will be running the application later in the course of this workshop.</p>
+</blockquote>
 
 
 <footer class=" footline" >

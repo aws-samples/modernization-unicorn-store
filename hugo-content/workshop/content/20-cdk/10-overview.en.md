@@ -7,17 +7,6 @@ weight = 10
 -->
 Welcome to the `.NET AWS CDK` module of the workshop!
 
-### How to Run This Site Locally
-
-Please use PowerShell or bash (GitBash) to run commands below. They will open this web site locally on your computer.
-
-```bash
-git clone https://github.com/vgribok/modernization-unicorn-store.git
-cd modernization-unicorn-store
-git checkout cdk-module
-./docs/en/index.html
-```
-
 ### Workshop Goals
 
 The goal of this lab is to guide participants through:
