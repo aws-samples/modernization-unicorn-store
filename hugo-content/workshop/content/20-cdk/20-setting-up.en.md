@@ -52,7 +52,7 @@ If you choose PostgreSQL as application's RDBMS, additional changes in applicati
 
 | Notes | Secret Manger |
 | ----- | ------------- |
-| Please open UnicornStore project [Secret Manager](../10-intro/30-dotnet-secrets.html) by right-clicking on the project and selecting `Manage User Secrets` menu item. It will open `secrets.json` file in Visual Studio, where you can make changes as it was the `appsettings.json` file. <br/><br/> Changes made in "secrets.json" override values stored in the "appsettings.json" files at run time, without making any changes to the "appsettings.json". | ![VS Project Secret Manager Menu](images/open-project-secret-manager.png?width=1100) |
+| Please open UnicornStore project [Secret Manager](../10-intro/30-dotnet-secrets.html) by right-clicking on the project and selecting "`Manage User Secrets`" menu item. It will open `secrets.json` file in Visual Studio, where you can make changes as it was the `appsettings.json` file. <br/><br/> Changes made in "secrets.json" override values stored in the "appsettings.json" files at run time (when application runs locally), without making any changes to the "appsettings.json". | ![VS Project Secret Manager Menu](images/open-project-secret-manager.png?width=1100) |
 
 Application setting named `UnicornDbConnectionStringBuilder` represents properties from RDBMS-specific subclasses of the [DbConnectionStringBuilder](https://docs.microsoft.com/en-us/dotnet/api/system.data.common.dbconnectionstringbuilder?view=netcore-2.2). Since the plan here is to use PostgreSQL, properties of the "UnicornDbConnectionStringBuilder" section will represent properties of the [NpgsqlConnectionStringBuilder](https://www.npgsql.org/doc/api/Npgsql.NpgsqlConnectionStringBuilder.html#properties) class.
 
