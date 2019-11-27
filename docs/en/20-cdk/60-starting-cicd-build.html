@@ -763,11 +763,12 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ps" data-lang="ps"><span style="color:#a6e22e">git</span> <span style="color:#a6e22e">remote</span> <span style="color:#a6e22e">add</span> <span style="color:#a6e22e">aws</span> <span style="color:#e6db74">(aws codecommit get-repository --repository-name Unicorn-Store-Sample-Git-Repo | jq -r .repositoryMetadata.cloneUrlHttp)</span></code></pre></div></li>
 
 <li><p>Push the code to the CodeCommit repository:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git push aws cdk-module</code></pre></div></li>
-
-<li><p>Wait a few moments, and then go to the AWS <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">Console CodePipeline</a> page to observe CodePipeline build in-progress :
-<img src="./images/pipeline-in-progress.png" alt="CodePipeline" /></p></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git push aws cdk-module</code></pre></div>
+<p>In the command above, &ldquo;aws&rdquo; is the name of the git remote pointing to the CodeCommit in your AWS Account, and &ldquo;cdk-module&rdquo; is the name of the git branch.</p></li>
 </ol>
+
+<p>Wait a few moments, and then go to the AWS <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">Console CodePipeline</a> page to observe CodePipeline build in-progress :
+<img src="./images/pipeline-in-progress.png" alt="CodePipeline" /></p>
 
 <p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in <em>under one minute</em> if no changes we introduced into the CDK-based infrastructure code.</p>
 
