@@ -43,8 +43,9 @@ git remote add aws (aws codecommit get-repository --repository-name Unicorn-Stor
 ```sh
 git push aws cdk-module
 ```
+In the command above, "aws" is the name of the git remote pointing to the CodeCommit in your AWS Account, and "cdk-module" is the name of the git branch.
 
-1. Wait a few moments, and then go to the AWS [Console CodePipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) page to observe CodePipeline build in-progress :
+Wait a few moments, and then go to the AWS [Console CodePipeline](https://console.aws.amazon.com/codesuite/codepipeline/home) page to observe CodePipeline build in-progress :
 ![CodePipeline](./images/pipeline-in-progress.png)
 
 First run of the pipeline is likely to take approximately `15 minutes`, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in *under one minute* if no changes we introduced into the CDK-based infrastructure code.
