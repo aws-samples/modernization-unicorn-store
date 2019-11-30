@@ -9,24 +9,24 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMySQL|AnyCPU'">
     <DefineConstants>TRACE;MYSQL;DEBUG</DefineConstants>
-    <OutputPath>bin/local/Debug</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <Optimize>false</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
     <DefineConstants>TRACE;POSTGRES;DEBUG</DefineConstants>
-    <OutputPath>bin/local/Debug</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <Optimize>false</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleasePostgres|AnyCPU'">
     <DefineConstants>TRACE;POSTGRES</DefineConstants>
-    <OutputPath>bin/local/Release</OutputPath>
+    <OutputPath>bin/local</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMySQL|AnyCPU'">
     <DefineConstants>TRACE;MYSQL</DefineConstants>
-    <OutputPath>bin/local/Release</OutputPath>
+    <OutputPath>bin/local</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -34,11 +34,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseSqlServer|AnyCPU'">
-    <OutputPath>bin/local/Release</OutputPath>
+    <OutputPath>bin/local</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSqlServer|AnyCPU'">
-    <OutputPath>bin/local/Debug</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <Optimize>false</Optimize>
   </PropertyGroup>

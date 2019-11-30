@@ -8,33 +8,39 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPostgres|AnyCPU'">
-    <OutputPath>bin/local/Debug</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <DefineConstants>DEBUG;POSTGRES</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMySQL|AnyCPU'">
-    <OutputPath>bin/local/Debug</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <DefineConstants>DEBUG;MYSQL</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugSqlServer|AnyCPU'">
-    <OutputPath>bin/local/Debug</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseSqlServer|AnyCPU'">
-    <OutputPath>bin/local/Release</OutputPath>
+    <OutputPath>bin/local</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleasePostgres|AnyCPU'">
-    <OutputPath>bin/local/Release</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <DefineConstants>POSTGRES</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMySQL|AnyCPU'">
-    <OutputPath>bin/local/Release</OutputPath>
+    <OutputPath>bin/local</OutputPath>
     <DefineConstants>MYSQL</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="cdk.out\**" />
+    <EmbeddedResource Remove="cdk.out\**" />
+    <None Remove="cdk.out\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="appsettings.Development.json" />

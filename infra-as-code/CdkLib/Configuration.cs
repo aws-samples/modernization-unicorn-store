@@ -26,15 +26,19 @@ namespace CdkLib
             builder.AddJsonFile("appsettings.json", optional: true)
                     .AddJsonFile($"appsettings.{envName}.json", optional: true);
             builder.AddCommandLine(cmdLineArgs);
-            builder.AddEnvironmentVariables();
-            if (isDebug)
-            {
-                // To enable "Manage User Secrets" project menu item, add dependency on the 
-                // "Microsoft.Extensions.Configuration.UserSecrets" NuGet package first.
+
 #pragma warning disable CS0162 // Unreachable code detected
+            if (isDebug)
+            {   // In Debug configuration, let User Secrets override Env Vars
+                builder.AddEnvironmentVariables();
                 builder.AddUserSecrets(programClassType.Assembly, optional: true);
-#pragma warning restore CS0162 // Unreachable code detected
+            }else
+            {   // In Release configuration, let Env Vars override User Secrets
+                builder.AddUserSecrets(programClassType.Assembly, optional: true);
+                builder.AddEnvironmentVariables();
             }
+#pragma warning restore CS0162 // Unreachable code detected
+
             return builder.Build();
         }
 

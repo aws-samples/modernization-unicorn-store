@@ -7,7 +7,7 @@ pre = "<b>1. </b>"
 +++
 -->
 
-You may *skip this page* and move on to the next step if you are *using Amazon-supplied VM image* (AMI) at an Amazon event, with all tools installed and pre-configured.
+> If you are *using Amazon-supplied VM image* (AMI) at an Amazon event, with all tools installed and pre-configured for you, we recommend reading through this chapter without making any changes mentioned on this page.
 
 #### Pre-Requisites
 
@@ -28,6 +28,7 @@ In a directory of your choice, please run
 git clone https://github.com/vgribok/modernization-unicorn-store.git
 git checkout cdk-module
 ```
+The "`cdk-module`" git branch is where the sample app codebase lives.
 
 #### Building and Running Unicorn Store Application Locally
 
@@ -51,14 +52,14 @@ If you choose PostgreSQL as application's RDBMS, additional changes in applicati
 
 | Notes | Secret Manger |
 | ----- | ------------- |
-| Please open UnicornStore project [Secret Manager](../10-intro/30-dotnet-secrets.html) by right-clicking on the project and selecting `Manage User Secrets` menu item. It will open `secrets.json` file in Visual Studio, where you can make changes as it was the `appsettings.json` file. <br/><br/> Changes made in "secrets.json" override values stored in the "appsettings.json" files at run time, without making any changes to the "appsettings.json". | ![VS Project Secret Manager Menu](images/open-project-secret-manager.png?width=1100) |
+| Please open UnicornStore project [Secret Manager](../10-intro/30-dotnet-secrets.html) by right-clicking on the project and selecting "`Manage User Secrets`" menu item. It will open `secrets.json` file in Visual Studio, where you can make changes as it was the `appsettings.json` file. <br/><br/> Changes made in "secrets.json" override values stored in the "appsettings.json" files at run time (when application runs locally), without making any changes to the "appsettings.json". | ![VS Project Secret Manager Menu](images/open-project-secret-manager.png?width=1100) |
 
 Application setting named `UnicornDbConnectionStringBuilder` represents properties from RDBMS-specific subclasses of the [DbConnectionStringBuilder](https://docs.microsoft.com/en-us/dotnet/api/system.data.common.dbconnectionstringbuilder?view=netcore-2.2). Since the plan here is to use PostgreSQL, properties of the "UnicornDbConnectionStringBuilder" section will represent properties of the [NpgsqlConnectionStringBuilder](https://www.npgsql.org/doc/api/Npgsql.NpgsqlConnectionStringBuilder.html#properties) class.
 
 ```json
 {
-  "DefaultAdminUsername": "Administrator@test.com",
-  "DefaultAdminPassword": "Secret1*",
+  "DefaultAdminUsername": "admin@acme.com",
+  "DefaultAdminPassword": "Passw0rd!",
 
    "UnicornDbConnectionStringBuilder": {
     "Password": "<YOUR POSTGRES PASSWORD>",
@@ -66,3 +67,5 @@ Application setting named `UnicornDbConnectionStringBuilder` represents properti
 }
  ```
  Please replace the content of the "secrets.js" file open in the Visual Studio, with the code snippet above, and replace the value of the `Password` property with your local Postgres password. Don't forget to save the file before moving on to the next section of the lab.
+
+ > The values of "`DefaultAdminUsername`" and "`DefaultAdminPassword`" properties are used to login to the web application - that's root administrator credentials. Feel free to put any username/password you find easy to remember when you will be running the application later in the course of this workshop.

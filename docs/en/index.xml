@@ -28,9 +28,8 @@
       
       <guid>/en/20-cdk/10-overview.html</guid>
       <description>Welcome to the .NET AWS CDK module of the workshop!
-How to Run This Site Locally Please use PowerShell or bash (GitBash) to run commands below. They will open this web site locally on your computer.
-git clone https://github.com/vgribok/modernization-unicorn-store.git cd modernization-unicorn-store git checkout cdk-module ./docs/en/index.html Workshop Goals The goal of this lab is to guide participants through:
- Running an existing .NET CDK project locally to bootstrap application&amp;rsquo;s CI/CD pipeline infrastructure in AWS.</description>
+Workshop Goals The goal of this lab is to guide participants through:
+ Running an existing .NET CDK project locally to bootstrap application&amp;rsquo;s CI/CD pipeline infrastructure in AWS. Adding support for MySQL database to both ASP.NET application codebase, as well as to the existing infra-as-code C# CDK projects (one defining cloud CI/CD pipeline and another defining cloud application deployment environment).</description>
     </item>
     
     <item>
@@ -49,8 +48,8 @@ Unicorn Store has design that should make most .NET developers very comfortable.
       <pubDate>Sun, 13 Oct 2019 14:29:41 -0400</pubDate>
       
       <guid>/en/20-cdk/20-setting-up.html</guid>
-      <description>You may skip this page and move on to the next step if you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured.
-Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required, as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.</description>
+      <description>If you are using Amazon-supplied VM image (AMI) at an Amazon event, with all tools installed and pre-configured for you, we recommend reading through this chapter without making any changes mentioned on this page.
+ Pre-Requisites  Either MS SQL Server (LocalDB version is perfectly suitable), or PostgreSQL, per Common Prerequisites. MySQL is required, as the goal of the module is to add MySQL support to the app. MySQL Workbench, a MySQL management UI console, is recommended.</description>
     </item>
     
     <item>
@@ -141,7 +140,7 @@ This set of steps builds on the existing, multi-database-friendly architecture o
       <guid>/en/20-cdk/67-app-nuget-and-appsettings.html</guid>
       <description>This chapter assumes that MySQL is installed locally.
  Adding MySQL Library to the Application via NuGet  Please start with marking &amp;ldquo;UnicornStore&amp;rdquo; project as a Startup Project in Visual Studio. Open &amp;ldquo;Package Manager Console&amp;rdquo; by selecting it from the &amp;ldquo;View | Other Windows&amp;rdquo; menu. Install Pomelo.EntityFrameworkCore.MySql version 2.2 package by running following command in Visual Studio &amp;ldquo;Package Manager Console&amp;rdquo;:
-Install-Package Pomelo.EntityFrameworkCore.MySql -Version 2.2.0  Adding Default Connection String to &amp;ldquo;appSettings.</description>
+Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.0.0  Adding Default Connection String to &amp;ldquo;appSettings.</description>
     </item>
     
     <item>
@@ -183,7 +182,7 @@ using MySql.Data.MySqlClient;  Find ConfigureDatabaseEngine() method and replace
       <pubDate>Tue, 15 Oct 2019 23:47:33 -0400</pubDate>
       
       <guid>/en/20-cdk/75-verifying-mysql-support-locally.html</guid>
-      <description>Please be sure that &amp;ldquo;DebugMySQL&amp;rdquo; solution configuration is active. Build &amp;ldquo;UnicornStore&amp;rdquo; project - it should build without errors. Now we need to add your local MySQL connection information to the application settings in a non-destructive way, meaning without modifying &amp;ldquo;appSettings.json&amp;rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. To do this, we&amp;rsquo;ll use .NET Secret Manager.</description>
+      <description>Please be sure that &amp;ldquo;DebugMySQL&amp;rdquo; solution configuration is active. Build &amp;ldquo;UnicornStore&amp;rdquo; project - it should build without errors. Now your local MySQL connection information may need to be added to the application settings in a non-destructive way, meaning without modifying &amp;ldquo;appSettings.json&amp;rdquo; or any other file in the solution root, which might lead to an inadvertent committing of credentials information to the version control system. If you are taking this lab at an AWS event using AWS-supplied VM, you will not need to make any changes.</description>
     </item>
     
     <item>
