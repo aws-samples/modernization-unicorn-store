@@ -770,7 +770,7 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cdk deploy --require-approval never</code></pre></div>
 <p>That will effectively apply CloudFormation template &ldquo;synthesized&rdquo; when project was built and run. This CloudFormation template starts a process of creating a CI/CD pipeline infra for the application, provisioning AWS CodePipeline service, which in turn orchestrates few other AWS services, like CodeCommit and CodeBuild. This CI/CD infrastructure build-out job should take a few minutes, which will be well spent in the next section, which deals with the structure of the project.</p>
 
-<p>If you are comfortable using AWS online Console, feel free to go to the CloudFormation service section of the Console to monitor the progress of the the CI/CD pipeline infra rollout.</p>
+<p>If you are comfortable using AWS online Console, feel free to go to the CloudFormation service section of the Console to monitor the progress of the the CI/CD pipeline infra rollout. (After completion, the CodePipeline is going to be in the <em>failed</em> state - that&rsquo;s expected, because no source code has been supplied for the pipeline to build.)</p>
 
 
 <footer class=" footline" >
