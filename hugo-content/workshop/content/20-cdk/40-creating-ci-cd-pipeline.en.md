@@ -34,4 +34,4 @@ cdk deploy --require-approval never
 ```
 That will effectively apply CloudFormation template "synthesized" when project was built and run. This CloudFormation template starts a process of creating a CI/CD pipeline infra for the application, provisioning AWS CodePipeline service, which in turn orchestrates few other AWS services, like CodeCommit and CodeBuild. This CI/CD infrastructure build-out job should take a few minutes, which will be well spent in the next section, which deals with the structure of the project.
 
-If you are comfortable using AWS online Console, feel free to go to the CloudFormation service section of the Console to monitor the progress of the the CI/CD pipeline infra rollout.
+If you are comfortable using AWS online Console, feel free to go to the CloudFormation service section of the Console to monitor the progress of the the CI/CD pipeline infra rollout. (After completion, the CodePipeline is going to be in the *failed* state - that's expected, because no source code has been supplied for the pipeline to build.)
