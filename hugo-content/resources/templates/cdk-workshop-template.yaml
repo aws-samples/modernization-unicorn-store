@@ -17,13 +17,6 @@ Metadata:
           - VPCName
       -
         Label:
-          Default: VPC Availability Zones
-        Parameters:
-          - AvailabilityZone1
-          - AvailabilityZone2
-          - AvailabilityZone3
-      -
-        Label:
           Default: CIDR Blocks
         Parameters:
           - VPCCIDRBlock
@@ -49,21 +42,6 @@ Parameters:
     Type: String
     Description: VPC Name
     Default: "VPCForWorkshop"
-
-  AvailabilityZone1:
-    Type: AWS::EC2::AvailabilityZone::Name
-    Description: Availability Zone 1
-    #Default: !FindInMap [RegionMap, !Ref 'AWS::Region', AZ1]
-
-  AvailabilityZone2:
-    Type: AWS::EC2::AvailabilityZone::Name
-    Description: Availability Zone 2
-    #Default: !FindInMap [RegionMap, !Ref 'AWS::Region', AZ2]
-
-  AvailabilityZone3:
-    Type: AWS::EC2::AvailabilityZone::Name
-    Description: Availability Zone 3
-    #Default: !FindInMap [RegionMap, !Ref 'AWS::Region', AZ3]
 
   VPCCIDRBlock:
     Type: String
@@ -103,37 +81,37 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1: # US Virginia
-      AmiId: ami-01b19c7b3797ae493
+      AmiId: ami-00e15c25f29fb2d81
       AZ1: us-east-1a
       AZ2: us-east-1b
       AZ3: us-east-1c
     us-west-2: # US Oregon
-      AmiId: ami-045a01d687b82e08f
+      AmiId: ami-0d1865307fc75d9e8
       AZ1: us-west-2a
       AZ2: us-west-2b
       AZ3: us-west-2c
     ca-central-1: # Canada
-      AmiId: ami-01fb578082b54e27b
+      AmiId: ami-0133a07e13209e5a9
       AZ1: ca-central-1a
       AZ2: ca-central-1b
       AZ3: ca-central-1a
     eu-west-1: # Ireland
-      AmiId: ami-0bb030eacf2338369 
+      AmiId: ami-082e0ffd351f7e10b
       AZ1: eu-west-1a
       AZ2: eu-west-1b
       AZ3: eu-west-1c
     eu-west-2: # London
-      AmiId: ami-0d7d2252e4efe2cd6
+      AmiId: ami-0b8404c2638f23463
       AZ1: eu-west-2a
       AZ2: eu-west-2b
       AZ3: eu-west-2c
     eu-west-3: # Paris
-      AmiId: ami-0a38080d7ac804c48
+      AmiId: ami-03777682795bac320
       AZ1: eu-west-3a
       AZ2: eu-west-3b
       AZ3: eu-west-3c
     eu-central-1: # Frankfurt
-      AmiId: ami-0bd3c38a70012e0eb
+      AmiId: us-central-1-image
       AZ1: eu-central-1a
       AZ2: eu-central-1b
       AZ3: eu-central-1c
@@ -226,8 +204,10 @@ Resources:
       VpcId:
         Ref: DefaultVPC
       CidrBlock: !Ref PublicSubnet1CIDR
-      AvailabilityZone:
-        Ref: AvailabilityZone1
+      AvailabilityZone: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - AZ1
       Tags:
       - Key: !Ref TagName
         Value: !Ref TagValue
@@ -246,8 +226,10 @@ Resources:
       VpcId:
         Ref: DefaultVPC
       CidrBlock: !Ref PublicSubnet2CIDR
-      AvailabilityZone:
-        Ref: AvailabilityZone2
+      AvailabilityZone: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - AZ2
       Tags:
       - Key: !Ref TagName
         Value: !Ref TagValue
@@ -266,8 +248,10 @@ Resources:
       VpcId:
         Ref: DefaultVPC
       CidrBlock: !Ref PublicSubnet3CIDR
-      AvailabilityZone:
-        Ref: AvailabilityZone3
+      AvailabilityZone: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - AZ3
       Tags:
       - Key: !Ref TagName
         Value: !Ref TagValue
@@ -286,8 +270,10 @@ Resources:
       VpcId:
         Ref: DefaultVPC
       CidrBlock: !Ref PrivateSubnet1CIDR
-      AvailabilityZone:
-        Ref: AvailabilityZone1
+      AvailabilityZone: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - AZ1
       Tags:
       - Key: !Ref TagName
         Value: !Ref TagValue
@@ -306,8 +292,10 @@ Resources:
       VpcId:
         Ref: DefaultVPC
       CidrBlock: !Ref PrivateSubnet2CIDR
-      AvailabilityZone:
-        Ref: AvailabilityZone2
+      AvailabilityZone: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - AZ2
       Tags:
       - Key: !Ref TagName
         Value: !Ref TagValue
@@ -326,8 +314,10 @@ Resources:
       VpcId:
         Ref: DefaultVPC
       CidrBlock: !Ref PrivateSubnet3CIDR
-      AvailabilityZone:
-        Ref: AvailabilityZone3
+      AvailabilityZone: !FindInMap
+        - RegionMap
+        - !Ref 'AWS::Region'
+        - AZ3
       Tags:
       - Key: !Ref TagName
         Value: !Ref TagValue
