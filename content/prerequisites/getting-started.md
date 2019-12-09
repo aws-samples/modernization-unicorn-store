@@ -1,6 +1,6 @@
 # Getting Started with this Workshop
 
-In order for you to succeed in this workshop, we need you to run through a few steps to finalize the configuration of your Cloud9 environment. You could do this workshop in your own environment using an IDE like Visual Studio, but for a consistent experience for all users, we will walk through setting up a Cloud9 Ubuntu environment instead.
+In order for you to succeed in this workshop, we need you to run through a few steps to finalize the configuration of your Cloud9 environment. You could do this workshop in your own environment using an IDE like Visual Studio, but for a consistent experience for all users, we will walk through setting up a Cloud9 environment instead.
 
 #### Update and install some tools
 
@@ -31,7 +31,7 @@ sudo yum -y install libunwind
 2. Download the .NET Core 3 SDK installer script into your environment by running the following command.
 
 ```
-curl -O https://dot.net/v1/dotnet-install.sh
+curl -O -L https://dot.net/v1/dotnet-install.sh
 ```
 
 3. Make the installer script executable by the current user by running the following command.
