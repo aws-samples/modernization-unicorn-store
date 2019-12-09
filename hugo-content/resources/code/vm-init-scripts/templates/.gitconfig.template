@@ -1,7 +1,0 @@
-[credential]
-	helper = !aws codecommit credential-helper $@
-	UseHttpPath = true
-
-[credential "https://git-codecommit.AWSREGION.amazonaws.com"]
-    helper = !aws codecommit credential-helper $@ 
-    UseHttpPath = true
