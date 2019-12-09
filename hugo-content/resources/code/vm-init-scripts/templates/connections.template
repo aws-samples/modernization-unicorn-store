@@ -1,7 +1,0 @@
-
-{
-    "ConnectedProfile" : "default",
-    "CredentialTargets" : [
-        "git:https://git-codecommit.AWSREGION.amazonaws.com"
-    ]
-}
