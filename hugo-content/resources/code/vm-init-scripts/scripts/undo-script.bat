@@ -1,3 +1,4 @@
+:: This script is called from "lab-assets-deletion.bat"
 @echo off
 
 del /F /Q C:\Users\Administrator\StartupArea\WorkingArea\*.*

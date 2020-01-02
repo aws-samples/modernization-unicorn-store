@@ -1,3 +1,4 @@
+:: This script is called from "lab-assets-deletion.bat"
 @echo off
 echo starting script
 

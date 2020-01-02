@@ -1,3 +1,5 @@
+:: This script is called from "lab-assets-deletion.bat"
+:: Deletes sample app AWS infra
 @echo off
 echo starting script
 
