@@ -1,3 +1,5 @@
+:: This script is called from steps-configurator.bat
+
 @echo off
 echo starting script
 

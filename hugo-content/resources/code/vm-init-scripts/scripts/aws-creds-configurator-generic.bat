@@ -1,3 +1,4 @@
+:: It appears this script is not called from anywhere
 @echo off
 echo starting script
 
