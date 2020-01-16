@@ -770,7 +770,7 @@
 
 <h4 id="application-project">Application Project</h4>
 
-<p>A descendant from a well-known ASP.NET <a href="https://github.com/aspnet/AspNetCore/tree/v2.2.7/src/MusicStore" target="_blank">Music Store sample</a>, Unicorn Store is created to be a fairly typical ASP.NET Core 2.x MVC/Razor &amp; Entity Framework Core application, combining UI, business logic and data access tiers in a single application, which is arguably a very typical design for most ASP.NET applications pre-dating microservices, <a href="https://www.12factor.net/" target="_blank">12-factor</a>/cloud-native applications, and as such, suitable for modernization-focused labs.</p>
+<p>A descendant from a well-known ASP.NET <a href="https://github.com/aspnet/AspNetCore/tree/v2.2.7/src/MusicStore" target="_blank">Music Store sample</a>, Unicorn Store is created to be a fairly typical ASP.NET Core 3.x MVC/Razor &amp; Entity Framework Core application, combining UI, business logic and data access tiers in a single application, which is arguably a very typical design for most ASP.NET applications pre-dating microservices, <a href="https://www.12factor.net/" target="_blank">12-factor</a>/cloud-native applications, and as such, suitable for modernization-focused labs.</p>
 
 <p>Unicorn Store data access tier is designed using <em>code-first</em> style, which uses C# code to define entity relationships and consequently database structure. This approach enables relatively easy swapping of database engines without drastically affecting the codebase. This module starts with the application codebase already retrofitted with pluggable RDBMS architecture and supporting SQL Server and PostgreSQL database engines out of the box.</p>
 
@@ -786,7 +786,7 @@
 
 <p>CdkLib, a shorthand for CDK library, contains modest amount of reusable C# code referenced by both executable .NET CDK projects. It&rsquo;s home to classes and helper methods reducing amount of boilerplate, making infrastructure build-out &ldquo;meat&rdquo; code in main projects more concise and expressive. It also serves as an illustration that CDK code is very easy to componentize and parameterize.</p>
 
-<p>One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core <code>IConfiguration</code> from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it ver easy to pass parameters to CDK projects via Environment variables in CodePipeline, CodeBuild and other places.</p>
+<p>One of the most useful bits in the CdkLib project is helper methods loading standard .NET Core <code>IConfiguration</code> from appsettings.json, environment variables, command line args and .NET Secret Manager, and deserialized into a strongly-typed class compatible with main CDK stack setting marshalling interface. This makes it very easy to pass parameters to CDK projects via Environment variables in CodePipeline, CodeBuild and other places.</p>
 
 <h4 id="prodenvinfraascode">ProdEnvInfraAsCode</h4>
 

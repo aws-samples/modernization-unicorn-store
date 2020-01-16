@@ -118,7 +118,7 @@ First, please check the command prompt console where you ran cdk deploy for the 
       <pubDate>Tue, 15 Oct 2019 17:48:00 -0400</pubDate>
       
       <guid>/en/20-cdk/63-verify-ci-cd-completion.html</guid>
-      <description>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to go to move on to the next chapter and come back here later to ensure the pipeline is alright.
+      <description>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to move on to the next chapter and come back here later to ensure the pipeline is alright.
 Verifying the CI/CD Pipeline Run Has Completed Whenever the pipeline has finished, feel free to browse to the AWS Load Balancer page in the AWS Console, select a load balancer named &amp;ldquo;unicorn-store&amp;rdquo; and click the &amp;ldquo;copy to clipboard&amp;rdquo; icon next to the &amp;ldquo;DNS Name&amp;rdquo; field.</description>
     </item>
     
@@ -139,7 +139,7 @@ This set of steps builds on the existing, multi-database-friendly architecture o
       
       <guid>/en/20-cdk/67-app-nuget-and-appsettings.html</guid>
       <description>This chapter assumes that MySQL is installed locally.
- Adding MySQL Library to the Application via NuGet  Please start with marking &amp;ldquo;UnicornStore&amp;rdquo; project as a Startup Project in Visual Studio. Open &amp;ldquo;Package Manager Console&amp;rdquo; by selecting it from the &amp;ldquo;View | Other Windows&amp;rdquo; menu. Install Pomelo.EntityFrameworkCore.MySql version 2.2 package by running following command in Visual Studio &amp;ldquo;Package Manager Console&amp;rdquo;:
+ Adding MySQL Library to the Application via NuGet  Please start with marking &amp;ldquo;UnicornStore&amp;rdquo; project as a Startup Project in Visual Studio. Open &amp;ldquo;Package Manager Console&amp;rdquo; by selecting it from the &amp;ldquo;View | Other Windows&amp;rdquo; menu. Install Pomelo.EntityFrameworkCore.MySql version 3.0 package by running following command in Visual Studio &amp;ldquo;Package Manager Console&amp;rdquo;:
 Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.0.0  Adding Default Connection String to &amp;ldquo;appSettings.</description>
     </item>
     
