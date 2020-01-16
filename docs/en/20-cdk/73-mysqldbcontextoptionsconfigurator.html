@@ -761,10 +761,10 @@
 <p>As you have probably noticed, the only consequential line of code in the snippet above is</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">optionsBuilder.UseMySql(<span style="color:#66d9ef">this</span>.dbConnectionStringBuilder.ConnectionString);
 </code></pre></div>
-<p>This line is the one usually called from the &ldquo;Startup.cs&rdquo;. Here the only thing we do differently is we defer calling <code>UseMySql()</code> to after &ldquo;IConfiguration&rdquo; become injectable, like you do it when you need &ldquo;IConfiguration&rdquo; in your MVC controller.</p>
+<p>This line is the one usually called from the &ldquo;Startup.cs&rdquo;. Here the only thing we do differently is we defer calling <code>UseMySql()</code> to after &ldquo;IConfiguration&rdquo; becomes injectable, like you do it when you need &ldquo;IConfiguration&rdquo; in your MVC controller.</p>
 
 <blockquote>
-<p>Injecting &ldquo;IConfiguration&rdquo;, as it&rsquo;s done in a typical MVC controller example, is the right way to use configuration settings. Manually loading connection string data, as often done in &ldquo;Startup.cs&rdquo;, <em>breaks dynamic settings reload support</em>. Mixing two mutually-exclusive approaches makes no practical sense, so we took this opportunity to make configuration settings data usage consistent across the entire ASP.NET application. Feel free to improve this logic and create a PR.</p>
+<p>Injecting &ldquo;IConfiguration&rdquo;, as it&rsquo;s done in a typical MVC controller example, is the right way to use configuration settings. Manually loading connection string data, as often done in &ldquo;Startup.cs&rdquo;, <em>breaks dynamic settings reload support</em>. Mixing two mutually-exclusive approaches makes little sense, so we took this opportunity to make configuration settings data usage consistent across the entire ASP.NET application to advance the Database Freedom goal. Feel free to improve this logic and create a PR.</p>
 </blockquote>
 
 

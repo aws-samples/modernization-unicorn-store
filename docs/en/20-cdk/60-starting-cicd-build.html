@@ -770,13 +770,13 @@ arn:aws:cloudformation:us-east-1:123456789012:stack/Unicorn-Store-CI-CD-Pipeline
 <p>Wait a few moments, and then go to the AWS <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">Console CodePipeline</a> page to observe CodePipeline build in-progress :
 <img src="./images/pipeline-in-progress.png" alt="CodePipeline" /></p>
 
-<p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in <em>under one minute</em> if no changes we introduced into the CDK-based infrastructure code.</p>
+<p>First run of the pipeline is likely to take approximately <code>15 minutes</code>, primarily due to time required to provision application database and ECS-based application hosting infrastructure. Subsequent pipeline runs could finish in <em>under one minute</em> if no changes were introduced into the CDK-based infrastructure code.</p>
 
 <blockquote>
 <p>Clicking <strong>&ldquo;Details&rdquo; links</strong> of each Build stage action, will show the real-time stdout/console output of the application build and hosting infrastructure build, respectively.</p>
 </blockquote>
 
-<p>The Details of the Docker image build action output shows how application is being built, and if it fails to build for whatever reason and results in the red action status, the output will provide most definitive information about causes of the issues. The same is true for the hosting/deployment infra Build step action. Even when everything builds fine, <em>please review the Build step action outputs</em> - that will provide a lot of insight of how both how application is build &amp; deployed, and how CI/CD pipeline CDK project&rsquo;s Buildspec definitions translate into actual executable commands. <strong>The usefulness of the lab module may hinge on whether you take time to review Build actions&rsquo; output</strong> and connect this insight with what you learn from examining CI/CD project code.</p>
+<p>The Details of the Docker image build action output shows how application is being built. If it fails to build for whatever reason and results in a &ldquo;red&rdquo; action status, the console output will provide most definitive information about causes of issues. The same is true for the hosting/deployment infra Build step action. Even when everything builds fine, <em>please review the Build step action output</em> - that will provide a lot of insight into both how application is built &amp; deployed, and how CI/CD pipeline CDK project&rsquo;s Buildspec definitions translate into actual executable commands. <strong>The usefulness of this entire workshop may hinge on whether you take time to review Build actions&rsquo; output</strong> and connect this insight with what you learn from examining CI/CD project code.</p>
 
 
 <footer class=" footline" >

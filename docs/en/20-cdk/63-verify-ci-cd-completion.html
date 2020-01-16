@@ -731,7 +731,7 @@
 
 
 
-<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to go to move on to the next chapter and come back here later to ensure the pipeline is alright.</p>
+<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to move on to the next chapter and come back here later to ensure the pipeline is alright.</p>
 
 <h2 id="verifying-the-ci-cd-pipeline-run-has-completed">Verifying the CI/CD Pipeline Run Has Completed</h2>
 
@@ -746,7 +746,9 @@
 
 <h3 id="understanding-site-admin-username-setting-journey">Understanding Site Admin Username Setting Journey</h3>
 
-<p>Site admin username comes from &ldquo;ProdEnvInfraAsCode&rdquo; project &ldquo;appsettings.json&rdquo; file - take a look there and you will see site username set to &ldquo;<code>Administrator@test.com</code>&rdquo;. &ldquo;ProdEnvInfraAsCode&rdquo; is a CDK project building our application hosting infrastructure, part of which is a an Amazon Elastic Container Service cluster, and that&rsquo;s how Container Definition for the app gets an environment variable &ldquo;DefaultAdminUsername&rdquo; set to &ldquo;Administrator@test.com&rdquo;. <em>That&rsquo;s your site admin username</em>. You can see this value in AWS Console if you go to the ECS service -&gt; &ldquo;Unicorn-Store-ECS-Fargate-Cluster&rdquo; service -&gt; &ldquo;InfraAsCodeStack&hellip;&rdquo; Task Definition -&gt; &ldquo;Container Definitions&rdquo; -&gt; &ldquo;web&rdquo; -&gt; &ldquo;Environment Variables&rdquo; -&gt; &ldquo;DefaultAdminUsername&rdquo; key. Just a quick reminder: environment variables matching keys in appsettings.json, when passed to a .NET Core app, override &ldquo;appsettings.json&rdquo; values - that&rsquo;s how the application eventually gets expected site admin username setting value.</p>
+<p>Site admin username comes from &ldquo;ProdEnvInfraAsCode&rdquo; project &ldquo;appsettings.json&rdquo; file - take a look there and you will see site username set to &ldquo;<code>Administrator@test.com</code>&rdquo;. &ldquo;ProdEnvInfraAsCode&rdquo; is a CDK project building our application hosting infrastructure, part of which is a an Amazon ECS/Fargate cluster, and that&rsquo;s how Container Definition for the app gets an environment variable &ldquo;DefaultAdminUsername&rdquo; set to &ldquo;Administrator@test.com&rdquo;. <em>That&rsquo;s your site admin username</em>. You can see this value in AWS Console if you go to the ECS service -&gt; &ldquo;Unicorn-Store-ECS-Fargate-Cluster&rdquo; service -&gt; &ldquo;InfraAsCodeStack&hellip;&rdquo; Task Definition -&gt; &ldquo;Container Definitions&rdquo; -&gt; &ldquo;web&rdquo; -&gt; &ldquo;Environment Variables&rdquo; -&gt; &ldquo;DefaultAdminUsername&rdquo; key. Just a quick reminder: environment variables matching keys in appsettings.json, when passed to a .NET Core app, override &ldquo;appsettings.json&rdquo; values - that&rsquo;s how the application eventually gets expected site admin username setting value.</p>
+
+<p><img src="./images/ECS-Task-def-env-vars.png" alt="ECS Task Definition environment variables" /></p>
 
 <h3 id="understanding-site-admin-password-setting-journey">Understanding Site Admin Password Setting Journey</h3>
 
