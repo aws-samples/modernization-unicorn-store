@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.0.0-alpine3.9 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.2-alpine3.11 AS base
 # https://github.com/dotnet/SqlClient/issues/220
 RUN apk add libgdiplus --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted && \
     apk add terminus-font && \
@@ -7,7 +7,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY UnicornStore/UnicornStore.csproj UnicornStore/
 RUN dotnet restore UnicornStore/UnicornStore.csproj
