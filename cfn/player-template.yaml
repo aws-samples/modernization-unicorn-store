@@ -54,7 +54,7 @@ Resources:
       MasterUsername: !Ref UnicornStoreDBUsername
       MasterUserPassword: !Ref UnicornStoreDBPassword
       Engine: sqlserver-web
-      EngineVersion: 14.00.3035.2.v1
+      EngineVersion: 14.00.3223.3.v1
       LicenseModel: license-included
       MultiAZ: false
       DBSubnetGroupName: !Ref UnicornStoreSubnetGroup
