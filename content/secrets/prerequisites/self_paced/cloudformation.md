@@ -8,9 +8,9 @@ To get started, you will need a S3 bucket to host the CloudFormation nested stac
 aws s3api create-bucket --bucket modernization-unicorn-store --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
 ```
 
-2. If you haven't already done so, download the two CloudFormation templates in the `cfn` directory in this repository to your local machine or just clone the repository.
+2. If you haven't already done so, download the two CloudFormation templates in the `/content/secrets/cfn` directory in this repository to your local machine or just clone the repository.
 
-3. Change to the `cfn` directory and upload the `player-vpc-template` to the s3 bucket you just created. Only change the `--bucket` value to your bucket. Keep the rest of the command as is.
+3. Change to the `/content/secrets/cfncfn` directory and upload the `player-vpc-template` to the s3 bucket you just created. Only change the `--bucket` value to your bucket. Keep the rest of the command as is.
 
 ```
 aws s3api put-object --bucket modernization-unicorn-store --key modules/modernization/unicorn-store/templates/player-vpc-template.yaml --body player-vpc-template.yaml
