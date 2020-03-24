@@ -1,6 +1,6 @@
 # Getting Started with this Workshop
 
-In order for you to succeed in this workshop, we need you to run through a few steps to finalize the configuration of your Cloud9 environment. You could do this workshop in your own environment using an IDE like Visual Studio, but for a consistent experience for all users, we will walk through setting up a Cloud9 environment instead.
+In order for you to succeed in this workshop, we need you to run through a few steps to finalize the configuration of your Cloud9 environment. You could do this workshop in your own environment using an IDE like Visual Studio, but for a consistent experience for all users, we will walk through setting up a Cloud9 environment instead. If you launched the CloudFormation resources in this module manually or are running this at an AWS Event, a Cloud9 environment has been provisioned for you.
 
 #### Update and install some tools
 
