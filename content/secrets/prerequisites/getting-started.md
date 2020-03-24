@@ -62,7 +62,7 @@ vi ~/.bashrc
 
   * Add the $HOME/.dotnet subdirectory to the PATH variable by typing :$HOME/.dotnet. Be sure to include the colon character (:). The line should now look similar to the following.
 
-![bashrc](/static/images/prerequisites/bashrc.png)
+![bashrc](/static/images/secrets/prerequisites/bashrc.png)
 
   * Save the file. To do this, press the Esc key (-- INSERT --- will disappear from the end of the display), type :wq (to write to and then quit the file), and then press Enter.
 
@@ -128,4 +128,4 @@ docker rmi $(docker images -q)
 
 #### Congratulations
 
-You now have a fully working Cloud9 IDE that is ready to use! Click [**here**](/content/secrets/_index.md) to start learning about secrets.
+You now have a fully working Cloud9 IDE that is ready to use! Click [**here**](/content/secrets/introduction.md) to start learning about secrets.

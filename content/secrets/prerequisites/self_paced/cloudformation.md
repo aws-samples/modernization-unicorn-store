@@ -32,4 +32,4 @@ aws cloudformation create-stack \
 until [[ `aws cloudformation describe-stacks --stack-name "modernization-unicorn-store" --query "Stacks[0].[StackStatus]" --output text` == "CREATE_COMPLETE" ]]; do  echo "The stack is NOT in a state of CREATE_COMPLETE at `date`";   sleep 30; done && echo "The Stack is built at `date` - Please proceed"
 ```
 
-Once you have completed with either setup, continue with [**Create a Workspace**](/content/prerequisites/getting-started.md)
+Once you have completed with either setup, continue with [**Create a Workspace**](/content/secrets/prerequisites/getting-started.md)
