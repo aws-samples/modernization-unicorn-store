@@ -1,6 +1,6 @@
 # Getting Started with this Workshop
 
-In order for you to succeed in this workshop, we need you to run through a few steps to finalize the configuration of your Cloud9 environment. You could do this workshop in your own environment using an IDE like Visual Studio, but for a consistent experience for all users, we will walk through setting up a Cloud9 environment instead.
+In order for you to succeed in this workshop, we need you to run through a few steps to finalize the configuration of your Cloud9 environment. You could do this workshop in your own environment using an IDE like Visual Studio, but for a consistent experience for all users, we will walk through setting up a Cloud9 environment instead. If you launched the CloudFormation resources in this module manually or are running this at an AWS Event, a Cloud9 environment has been provisioned for you.
 
 #### Update and install some tools
 
@@ -62,7 +62,7 @@ vi ~/.bashrc
 
   * Add the $HOME/.dotnet subdirectory to the PATH variable by typing :$HOME/.dotnet. Be sure to include the colon character (:). The line should now look similar to the following.
 
-![bashrc](/static/images/prerequisites/bashrc.png)
+![bashrc](/static/images/secrets/prerequisites/bashrc.png)
 
   * Save the file. To do this, press the Esc key (-- INSERT --- will disappear from the end of the display), type :wq (to write to and then quit the file), and then press Enter.
 
@@ -128,4 +128,4 @@ docker rmi $(docker images -q)
 
 #### Congratulations
 
-You now have a fully working Cloud9 IDE that is ready to use! Click [**here**](/content/secrets/_index.md) to start learning about secrets.
+You now have a fully working Cloud9 IDE that is ready to use! Click [**here**](/content/secrets/introduction.md) to start learning about secrets.
