@@ -8,9 +8,9 @@ To get started, you will need a S3 bucket to host the CloudFormation nested stac
 aws s3api create-bucket --bucket modernization-unicorn-store --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
 ```
 
-2. If you haven't already done so, download the two CloudFormation templates in the `/content/secrets/cfn` directory in this repository to your local machine or just clone the repository.
+2. If you haven't already done so, download the two CloudFormation templates in the `content/secrets/cfn` directory in this repository to your local machine or just clone the repository.
 
-3. Change to the `/content/secrets/cfn` directory and upload the `player-vpc-template` to the s3 bucket you just created. Only change the `--bucket` value to your bucket. Keep the rest of the command as is.
+3. Change to the `content/secrets/cfn` directory in this repository and upload the `player-vpc-template` to the s3 bucket you just created. Only change the `--bucket` value to your bucket. Keep the rest of the command as is.
 
 ```
 aws s3api put-object --bucket modernization-unicorn-store --key modules/modernization/unicorn-store/templates/player-vpc-template.yaml --body player-vpc-template.yaml
@@ -23,13 +23,14 @@ aws cloudformation create-stack \
 --stack-name modernization-unicorn-store \
 --parameters ParameterKey=BucketName,ParameterValue=modernization-unicorn-store ParameterKey=BucketPrefix,ParameterValue=modules/modernization/unicorn-store \
 --template-body file://player-template.yaml \
---capabilities CAPABILITY_NAMED_IAM
+--capabilities CAPABILITY_NAMED_IAM \
+--region us-west-2
 ```
 
 5. The CloudFormation stack takes a while to run due to it provisioning a RDS instance. Run this command and wait for the CloudFormation template to finish deploying.
 
 ```
-until [[ `aws cloudformation describe-stacks --stack-name "modernization-unicorn-store" --query "Stacks[0].[StackStatus]" --output text` == "CREATE_COMPLETE" ]]; do  echo "The stack is NOT in a state of CREATE_COMPLETE at `date`";   sleep 30; done && echo "The Stack is built at `date` - Please proceed"
+until [[ `aws cloudformation describe-stacks --stack-name "modernization-unicorn-store" --region us-west-2 --query "Stacks[0].[StackStatus]" --output text` == "CREATE_COMPLETE" ]]; do  echo "The stack is NOT in a state of CREATE_COMPLETE at `date`";   sleep 30; done && echo "The Stack is built at `date` - Please proceed"
 ```
 
 Once you have completed with either setup, continue with [**Create a Workspace**](/content/secrets/prerequisites/getting-started.md)
