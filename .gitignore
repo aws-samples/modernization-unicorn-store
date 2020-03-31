@@ -28,3 +28,6 @@ msbuild.wrn
 # Visual Studio
 .vs/
 .vscode/
+
+# Rider
+.idea/
