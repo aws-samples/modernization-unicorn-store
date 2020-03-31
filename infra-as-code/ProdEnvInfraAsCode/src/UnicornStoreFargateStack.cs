@@ -8,6 +8,7 @@ using SecMan = Amazon.CDK.AWS.SecretsManager;
 using ProdEnvInfraAsCode.Reusable;
 using CdkLib;
 using Amazon.CDK.AWS.ElasticLoadBalancingV2;
+using ApplicationLoadBalancerProps = Amazon.CDK.AWS.ElasticLoadBalancingV2.ApplicationLoadBalancerProps;
 
 namespace ProdEnvInfraAsCode
 {

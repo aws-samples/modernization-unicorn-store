@@ -44,7 +44,7 @@ namespace CicdInfraAsCode
                 new PipelineProps
                 {
                     PipelineName = this.settings.ScopeName,
-                    Stages = new[]
+                    Stages = new IStageProps[]
                     {
                         Helpers.StageFromActions("Source", CreateSourceVcsCheckoutAction(gitRepo, sourceCodeArtifact)),
                         Helpers.StageFromActions("Build",
@@ -54,7 +54,7 @@ namespace CicdInfraAsCode
                         Helpers.StageFromActions("Restart-the-App", this.CreateLambdaInvokeAction())
                     }
                 }
-            ); ;
+            );
 
             return buildPipeline;
         }
@@ -101,7 +101,7 @@ namespace CicdInfraAsCode
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
-                        BuildImage = LinuxBuildImage.UBUNTU_14_04_DOCKER_18_09_0,
+                        BuildImage = LinuxBuildImage.STANDARD_3_0,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {
                             {   // Tells the Buildspec where to push images produced during the build
@@ -142,6 +142,7 @@ namespace CicdInfraAsCode
                         InstallRuntimes = new Dictionary<string, string>()
                         {
                             { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
+                            { "dotnet", "3.1" }
                         },
                         PreBuildCommands = new [] 
                         {
@@ -149,14 +150,14 @@ namespace CicdInfraAsCode
                             "npm install -g aws-cdk${CdkVersion}",
                             "cdk --version",
 
-                            // Install .NET Core 3 SDK. TODO: remove this section after dotnet 3.0 runtime becomes available on AWS Linux CodeBuild images
-                            "wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb",
-                            "dpkg -i packages-microsoft-prod.deb",
+                            //// Install .NET Core 3 SDK. TODO: remove this section after dotnet 3.0 runtime becomes available on AWS Linux CodeBuild images
+                            //"wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb",
+                            //"dpkg -i packages-microsoft-prod.deb",
 
-                            "apt-get update",
-                            "apt-get -y install apt-transport-https",
-                            "apt-get update",
-                            "apt-get -y install dotnet-sdk-3.0",
+                            //"apt-get update",
+                            //"apt-get -y install apt-transport-https",
+                            //"apt-get update",
+                            //"apt-get -y install dotnet-sdk-3.0",
 
                             "dotnet --info",
                             "dotnet --version"
@@ -173,7 +174,7 @@ namespace CicdInfraAsCode
 
                     Environment = new BuildEnvironment
                     {
-                        BuildImage = LinuxBuildImage.STANDARD_2_0,
+                        BuildImage = LinuxBuildImage.STANDARD_3_0,
                         ComputeType = this.settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {
@@ -210,7 +211,7 @@ namespace CicdInfraAsCode
                 {
                     RepositoryName = this.settings.DockerImageRepository,
                     // RemovalPolicy = RemovalPolicy.DESTROY, // Destroy can only destroy empty repos. Ones with images will cause stack deletion to fail, requiring more manual cleanup.
-                    LifecycleRules = new []
+                    LifecycleRules = new ILifecycleRule[]
                     {
                         new LifecycleRule
                         {
