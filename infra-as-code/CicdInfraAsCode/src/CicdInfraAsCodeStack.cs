@@ -159,6 +159,7 @@ namespace CicdInfraAsCode
                             //"apt-get update",
                             //"apt-get -y install dotnet-sdk-3.0",
 
+                            "dotnet --list-sdks",
                             "dotnet --info",
                             "dotnet --version"
                         },
@@ -174,6 +175,7 @@ namespace CicdInfraAsCode
 
                     Environment = new BuildEnvironment
                     {
+                        Privileged = true,
                         BuildImage = LinuxBuildImage.STANDARD_3_0,
                         ComputeType = this.settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
