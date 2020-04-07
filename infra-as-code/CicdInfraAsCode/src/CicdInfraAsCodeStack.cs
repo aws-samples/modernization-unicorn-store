@@ -101,7 +101,7 @@ namespace CicdInfraAsCode
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
-                        BuildImage = LinuxBuildImage.STANDARD_3_0,
+                        BuildImage = LinuxBuildImage.STANDARD_4_0,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {
                             {   // Tells the Buildspec where to push images produced during the build
@@ -176,7 +176,7 @@ namespace CicdInfraAsCode
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
-                        BuildImage = LinuxBuildImage.STANDARD_3_0,
+                        BuildImage = LinuxBuildImage.STANDARD_4_0,
                         ComputeType = this.settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {
