@@ -20,6 +20,7 @@ using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
+using MySql.Data.MySqlClient;
 
 namespace UnicornStore
 {
@@ -109,14 +110,27 @@ namespace UnicornStore
 
         private void ConfigureDatabaseEngine(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
-#if POSTGRES
+#if MYSQL
+            this.HookupMySQL(services, healthCheckBuilder);
+#elif POSTGRES
             this.HookupPostgres(services, healthCheckBuilder);
 #else
             this.HookupSqlServer(services, healthCheckBuilder);
 #endif
         }
 
-#if POSTGRES
+#if MYSQL
+        private void HookupMySQL(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
+        {
+#if Debug || DEBUG
+            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
+#warning Using MySQL for a database
+#endif
+            this.HookupDatabase<MySqlConnectionStringBuilder, MySqlDbContextOptionsConfigurator>(services, "MySQL");
+            healthCheckBuilder.AddMySql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
+        }
+
+#elif POSTGRES        
         private void HookupPostgres(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
         {
 #if Debug || DEBUG
