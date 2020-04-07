@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		Dockerfile = Dockerfile
-		README.adoc = README.adoc
+		lab-to-completion.diff = lab-to-completion.diff
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdEnvInfraAsCode", "infra-as-code\ProdEnvInfraAsCode\src\ProdEnvInfraAsCode.csproj", "{9C765F2A-421C-4640-B25F-5E0C54210BFA}"

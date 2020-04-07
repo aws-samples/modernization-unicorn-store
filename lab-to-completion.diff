@@ -1,0 +1,295 @@
+ UnicornStore.sln                                   | 24 ++++++++---------
+ .../MySqlDbContextOptionsConfigurator.cs           | 25 +++++++++++++++++
+ UnicornStore/Configuration/MySqlExtensions.cs      | 31 ++++++++++++++++++++++
+ UnicornStore/Startup.cs                            | 18 +++++++++++--
+ UnicornStore/UnicornStore.csproj                   |  2 ++
+ UnicornStore/appsettings.json                      |  3 ++-
+ .../src/UnicornStoreCiCdStackProps.cs              |  5 +++-
+ .../src/Reusable/MySqlConstructFactory.cs          | 21 +++++++++++++++
+ .../src/UnicornStoreDeploymentEnvStackProps.cs     |  7 ++++-
+ 9 files changed, 119 insertions(+), 17 deletions(-)
+
+diff --git a/UnicornStore.sln b/UnicornStore.sln
+index 57f6b39..59a31b3 100644
+--- a/UnicornStore.sln
++++ b/UnicornStore.sln
+@@ -30,38 +30,38 @@ Global
+ 		ReleaseSqlServer|Any CPU = ReleaseSqlServer|Any CPU
+ 	EndGlobalSection
+ 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|Any CPU.Build.0 = DebugPostgres|Any CPU
++		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|Any CPU.ActiveCfg = DebugMySQL|Any CPU
++		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugMySQL|Any CPU.Build.0 = DebugMySQL|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugPostgres|Any CPU.Build.0 = DebugPostgres|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSqlServer|Any CPU.ActiveCfg = DebugSqlServer|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.DebugSqlServer|Any CPU.Build.0 = DebugSqlServer|Any CPU
+-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+-		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|Any CPU.Build.0 = ReleasePostgres|Any CPU
++		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|Any CPU.ActiveCfg = ReleaseMySQL|Any CPU
++		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseMySQL|Any CPU.Build.0 = ReleaseMySQL|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleasePostgres|Any CPU.Build.0 = ReleasePostgres|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSqlServer|Any CPU.ActiveCfg = ReleaseSqlServer|Any CPU
+ 		{3CFBED5D-2ED8-49DB-96FB-BDAA748DC5A0}.ReleaseSqlServer|Any CPU.Build.0 = ReleaseSqlServer|Any CPU
+-		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugMySQL|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+-		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugMySQL|Any CPU.Build.0 = DebugPostgres|Any CPU
++		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugMySQL|Any CPU.ActiveCfg = DebugMySQL|Any CPU
++		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugMySQL|Any CPU.Build.0 = DebugMySQL|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugPostgres|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugPostgres|Any CPU.Build.0 = DebugPostgres|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugSqlServer|Any CPU.ActiveCfg = DebugSqlServer|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.DebugSqlServer|Any CPU.Build.0 = DebugSqlServer|Any CPU
+-		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleaseMySQL|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+-		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleaseMySQL|Any CPU.Build.0 = ReleasePostgres|Any CPU
++		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleaseMySQL|Any CPU.ActiveCfg = ReleaseMySQL|Any CPU
++		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleaseMySQL|Any CPU.Build.0 = ReleaseMySQL|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleasePostgres|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleasePostgres|Any CPU.Build.0 = ReleasePostgres|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleaseSqlServer|Any CPU.ActiveCfg = ReleaseSqlServer|Any CPU
+ 		{9C765F2A-421C-4640-B25F-5E0C54210BFA}.ReleaseSqlServer|Any CPU.Build.0 = ReleaseSqlServer|Any CPU
+-		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugMySQL|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+-		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugMySQL|Any CPU.Build.0 = DebugPostgres|Any CPU
++		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugMySQL|Any CPU.ActiveCfg = DebugMySQL|Any CPU
++		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugMySQL|Any CPU.Build.0 = DebugMySQL|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugPostgres|Any CPU.ActiveCfg = DebugPostgres|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugPostgres|Any CPU.Build.0 = DebugPostgres|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugSqlServer|Any CPU.ActiveCfg = DebugSqlServer|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.DebugSqlServer|Any CPU.Build.0 = DebugSqlServer|Any CPU
+-		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleaseMySQL|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+-		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleaseMySQL|Any CPU.Build.0 = ReleasePostgres|Any CPU
++		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleaseMySQL|Any CPU.ActiveCfg = ReleaseMySQL|Any CPU
++		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleaseMySQL|Any CPU.Build.0 = ReleaseMySQL|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleasePostgres|Any CPU.ActiveCfg = ReleasePostgres|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleasePostgres|Any CPU.Build.0 = ReleasePostgres|Any CPU
+ 		{1E520B6E-A06E-4348-B32A-666E205D7848}.ReleaseSqlServer|Any CPU.ActiveCfg = ReleaseSqlServer|Any CPU
+diff --git a/UnicornStore/Configuration/MySqlDbContextOptionsConfigurator.cs b/UnicornStore/Configuration/MySqlDbContextOptionsConfigurator.cs
+new file mode 100644
+index 0000000..fa72641
+--- /dev/null
++++ b/UnicornStore/Configuration/MySqlDbContextOptionsConfigurator.cs
+@@ -0,0 +1,25 @@
++﻿using Microsoft.EntityFrameworkCore;
++using Microsoft.Extensions.Logging;
++using System.Data.Common;
++
++namespace UnicornStore.Configuration
++{
++    public class MySqlDbContextOptionsConfigurator : DbContextOptionsConfigurator
++    {
++        public MySqlDbContextOptionsConfigurator(
++            DbConnectionStringBuilder dbConnectionStringBuilder,
++            ILogger<MySqlDbContextOptionsConfigurator> logger
++            ) : base(dbConnectionStringBuilder, logger)
++        {
++        }
++
++        public override string DbEngine => "MySQL";
++
++        internal override void Configure(DbContextOptionsBuilder optionsBuilder)
++        {
++            base.Configure(optionsBuilder);
++
++            optionsBuilder.UseMySql(this.dbConnectionStringBuilder.ConnectionString);
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/UnicornStore/Configuration/MySqlExtensions.cs b/UnicornStore/Configuration/MySqlExtensions.cs
+new file mode 100644
+index 0000000..d4cd95a
+--- /dev/null
++++ b/UnicornStore/Configuration/MySqlExtensions.cs
+@@ -0,0 +1,31 @@
++﻿using HealthChecks.MySql;
++using Microsoft.Extensions.DependencyInjection;
++using Microsoft.Extensions.Diagnostics.HealthChecks;
++using System;
++using System.Collections.Generic;
++
++namespace UnicornStore.Configuration
++{
++    public static class MySqlExtensions
++    {
++        private const string defaultHealthCheckName = "mysql";
++
++        public static IHealthChecksBuilder AddMySql(
++          this IHealthChecksBuilder builder,
++          Func<IServiceProvider, string> connectionStringFactory,
++          string name = null,
++          HealthStatus? failureStatus = null,
++          IEnumerable<string> tags = null,
++          TimeSpan? timeout = null)
++        {
++            return builder.Add(
++                new HealthCheckRegistration(name ?? defaultHealthCheckName,
++                    sp => new MySqlHealthCheck(connectionStringFactory(sp)), 
++                    failureStatus, 
++                    tags, 
++                    timeout
++                )
++            );
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/UnicornStore/Startup.cs b/UnicornStore/Startup.cs
+index 8783faa..ab3b8d3 100644
+--- a/UnicornStore/Startup.cs
++++ b/UnicornStore/Startup.cs
+@@ -20,6 +20,7 @@ using HealthChecks.UI.Client;
+ using Microsoft.Extensions.Diagnostics.HealthChecks;
+ using Microsoft.AspNetCore.DataProtection;
+ using Microsoft.AspNetCore.HttpOverrides;
++using MySql.Data.MySqlClient;
+ 
+ namespace UnicornStore
+ {
+@@ -109,14 +110,27 @@ namespace UnicornStore
+ 
+         private void ConfigureDatabaseEngine(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
+         {
+-#if POSTGRES
++#if MYSQL
++            this.HookupMySQL(services, healthCheckBuilder);
++#elif POSTGRES
+             this.HookupPostgres(services, healthCheckBuilder);
+ #else
+             this.HookupSqlServer(services, healthCheckBuilder);
+ #endif
+         }
+ 
+-#if POSTGRES
++#if MYSQL
++        private void HookupMySQL(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
++        {
++#if Debug || DEBUG
++            // The line below is a compile-time debug feature for `docker build` outputting which database engine is hooked up 
++#warning Using MySQL for a database
++#endif
++            this.HookupDatabase<MySqlConnectionStringBuilder, MySqlDbContextOptionsConfigurator>(services, "MySQL");
++            healthCheckBuilder.AddMySql(GetConnectionString, name: dbHealthCheckName, tags: dbHealthCheckTags);
++        }
++
++#elif POSTGRES        
+         private void HookupPostgres(IServiceCollection services, IHealthChecksBuilder healthCheckBuilder)
+         {
+ #if Debug || DEBUG
+diff --git a/UnicornStore/UnicornStore.csproj b/UnicornStore/UnicornStore.csproj
+index 8b2d962..a8427fd 100644
+--- a/UnicornStore/UnicornStore.csproj
++++ b/UnicornStore/UnicornStore.csproj
+@@ -31,6 +31,7 @@
+   </PropertyGroup>
+ 
+   <ItemGroup>
++    <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="3.0.0" />
+     <PackageReference Include="AspNetCore.HealthChecks.Npgsql" Version="3.0.0" />
+     <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="3.1.3" />
+     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
+@@ -39,6 +40,7 @@
+     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
+     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
+     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.3" />
++    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.3" />
+     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.0.2" />
+diff --git a/UnicornStore/appsettings.json b/UnicornStore/appsettings.json
+index c1035af..40ecce8 100644
+--- a/UnicornStore/appsettings.json
++++ b/UnicornStore/appsettings.json
+@@ -4,7 +4,8 @@
+ 
+   "ConnectionStrings": {
+     "UnicornStoreSqlServer": "Server=(localdb)\\mssqllocaldb;Initial Catalog=UnicornStore;Integrated Security=SSPI;MultipleActiveResultSets=true",
+-    "UnicornStorePostgres": "Host=localhost;Database=UnicornStore;Port=5432;Username=postgres;Password=NeverEVERsavePasswordInConfigFiles;"
++    "UnicornStorePostgres": "Host=localhost;Database=UnicornStore;Port=5432;Username=postgres;Password=NeverEVERsavePasswordInConfigFiles;",
++    "UnicornStoreMySQL": "Server=localhost;Database=UnicornStore;Uid=root;Pwd=NeverEVERsavePasswordInConfigFiles;"
+   },
+ 
+   /*
+diff --git a/infra-as-code/CicdInfraAsCode/src/UnicornStoreCiCdStackProps.cs b/infra-as-code/CicdInfraAsCode/src/UnicornStoreCiCdStackProps.cs
+index 62122d1..371b0d2 100644
+--- a/infra-as-code/CicdInfraAsCode/src/UnicornStoreCiCdStackProps.cs
++++ b/infra-as-code/CicdInfraAsCode/src/UnicornStoreCiCdStackProps.cs
+@@ -11,6 +11,7 @@ namespace CicdInfraAsCode
+         /// </summary>
+         public enum DbEngineType
+         {
++            MySQL,
+             Postgres,
+             SqlServer
+         }
+@@ -18,7 +19,9 @@ namespace CicdInfraAsCode
+         public UnicornStoreCiCdStackProps() : base("Unicorn-Store-CI-CD-Pipeline") {}
+ 
+         public DbEngineType DbEngine { get; set; } =
+-#if POSTGRES
++#if MYSQL
++            DbEngineType.MySQL;
++#elif POSTGRES
+             DbEngineType.Postgres;
+ #else
+             DbEngineType.SqlServer;
+diff --git a/infra-as-code/ProdEnvInfraAsCode/src/Reusable/MySqlConstructFactory.cs b/infra-as-code/ProdEnvInfraAsCode/src/Reusable/MySqlConstructFactory.cs
+new file mode 100644
+index 0000000..d666f79
+--- /dev/null
++++ b/infra-as-code/ProdEnvInfraAsCode/src/Reusable/MySqlConstructFactory.cs
+@@ -0,0 +1,21 @@
++﻿using Amazon.CDK.AWS.RDS;
++
++namespace ProdEnvInfraAsCode.Reusable
++{
++    public class MySqlConstructFactory : DatabaseConstructFactory
++    {
++        public MySqlConstructFactory(UnicornStoreDeploymentEnvStackProps settings)
++            : base(settings)
++        {
++        }
++
++        protected override DatabaseInstanceEngine DbInstanceEgnine => DatabaseInstanceEngine.MYSQL;
++
++        protected override DatabaseClusterEngine DbClusterEgnine => 
++            base.DbClusterEgnine ?? DatabaseClusterEngine.AURORA_MYSQL;
++
++        protected override string ExistingAuroraDbParameterGroupName => "default.aurora-mysql5.7";
++
++        internal override string DBConnStrBuilderUserPropName => "UserID";
++    }
++}
+\ No newline at end of file
+diff --git a/infra-as-code/ProdEnvInfraAsCode/src/UnicornStoreDeploymentEnvStackProps.cs b/infra-as-code/ProdEnvInfraAsCode/src/UnicornStoreDeploymentEnvStackProps.cs
+index da7c6bd..f1e5075 100644
+--- a/infra-as-code/ProdEnvInfraAsCode/src/UnicornStoreDeploymentEnvStackProps.cs
++++ b/infra-as-code/ProdEnvInfraAsCode/src/UnicornStoreDeploymentEnvStackProps.cs
+@@ -29,6 +29,7 @@ namespace ProdEnvInfraAsCode
+         /// </summary>
+         public enum DbEngineType
+         {
++            MySQL,
+             Postgres,
+             SqlServer
+         }
+@@ -49,7 +50,9 @@ namespace ProdEnvInfraAsCode
+         }
+ 
+         public DbEngineType DbEngine { get; set; } =
+-#if POSTGRES
++#if MYSQL
++            DbEngineType.MySQL;
++#elif POSTGRES
+             DbEngineType.Postgres;
+ #else
+             DbEngineType.SqlServer;
+@@ -120,6 +123,8 @@ namespace ProdEnvInfraAsCode
+         {
+             switch(this.DbEngine)
+             {
++                case DbEngineType.MySQL:
++                    return new MySqlConstructFactory(this);
+                 case DbEngineType.Postgres:
+                     return new PostgresConstructFactory(this);
+                 case DbEngineType.SqlServer:
