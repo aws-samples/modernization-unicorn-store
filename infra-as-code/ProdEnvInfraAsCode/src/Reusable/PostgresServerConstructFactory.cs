@@ -15,7 +15,7 @@ namespace ProdEnvInfraAsCode.Reusable
         protected override DatabaseClusterEngine DbClusterEgnine 
             => base.DbClusterEgnine ?? DatabaseClusterEngine.AURORA_POSTGRESQL;
 
-        protected override string ExistingAuroraDbParameterGroupName => "default.aurora-postgresql10";
+        protected override string ExistingAuroraDbParameterGroupName => "default.aurora-postgresql11";
 
         protected override InstanceClass DefaultDatabaseInstanceClass => 
             this.IsClustered ? InstanceClass.MEMORY5 : base.DefaultDatabaseInstanceClass;
