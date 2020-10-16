@@ -44,7 +44,7 @@ namespace CicdInfraAsCode
                 new PipelineProps
                 {
                     PipelineName = this.settings.ScopeName,
-                    Stages = new IStageProps[]
+                    Stages = new Amazon.CDK.AWS.CodePipeline.IStageProps[]
                     {
                         Helpers.StageFromActions("Source", CreateSourceVcsCheckoutAction(gitRepo, sourceCodeArtifact)),
                         Helpers.StageFromActions("Build",
