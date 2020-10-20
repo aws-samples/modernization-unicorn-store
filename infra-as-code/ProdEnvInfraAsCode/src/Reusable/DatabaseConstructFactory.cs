@@ -19,9 +19,9 @@ namespace ProdEnvInfraAsCode.Reusable
 
         protected virtual bool IsClustered => this.Settings.RdsKind != RdsType.RegularRds;
 
-        protected abstract DatabaseInstanceEngine DbInstanceEgnine { get; }
+        protected abstract IInstanceEngine DbInstanceEgnine { get; }
 
-        protected virtual DatabaseClusterEngine DbClusterEgnine => this.IsClustered ? null : this.DbInstanceEgnine;
+        protected virtual IClusterEngine DbClusterEgnine => this.IsClustered ? null : (IClusterEngine)this.DbInstanceEgnine;
 
         internal virtual string DbConnStrBuilderServerPropName => "Server";
 
@@ -60,7 +60,7 @@ namespace ProdEnvInfraAsCode.Reusable
                 {
                     Engine = this.DbClusterEgnine,
                     ClusterIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}-Cluster",
-                    ParameterGroup = ClusterParameterGroup.FromParameterGroupName(
+                    ParameterGroup = ParameterGroup.FromParameterGroupName(
                         parent, $"{this.Settings.ScopeName}DbParamGroup", this.ExistingAuroraDbParameterGroupName
                     ),
                     RemovalPolicy = RemovalPolicy.DESTROY,
@@ -96,7 +96,7 @@ namespace ProdEnvInfraAsCode.Reusable
             var database = new DatabaseInstance(parent, $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
                 new DatabaseInstanceProps
                 {
-                    InstanceClass = this.InstanceType,
+                    InstanceType = this.InstanceType,
                     Vpc = vpc,
                     VpcPlacement = new SubnetSelection
                     {

@@ -13,7 +13,7 @@ namespace ProdEnvInfraAsCode.Reusable
 
         protected override bool IsClustered => false;
 
-        protected override DatabaseInstanceEngine DbInstanceEgnine
+        protected override IInstanceEngine DbInstanceEgnine
         {
             get
             {
