@@ -19,7 +19,10 @@ namespace UnicornStore.Configuration
         {
             base.Configure(optionsBuilder);
 
-            optionsBuilder.UseMySql(this.dbConnectionStringBuilder.ConnectionString);
+            optionsBuilder.UseMySql(
+                this.dbConnectionStringBuilder.ConnectionString, 
+                ServerVersion.AutoDetect(this.dbConnectionStringBuilder.ConnectionString)
+            );
         }
     }
 }

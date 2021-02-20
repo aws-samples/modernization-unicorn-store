@@ -20,7 +20,7 @@ using HealthChecks.UI.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace UnicornStore
 {
