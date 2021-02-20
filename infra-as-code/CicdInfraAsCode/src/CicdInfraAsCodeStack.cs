@@ -86,7 +86,8 @@ namespace CicdInfraAsCode
                         {
                             "echo Logging in to Amazon ECR...",
                             "aws --version",
-                            "$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)"
+                            "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)",
+                            "aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com"
                         },
                         BuildCommands = new []
                         {
@@ -101,7 +102,7 @@ namespace CicdInfraAsCode
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
-                        BuildImage = LinuxBuildImage.STANDARD_4_0,
+                        BuildImage = LinuxBuildImage.STANDARD_5_0,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {
                             {   // Tells the Buildspec where to push images produced during the build
@@ -141,8 +142,8 @@ namespace CicdInfraAsCode
                     {
                         InstallRuntimes = new Dictionary<string, string>()
                         {
-                            { "nodejs", "10" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
-                            { "dotnet", "3.1" }
+                            { "nodejs", "14" }, // Make sure this matches Lambda runtime version specified in CreateLambdaForRestartingEcsApp()
+                            { "dotnet", "5.0" }
                         },
                         PreBuildCommands = new [] 
                         {
@@ -176,7 +177,7 @@ namespace CicdInfraAsCode
                     Environment = new BuildEnvironment
                     {
                         Privileged = true,
-                        BuildImage = LinuxBuildImage.STANDARD_4_0,
+                        BuildImage = LinuxBuildImage.STANDARD_5_0,
                         ComputeType = this.settings.BuildInstanceSize,
                         EnvironmentVariables = new Dictionary<string, IBuildEnvironmentVariable>()
                         {

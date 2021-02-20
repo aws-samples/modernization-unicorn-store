@@ -3,7 +3,6 @@ using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.RDS;
 using System;
 using static ProdEnvInfraAsCode.UnicornStoreDeploymentEnvStackProps;
-using SecMan = Amazon.CDK.AWS.SecretsManager;
 
 
 namespace ProdEnvInfraAsCode.Reusable
@@ -64,11 +63,7 @@ namespace ProdEnvInfraAsCode.Reusable
                         parent, $"{this.Settings.ScopeName}DbParamGroup", this.ExistingAuroraDbParameterGroupName
                     ),
                     RemovalPolicy = RemovalPolicy.DESTROY,
-                    MasterUser = new Login
-                    {
-                        Username = this.Settings.DbUsername,
-                        Password = databasePasswordSecret
-                    },
+                    Credentials = Credentials.FromPassword(this.Settings.DbUsername, databasePasswordSecret),
                     InstanceProps = new Amazon.CDK.AWS.RDS.InstanceProps
                     {
                         InstanceType = this.InstanceType,
@@ -98,7 +93,7 @@ namespace ProdEnvInfraAsCode.Reusable
                 {
                     InstanceType = this.InstanceType,
                     Vpc = vpc,
-                    VpcPlacement = new SubnetSelection
+                    VpcSubnets = new SubnetSelection
                     {
                         SubnetType = this.Settings.DbSubnetType
                     },
@@ -106,8 +101,7 @@ namespace ProdEnvInfraAsCode.Reusable
                     DeletionProtection = this.Settings.DotNetEnvironment != "Development",
                     InstanceIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
                     Engine = this.DbInstanceEgnine,
-                    MasterUsername = this.Settings.DbUsername,
-                    MasterUserPassword = databasePasswordSecret,
+                    Credentials = Credentials.FromPassword(this.Settings.DbUsername, databasePasswordSecret),
                     RemovalPolicy = RemovalPolicy.DESTROY
                 }
             );
