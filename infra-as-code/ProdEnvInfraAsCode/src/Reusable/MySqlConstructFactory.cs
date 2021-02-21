@@ -9,10 +9,10 @@ namespace ProdEnvInfraAsCode.Reusable
         {
         }
 
-        protected override IInstanceEngine DbInstanceEgnine => DatabaseInstanceEngine.MYSQL;
+        protected override IInstanceEngine DbInstanceEngine => DatabaseInstanceEngine.MYSQL;
 
-        protected override IClusterEngine DbClusterEgnine => 
-            base.DbClusterEgnine ?? DatabaseClusterEngine.AURORA_MYSQL;
+        protected override IClusterEngine DbClusterEngine => 
+            base.DbClusterEngine ?? DatabaseClusterEngine.AURORA_MYSQL;
 
         protected override string ExistingAuroraDbParameterGroupName => "default.aurora-mysql5.7";
 
