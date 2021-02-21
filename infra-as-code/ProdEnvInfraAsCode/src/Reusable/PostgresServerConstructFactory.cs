@@ -10,10 +10,10 @@ namespace ProdEnvInfraAsCode.Reusable
         {
         }
 
-        protected override IInstanceEngine DbInstanceEgnine => DatabaseInstanceEngine.POSTGRES;
+        protected override IInstanceEngine DbInstanceEngine => DatabaseInstanceEngine.POSTGRES;
 
-        protected override IClusterEngine DbClusterEgnine 
-            => base.DbClusterEgnine ?? DatabaseClusterEngine.AURORA_POSTGRESQL;
+        protected override IClusterEngine DbClusterEngine 
+            => base.DbClusterEngine ?? DatabaseClusterEngine.AURORA_POSTGRESQL;
 
         protected override string ExistingAuroraDbParameterGroupName => "default.aurora-postgresql11";
 

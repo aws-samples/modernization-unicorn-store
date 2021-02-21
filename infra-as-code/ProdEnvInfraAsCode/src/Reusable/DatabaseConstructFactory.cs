@@ -18,9 +18,9 @@ namespace ProdEnvInfraAsCode.Reusable
 
         protected virtual bool IsClustered => this.Settings.RdsKind != RdsType.RegularRds;
 
-        protected abstract IInstanceEngine DbInstanceEgnine { get; }
+        protected abstract IInstanceEngine DbInstanceEngine { get; }
 
-        protected virtual IClusterEngine DbClusterEgnine => this.IsClustered ? null : (IClusterEngine)this.DbInstanceEgnine;
+        protected virtual IClusterEngine DbClusterEngine => this.IsClustered ? null : (IClusterEngine)this.DbInstanceEngine;
 
         internal virtual string DbConnStrBuilderServerPropName => "Server";
 
@@ -31,7 +31,7 @@ namespace ProdEnvInfraAsCode.Reusable
         protected virtual string ExistingAuroraDbParameterGroupName
             => throw new NotImplementedException($"No known Aurora Parameter Group Name for \"{this.Settings.DbEngine}\"");
 
-        protected virtual InstanceClass DefaultDatabaseInstanceClass => InstanceClass.BURSTABLE2;
+        protected virtual InstanceClass DefaultDatabaseInstanceClass => InstanceClass.BURSTABLE3;
 
         protected virtual InstanceSize MinimumDatabaseInstanceSize => InstanceSize.SMALL;
 
@@ -57,7 +57,7 @@ namespace ProdEnvInfraAsCode.Reusable
             var database = new DatabaseCluster(parent, $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
                 new DatabaseClusterProps
                 {
-                    Engine = this.DbClusterEgnine,
+                    Engine = this.DbClusterEngine,
                     ClusterIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}-Cluster",
                     ParameterGroup = ParameterGroup.FromParameterGroupName(
                         parent, $"{this.Settings.ScopeName}DbParamGroup", this.ExistingAuroraDbParameterGroupName
@@ -100,7 +100,7 @@ namespace ProdEnvInfraAsCode.Reusable
 
                     DeletionProtection = this.Settings.DotNetEnvironment != "Development",
                     InstanceIdentifier = $"{this.Settings.ScopeName}-Database-{this.Settings.DbEngine}",
-                    Engine = this.DbInstanceEgnine,
+                    Engine = this.DbInstanceEngine,
                     Credentials = Credentials.FromPassword(this.Settings.DbUsername, databasePasswordSecret),
                     RemovalPolicy = RemovalPolicy.DESTROY
                 }

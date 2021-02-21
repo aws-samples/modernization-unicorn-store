@@ -1,5 +1,6 @@
 ﻿using Amazon.CDK.AWS.RDS;
 using System;
+using Amazon.CDK.AWS.EC2;
 using static ProdEnvInfraAsCode.UnicornStoreDeploymentEnvStackProps;
 
 namespace ProdEnvInfraAsCode.Reusable
@@ -13,7 +14,9 @@ namespace ProdEnvInfraAsCode.Reusable
 
         protected override bool IsClustered => false;
 
-        protected override IInstanceEngine DbInstanceEgnine
+        protected override InstanceSize MinimumDatabaseInstanceSize => InstanceSize.MEDIUM;
+
+        protected override IInstanceEngine DbInstanceEngine
         {
             get
             {
