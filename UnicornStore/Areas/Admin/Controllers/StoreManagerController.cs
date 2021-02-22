@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace UnicornStore.Areas.Admin.Controllers
     {
         private readonly AppSettings _appSettings;
 
-        public StoreManagerController(UnicornStoreContext dbContext, IOptions<AppSettings> options)
+        public StoreManagerController(UnicornStoreContext dbContext, IOptionsSnapshot<AppSettings> options)
         {
             DbContext = dbContext;
             _appSettings = options.Value;
@@ -32,7 +33,7 @@ namespace UnicornStore.Areas.Admin.Controllers
         // GET: /StoreManager/
         public async Task<IActionResult> Index()
         {
-            var blessings = await DbContext.Blessings
+            List<Blessing> blessings = await DbContext.Blessings
                 .Include(a => a.Genre)
                 .Include(a => a.Unicorn)
                 .ToListAsync();

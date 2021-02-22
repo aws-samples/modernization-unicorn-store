@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<html lang="en" class="js csstransforms3d">
+<head>
+  <meta charset="utf-8">
+  <meta property="og:title" content="ASP.NET Modernization Workshop" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="generator" content="Hugo 0.58.3" />
+  <meta name="description" content="Brings containerization, database freedom, CI/CD-pipeline and infra-as-code to Unicorn Store ASP.NET Core web application">
+<meta name="author" content="Carmen Puccio, Vlad Hrybok">
+
+  <link rel="shortcut icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
+<link rel="icon" href="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" type="image/ico" />
+
+  <title>Verify Pipeline Run Completion :: ASP.NET Modernization Workshop</title>
+
+  
+  <link href="../../css/nucleus.css" rel="stylesheet">
+  <link href="../../css/fontawesome-all.min.css" rel="stylesheet">
+  <link href="../../css/hybrid.css" rel="stylesheet">
+  <link href="../../css/featherlight.min.css" rel="stylesheet">
+  <link href="../../css/perfect-scrollbar.min.css" rel="stylesheet">
+  <link href="../../css/auto-complete.css" rel="stylesheet">
+  <link href="../../css/atom-one-dark-reasonable.css" rel="stylesheet">
+  <link href="../../css/theme.css" rel="stylesheet">
+  <link href="../../css/hugo-theme.css" rel="stylesheet">
+  
+  <link href="../../css/theme-aws.css" rel="stylesheet">
+  
+
+  <script src="../../js/jquery-3.3.1.min.js"></script>
+
+  <style>
+    :root #header + #content > #left > #rlblock_left{
+        display:none !important;
+    }
+    
+      :not(pre) > code + span.copy-to-clipboard {
+          display: none;
+      }
+    
+  </style>
+  
+</head>
+
+<body class="" data-url="/en/20-cdk/63-verify-ci-cd-completion.html">
+  <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <div>
+    <a href="../../" title="Go home">
+        <img style="vertical-align:middle" src="../../images/logo.png" height="70px" />
+    </a>
+</div>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js"></script>
+<script type="text/javascript" src="../../js/auto-complete.js"></script>
+<script type="text/javascript">
+    
+        var baseurl = "\/en";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/en/10-intro.html" title="What and Why" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../en/10-intro.html">
+          Before You Begin
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/05-target-audience.html" title="Who this Workshop is For" class="dd-item ">
+        <a href="../../en/10-intro/05-target-audience.html">
+        Who this Workshop is For
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/10-overview.html" title="What&#39;s Inside" class="dd-item ">
+        <a href="../../en/10-intro/10-overview.html">
+        What&#39;s Inside
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/20-prerequisites.html" title="Prerequisites" class="dd-item ">
+        <a href="../../en/10-intro/20-prerequisites.html">
+        Prerequisites
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/10-intro/30-dotnet-secrets.html" title=".NET Core Secret Manager" class="dd-item ">
+        <a href="../../en/10-intro/30-dotnet-secrets.html">
+        .NET Core Secret Manager Note
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/en/20-cdk.html" title="AWS .NET CDK Lab" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="../../en/20-cdk.html">
+          AWS .NET CDK CI/CD Infra as Code
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/10-overview.html" title="CDK Module Overview" class="dd-item ">
+        <a href="../../en/20-cdk/10-overview.html">
+        CDK Module Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/20-setting-up.html" title="Setting Up Dev Environment" class="dd-item ">
+        <a href="../../en/20-cdk/20-setting-up.html">
+        <b>1. </b>Setting Up Dev Environment
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/30-running-app-locally.html" title="Running App Locally" class="dd-item ">
+        <a href="../../en/20-cdk/30-running-app-locally.html">
+        <b>2. </b>Running Unicorn Store App Locally
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/40-creating-ci-cd-pipeline.html" title="Creating AWS CI/CD Pipeline" class="dd-item ">
+        <a href="../../en/20-cdk/40-creating-ci-cd-pipeline.html">
+        <b>3. </b>Creating Cloud CI/CD Pipeline
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/50-project-structure.html" title="Project Structure" class="dd-item ">
+        <a href="../../en/20-cdk/50-project-structure.html">
+        <b>4. </b>Project Structure
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build" class="dd-item ">
+        <a href="../../en/20-cdk/60-starting-cicd-build.html">
+        <b>5. </b>Starting Pipeline Build
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/63-verify-ci-cd-completion.html" title="Verify Pipeline Run Completion" class="dd-item active">
+        <a href="../../en/20-cdk/63-verify-ci-cd-completion.html">
+        <b>6. </b>Verify Pipeline Run Completion
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/65-adding-mysql-support.html" title="MySQL Support" class="dd-item ">
+        <a href="../../en/20-cdk/65-adding-mysql-support.html">
+        <b>7. </b>Adding MySQL Database Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/67-app-nuget-and-appsettings.html" title="App: NuGet and AppSettings" class="dd-item ">
+        <a href="../../en/20-cdk/67-app-nuget-and-appsettings.html">
+        <b>7.1 </b>App: NuGet and AppSettings
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/69-updating-build-config.html" title="Updating Build Config" class="dd-item ">
+        <a href="../../en/20-cdk/69-updating-build-config.html">
+        <b>7.2 </b>Updating Build Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/71-modifying-startup-cs.html" title="Modifying Startup.cs" class="dd-item ">
+        <a href="../../en/20-cdk/71-modifying-startup-cs.html">
+        <b>7.3 </b>Modifying Startup.cs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/73-mysqldbcontextoptionsconfigurator.html" title="MySQL Options Configurator" class="dd-item ">
+        <a href="../../en/20-cdk/73-mysqldbcontextoptionsconfigurator.html">
+        <b>7.4 </b>MySQL Options Configurator
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/75-verifying-mysql-support-locally.html" title="Verifying MySQL Support" class="dd-item ">
+        <a href="../../en/20-cdk/75-verifying-mysql-support-locally.html">
+        <b>7.5 </b>Verifying MySQL Support Locally
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/77-mysql-hosting-env-stack.html" title="Adding MySQL Support to the Hosting Env CDK Project" class="dd-item ">
+        <a href="../../en/20-cdk/77-mysql-hosting-env-stack.html">
+        <b>7.6 </b>MySQL in Hosting Env CDK Proj
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/79-mysql-ci-cd-stack.html" title="MySQL in CI/CD CDK Project" class="dd-item ">
+        <a href="../../en/20-cdk/79-mysql-ci-cd-stack.html">
+        <b>7.7 </b>MySQL in CI/CD CDK Project
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/80-verifying-cicd-project-changes.html" title="Testing CI/CD Changes" class="dd-item ">
+        <a href="../../en/20-cdk/80-verifying-cicd-project-changes.html">
+        <b>7.8 </b>Testing CI/CD Project Changes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/81-explore-cdk-stack-source.html" title="Explore CDK Stack Source" class="dd-item ">
+        <a href="../../en/20-cdk/81-explore-cdk-stack-source.html">
+        <b>7.9 </b>Explore CDK Stack Source Code
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/95-thank-you.html" title="Thank You!" class="dd-item ">
+        <a href="../../en/20-cdk/95-thank-you.html">
+        <b>8. </b>Thank You!
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/en/20-cdk/99-cleanup.html" title="Cleanup" class="dd-item ">
+        <a href="../../en/20-cdk/99-cleanup.html">
+        Cleanup
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="/en/20-cdk/63-verify-ci-cd-completion.html" selected>English</option>
+                    
+                  
+              
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+
+    <h5 class="copyright">&copy; 2019 Amazon Web Services, Inc. or its Affiliates. All rights reserved.<h5>
+
+</left>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+  <section id="body">
+    <div id="overlay"></div>
+    <div class="padding highlightable">
+      
+      <div>
+        <div id="top-bar">
+          
+          
+          
+          
+          <div id="top-github-link">
+            <a class="github-link" title='Edit this page' href="https://github.com/vgribok/modernization-unicorn-store/tree/feature/hugo-web-site-content/hugo-content/workshop/content/20-cdk/63-verify-ci-cd-completion.en.md"
+              target="blank">
+              <i class="fas fa-code-branch"></i>
+              <span id="top-github-link-text">Edit this page</span>
+            </a>
+          </div>
+          
+          
+          
+          <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                <i class="fa fa-bars"></i>
+              </a>
+            </span>
+            
+            <span id="toc-menu"><i class="fa fa-list-alt"></i></span>
+            
+            <span class="links">
+              
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href='../../en/'>ASP.NET Modernization Workshop</a> > <a href='../../en/20-cdk.html'>AWS .NET CDK Lab</a> > Verify Pipeline Run Completion
+          
+          
+          
+          
+          
+          
+            </span>
+          </div>
+          
+          <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#verifying-the-ci-cd-pipeline-run-has-completed">Verifying the CI/CD Pipeline Run Has Completed</a></li>
+<li><a href="#verifying-the-unicorn-store-app-running-on-aws">Verifying the Unicorn Store App Running on AWS</a>
+<ul>
+<li><a href="#understanding-site-admin-username-setting-journey">Understanding Site Admin Username Setting Journey</a></li>
+<li><a href="#understanding-site-admin-password-setting-journey">Understanding Site Admin Password Setting Journey</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+</div>
+
+          
+        </div>
+      </div>
+      
+
+      
+        <div id="body-inner">
+          <h1>Verify Pipeline Run Completion</h1>
+          
+          
+
+
+
+
+<p>While the pipeline is busy building the application and provisioning application hosting infrastructure, we have about 15-20 minutes to start hacking the app and CDK projects, adding MySQL support to it. Because this hosting infra build-out process takes some time, please feel free to move on to the next chapter and come back here later to ensure the pipeline is alright.</p>
+
+<h2 id="verifying-the-ci-cd-pipeline-run-has-completed">Verifying the CI/CD Pipeline Run Has Completed</h2>
+
+<p>Whenever <a href="https://console.aws.amazon.com/codesuite/codepipeline/home" target="_blank">the pipeline</a> has finished, feel free to browse to the <a href="https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName" target="_blank">AWS Load Balancer</a> page in the AWS Console, select a load balancer named &ldquo;unicorn-store&rdquo; and click the &ldquo;copy to clipboard&rdquo; icon next to the &ldquo;<strong>DNS Name</strong>&rdquo; field.</p>
+
+<p>Then paste the URL into a new browser tab, hit Enter and observe Unicorn Application home page loaded:
+<img src="./images/unicorn-store-app-in-browser.png" alt="Unicorn Store application in browser" /></p>
+
+<h2 id="verifying-the-unicorn-store-app-running-on-aws">Verifying the Unicorn Store App Running on AWS</h2>
+
+<p>To verify that nothing is broken, please add a few unicorns to the basket, and click the &ldquo;Checkout &gt;&gt;&rdquo; button at the top of the shopping cart page. You will be prompted to <em>log in</em>. Although you may be tempted to use your site admin credentials created <a href="20-setting-up.html#application-configuration-for-postgresql" target="_blank">a few pages back</a>, those credentials specified in the .NET User Secret were good only for <em>running locally</em>, and unlike settings stored in &ldquo;appsettings.json&rdquo;, those credentials didn&rsquo;t travel through the build &amp; deployment pipeline.</p>
+
+<h3 id="understanding-site-admin-username-setting-journey">Understanding Site Admin Username Setting Journey</h3>
+
+<p>Site admin username comes from &ldquo;ProdEnvInfraAsCode&rdquo; project &ldquo;appsettings.json&rdquo; file - take a look there and you will see site username set to &ldquo;<code>Administrator@test.com</code>&rdquo;. &ldquo;ProdEnvInfraAsCode&rdquo; is a CDK project building our application hosting infrastructure, part of which is a an Amazon ECS/Fargate cluster, and that&rsquo;s how Container Definition for the app gets an environment variable &ldquo;DefaultAdminUsername&rdquo; set to &ldquo;Administrator@test.com&rdquo;. <em>That&rsquo;s your site admin username</em>. You can see this value in AWS Console if you go to the ECS service -&gt; &ldquo;Unicorn-Store-ECS-Fargate-Cluster&rdquo; service -&gt; &ldquo;InfraAsCodeStack&hellip;&rdquo; Task Definition -&gt; &ldquo;Container Definitions&rdquo; -&gt; &ldquo;web&rdquo; -&gt; &ldquo;Environment Variables&rdquo; -&gt; &ldquo;DefaultAdminUsername&rdquo; key. Just a quick reminder: environment variables matching keys in appsettings.json, when passed to a .NET Core app, override &ldquo;appsettings.json&rdquo; values - that&rsquo;s how the application eventually gets expected site admin username setting value.</p>
+
+<p><img src="./images/ECS-Task-def-env-vars.png" alt="ECS Task Definition environment variables" /></p>
+
+<h3 id="understanding-site-admin-password-setting-journey">Understanding Site Admin Password Setting Journey</h3>
+
+<p>Now, site administrator password - the &ldquo;DefaultAdminPassword&rdquo; app setting, was not specified in the &ldquo;ProdEnvInfraAsCode&rdquo; project &ldquo;appsettings.json&rdquo; file - feel free to take another look at the file to conirm. Instead, site admin password was auto-generated during the hosting infrastructure build-out and stored using Amazon <a href="https://aws.amazon.com/secrets-manager/" target="_blank">Secrets Manager</a> service.</p>
+
+<p>You can see the AWS Secret referenced in AWS Console if you look at the Container Definition (see path above) and see the &ldquo;DefaultAdminPassword&rdquo; key. There instead of the value, you&rdquo;l see AWS Secret Manager secret ARN, looking like &ldquo;arn:aws:secretsmanager:us-east-1:123456789012:secret:UnicornSuperstoreDefaultSiteAdminPassword-mx7vMd&rdquo;</p>
+
+<p>To retrieve site admin password value from AWS Secrets Manager, please run this command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws secretsmanager get-secret-value --secret-id UnicornSuperstoreDefaultSiteAdminPassword | jq -r .SecretString</code></pre></div>
+<p>Copy the output of the command to the clipboard and use it as password to log in to the site.</p>
+
+<p>To complete checkout flow, please enter any shipping address, and for payment simply enter &ldquo;FREE&rdquo; in the &ldquo;Promo Code&rdquo; field and click &ldquo;Submit Order&rdquo; - if all went as planned, you should see the &ldquo;Checkout Complete&rdquo; message.</p>
+
+<p>Later you may find it useful to practice on your own tracing these settings journeys through the code.</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../en/20-cdk/60-starting-cicd-build.html" title="Starting Pipeline Build"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../en/20-cdk/65-adding-mysql-support.html" title="MySQL Support" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js"></script>
+    <script src="../../js/perfect-scrollbar.min.js"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../../js/jquery.sticky.js"></script>
+    <script src="../../js/featherlight.min.js"></script>
+    <script src="../../js/html5shiv-printshiv.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js"></script>
+    <script src="../../js/learn.js"></script>
+    <script src="../../js/hugo-learn.js"></script>
+
+    <link href="../../mermaid/mermaid.css" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>
+

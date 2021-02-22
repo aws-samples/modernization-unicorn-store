@@ -13,7 +13,7 @@ namespace UnicornStore.Controllers
     {
         private readonly AppSettings _appSettings;
 
-        public StoreController(UnicornStoreContext dbContext, IOptions<AppSettings> options)
+        public StoreController(UnicornStoreContext dbContext, IOptionsSnapshot<AppSettings> options)
         {
             DbContext = dbContext;
             _appSettings = options.Value;

@@ -1,0 +1,3 @@
+{
+  "app": "dotnet bin/local/net5.0/CicdInfraAsCode.dll"
+}

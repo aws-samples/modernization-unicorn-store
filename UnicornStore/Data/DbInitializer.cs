@@ -93,7 +93,13 @@ namespace UnicornStore.Data
             if (user == null)
             {
                 user = new ApplicationUser { UserName = defaultAdminUserName };
-                await userManager.CreateAsync(user, defaultAdminPassword);
+                IdentityResult result = await userManager.CreateAsync(user, defaultAdminPassword);
+                if (!result.Succeeded)
+                {
+                    IEnumerable<string> errors = result.Errors.Select(error => $"Error {error.Code}: {error.Description}");
+                    throw new Exception($"Failed to create a default admin user record due to: {string.Join("\n", errors)}");
+                }
+
                 //await userManager.AddToRoleAsync(user, adminRole);
                 await userManager.AddClaimAsync(user, new Claim("ManageStore", "Allowed"));
             }

@@ -1,19 +1,43 @@
+using System;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UnicornStore.Configuration;
 
 namespace UnicornStore.Models
 {
-    public class ApplicationUser : IdentityUser { }
-
-    public class UnicornStoreContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationUser : IdentityUser
     {
-        public UnicornStoreContext(DbContextOptions<UnicornStoreContext> options)
+        public ApplicationUser()
+        {
+            this.SecurityStamp = Guid.NewGuid().ToString("D"); // Fixes an exception thrown when database is seeded.
+        }
+    }
+
+    public class UnicornStoreContext : 
+        IdentityDbContext<ApplicationUser>,
+        IDataProtectionKeyContext
+    {
+        private readonly DbContextOptionsConfigurator dbContextOptionsConfigurator;
+
+        public UnicornStoreContext(DbContextOptions<UnicornStoreContext> options, DbContextOptionsConfigurator dbContextOptionsConfigurator)
             : base(options)
         {
+            this.dbContextOptionsConfigurator = dbContextOptionsConfigurator;
+
             // TODO: #639
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            this.dbContextOptionsConfigurator.Configure(optionsBuilder);
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
 
         public DbSet<Blessing> Blessings { get; set; }
         public DbSet<Unicorn> Unicorns { get; set; }

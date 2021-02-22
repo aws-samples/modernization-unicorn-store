@@ -138,7 +138,8 @@ namespace UnicornStore.Controllers
 #if DEMO
             ViewBag.Code = await UserManager.GenerateChangePhoneNumberTokenAsync(await GetCurrentUserAsync(), phoneNumber);
 #endif
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            IActionResult view = phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return await Task.FromResult(view);
         }
 
         //
